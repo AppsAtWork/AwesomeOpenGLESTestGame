@@ -17,7 +17,7 @@ public class AwesomeGLSurfaceView extends GLSurfaceView
     {
         super(context);
         this.setEGLContextClientVersion(2);
-        renderer = new AwesomeRenderer();
+        renderer = new AwesomeRenderer(context);
         this.setRenderer(renderer);
 
         //Don't wait till dirty

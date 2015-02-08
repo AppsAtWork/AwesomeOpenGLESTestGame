@@ -13,21 +13,21 @@ import java.nio.ShortBuffer;
  */
 public class AwesomeSquare
 {
-    private float R;
-    private float G;
-    private float B;
+    protected float R;
+    protected float G;
+    protected float B;
 
     public PointF LeftUpper;
     public PointF RightUpper;
     public PointF RightLower;
     public PointF LeftLower;
 
-    private float[] vertices;
-    private short[] drawingOrder = new short[] {0,1,2,0,2,3};
-    private float[] color;
+    protected float[] vertices;
+    protected short[] drawingOrder = new short[] {0,1,2,0,2,3};
+    protected float[] color;
 
-    private FloatBuffer vertexBuffer;
-    private ShortBuffer drawListBuffer;
+    protected FloatBuffer vertexBuffer;
+    protected ShortBuffer drawListBuffer;
 
     public AwesomeSquare(float left, float top, float width, float height, float r, float g, float b)
     {

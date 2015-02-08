@@ -1,5 +1,8 @@
 package appsatwork_internal.awesomeopenglestestgame;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -13,22 +16,23 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class AwesomeRenderer implements GLSurfaceView.Renderer
 {
-    public AwesomeSquare square;
+    public Sprite square;
     private float[] ProjectionMatrix = new float[16];
     private float[] ViewMatrix = new float[16];
     private float[] ProjectionViewMatrix = new float[16];
     private int ShaderProgram = -1;
+    private Context context;
 
-    public AwesomeRenderer()
+    public AwesomeRenderer(Context c)
     {
-        square = new AwesomeSquare(
+        context = c;
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+        square = new Sprite(
                 -0.5f, //left
                 0.5f, //top
                 1.0f,  //width
                 1.0f,  //height
-                1.0f,  //r
-                1.0f,  //g
-                1.0f   //b
+                bmp
         );
     }
 
@@ -51,8 +55,8 @@ public class AwesomeRenderer implements GLSurfaceView.Renderer
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1);
 
         //Set which shader to use.
-        AwesomeShaders.SetVertexShaderCode(AwesomeShaders.ShaderPresets.SimpleVertexShader);
-        AwesomeShaders.SetFragmentShaderCode(AwesomeShaders.ShaderPresets.SimpleFragmentShader);
+        AwesomeShaders.SetVertexShaderCode(AwesomeShaders.ShaderPresets.TextureVertexShader);
+        AwesomeShaders.SetFragmentShaderCode(AwesomeShaders.ShaderPresets.TextureFragmentShader);
 
         //Compile the shaders
         AwesomeShaders.CompileVertexShader();
