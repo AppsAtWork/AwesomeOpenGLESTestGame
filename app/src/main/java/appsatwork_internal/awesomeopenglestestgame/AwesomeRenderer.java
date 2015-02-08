@@ -32,6 +32,18 @@ public class AwesomeRenderer implements GLSurfaceView.Renderer
         );
     }
 
+    public PointF ToWorldCoords(PointF clipped)
+    {
+        float[] inverted = new float[16];
+        Matrix.invertM(inverted, 0, ProjectionViewMatrix,0);
+        float[] vector = new float[] {clipped.x, clipped.y, 0, 0};
+        float[] result = new float[4];
+
+        Matrix.multiplyMV(result, 0, inverted, 0, vector, 0);
+
+        return new PointF(result[0], result[1]);
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
@@ -58,7 +70,7 @@ public class AwesomeRenderer implements GLSurfaceView.Renderer
         //Working in screen space presents issues when the screen resolution changes (ex: rotation)
 
         //No need for perspective, its 2D.
-        Matrix.orthoM(ProjectionMatrix, 0, (float)width/height, -(float)width/height, -1, 1, 0, 50);
+        Matrix.orthoM(ProjectionMatrix, 0, -(float)width/height, (float)width/height, -1, 1, 0, 50);
 
         //Define the camera transformation
         Matrix.setLookAtM(ViewMatrix, 0,0,0,1,0,0,0,0,1,0);
@@ -71,7 +83,7 @@ public class AwesomeRenderer implements GLSurfaceView.Renderer
     public void onDrawFrame(GL10 gl)
     {
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         square.Draw(ProjectionViewMatrix, ShaderProgram);
     }

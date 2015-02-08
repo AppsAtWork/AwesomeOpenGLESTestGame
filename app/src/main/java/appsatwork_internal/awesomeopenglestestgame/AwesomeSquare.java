@@ -18,8 +18,8 @@ public class AwesomeSquare
     private float B;
 
     public PointF LeftUpper;
-    private PointF RightUpper;
-    private PointF RightLower;
+    public PointF RightUpper;
+    public PointF RightLower;
     public PointF LeftLower;
 
     private float[] vertices;
