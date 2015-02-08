@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
+import android.media.effect.EffectFactory;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
