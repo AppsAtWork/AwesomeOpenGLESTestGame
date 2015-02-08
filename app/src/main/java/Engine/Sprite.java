@@ -56,6 +56,9 @@ public class Sprite extends Square
         int projectionMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
         GLES20.glUniformMatrix4fv(projectionMatrixHandle, 1, false, projectionViewMatrix, 0);
 
+        //Send over the drawing type to the shader (1 = texture).
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(program, "drawingType"), 1);
+
         //Get the texture sampler and set it to 0. 0 is the position where the texture is stored in SendTextureToOpenGLES().
         int samplerHandle = GLES20.glGetUniformLocation(program, "s_texture");
         GLES20.glUniform1i(samplerHandle, 0);

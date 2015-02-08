@@ -88,10 +88,10 @@ public class ShaderTools
 
         public static String SimpleFragmentShader =
                         "precision mediump float;"          +
-                        "uniform vec4 color;"               +
+                        "uniform vec4 vColor;"               +
                         "void main() "                      +
                         "{"                                 +
-                        "  gl_FragColor = color;"            +
+                        "  gl_FragColor = vColor;"            +
                         "}";
 
         public static String TextureVertexShader =
@@ -108,8 +108,15 @@ public class ShaderTools
                 "precision mediump float;"                              +
                 "varying vec2 v_texCoord;"                              +
                 "uniform sampler2D s_texture;"                          +
-                "void main() {"                                         +
-                "  gl_FragColor = texture2D( s_texture, v_texCoord );"  +
+                "uniform vec4 vColor;"                                  +
+                "uniform int drawingType;"                              +
+                "void main() "                                          +
+                "{"                                                     +
+                    "if(drawingType == 1)" +
+                        "{ gl_FragColor = texture2D( s_texture, v_texCoord ); }" +
+                    "else if(drawingType == 0)" +
+                        "{ gl_FragColor = vColor; }" +
                 "}";
     }
 }
+// texture2D( s_texture, v_texCoord );

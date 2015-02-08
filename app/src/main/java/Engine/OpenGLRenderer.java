@@ -41,7 +41,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
         //Black background
-        GLES20.glClearColor(0.9f, 0.9f, 0.9f, 1);
+        GLES20.glClearColor(0.95f, 0.95f, 0.95f, 1);
 
         //Enable alpha blending
         GLES20.glEnable(GLES20.GL_BLEND);
@@ -82,7 +82,9 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        for(Square sq : GameObjectManager.GameObjects)
+        for(Square sq : OpenGLObjectManager.Squares)
             sq.Draw(ProjectionViewMatrix, ShaderProgram);
+        for(Sprite sp : OpenGLObjectManager.Sprites)
+            sp.Draw(ProjectionViewMatrix, ShaderProgram);
     }
 }

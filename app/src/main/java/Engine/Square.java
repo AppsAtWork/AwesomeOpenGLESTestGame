@@ -180,8 +180,11 @@ public class Square
         //We need to send our projectionview matrix to OpenGLES too.
         GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(program, "uMVPMatrix"),1,false,projectionViewMatrix,0);
 
+        //Send over the drawing type to the shader
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(program, "drawingType"), 0);
+
         //Send over the color of the square
-        GLES20.glUniform4fv(GLES20.glGetUniformLocation(program, "color"),1,color,0);
+        GLES20.glUniform4fv(GLES20.glGetUniformLocation(program, "vColor"),1,color,0);
 
         //OpenGLES now knows everything necessary to draw the square (except the color, later)
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
