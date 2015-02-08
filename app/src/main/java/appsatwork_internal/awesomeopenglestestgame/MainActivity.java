@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import Engine.MyGLSurfaceView;
+
 
 public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AwesomeGLSurfaceView surfaceView = new AwesomeGLSurfaceView(this);
+        MyGLSurfaceView surfaceView = new MyGLSurfaceView(this);
         setContentView(surfaceView);
     }
 

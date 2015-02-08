@@ -1,11 +1,11 @@
-package appsatwork_internal.awesomeopenglestestgame;
+package Engine;
 
 import android.opengl.GLES20;
 
 /**
  * Created by Casper on 7-2-2015.
  */
-public class AwesomeShaders
+public class ShaderTools
 {
     private static String vertexShader = "";
     private static String fragmentShader = "";

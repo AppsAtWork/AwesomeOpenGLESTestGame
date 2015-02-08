@@ -1,8 +1,6 @@
-package appsatwork_internal.awesomeopenglestestgame;
+package Engine;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -14,26 +12,17 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by Casper on 7-2-2015.
  */
-public class AwesomeRenderer implements GLSurfaceView.Renderer
+public class OpenGLRenderer implements GLSurfaceView.Renderer
 {
-    public Sprite square;
     private float[] ProjectionMatrix = new float[16];
     private float[] ViewMatrix = new float[16];
     private float[] ProjectionViewMatrix = new float[16];
     private int ShaderProgram = -1;
     private Context context;
 
-    public AwesomeRenderer(Context c)
+    public OpenGLRenderer(Context c)
     {
         context = c;
-        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-        square = new Sprite(
-                -0.5f, //left
-                0.5f, //top
-                1.0f,  //width
-                1.0f,  //height
-                bmp
-        );
     }
 
     public PointF ToWorldCoords(PointF clipped)
@@ -52,18 +41,22 @@ public class AwesomeRenderer implements GLSurfaceView.Renderer
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
         //Black background
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1);
+        GLES20.glClearColor(0.9f, 0.9f, 0.9f, 1);
+
+        //Enable alpha blending
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
         //Set which shader to use.
-        AwesomeShaders.SetVertexShaderCode(AwesomeShaders.ShaderPresets.TextureVertexShader);
-        AwesomeShaders.SetFragmentShaderCode(AwesomeShaders.ShaderPresets.TextureFragmentShader);
+        ShaderTools.SetVertexShaderCode(ShaderTools.ShaderPresets.TextureVertexShader);
+        ShaderTools.SetFragmentShaderCode(ShaderTools.ShaderPresets.TextureFragmentShader);
 
         //Compile the shaders
-        AwesomeShaders.CompileVertexShader();
-        AwesomeShaders.CompileFragmentShader();
+        ShaderTools.CompileVertexShader();
+        ShaderTools.CompileFragmentShader();
 
         //Make OpenGL use the compiled shaders.
-        ShaderProgram = AwesomeShaders.ApplyCompiledShaders();
+        ShaderProgram = ShaderTools.ApplyCompiledShaders();
     }
 
 
@@ -89,6 +82,7 @@ public class AwesomeRenderer implements GLSurfaceView.Renderer
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        square.Draw(ProjectionViewMatrix, ShaderProgram);
+        for(Square sq : GameObjectManager.GameObjects)
+            sq.Draw(ProjectionViewMatrix, ShaderProgram);
     }
 }

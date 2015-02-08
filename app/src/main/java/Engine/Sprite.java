@@ -1,9 +1,8 @@
-package appsatwork_internal.awesomeopenglestestgame;
+package Engine;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -12,7 +11,7 @@ import java.nio.FloatBuffer;
 /**
  * Created by Casper on 8-2-2015.
  */
-public class Sprite extends AwesomeSquare
+public class Sprite extends Square
 {
     private static float uvs[] = new float[8];
     private FloatBuffer uvBuffer;
@@ -105,7 +104,6 @@ public class Sprite extends AwesomeSquare
         //Load the bitmap into the texture that we just set params for
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, Texture, 0);
 
-        Texture.recycle();
         sent = true;
     }
 }
