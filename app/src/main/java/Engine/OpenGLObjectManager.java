@@ -3,16 +3,14 @@ package Engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import Engine.OpenGLObjects.OpenGLObject;
+import Engine.OpenGLObjects.Sprite;
+import Engine.OpenGLObjects.Square;
+
 /**
  * Created by Casper on 8-2-2015.
  */
 public class OpenGLObjectManager
 {
-    public static List<Square> Squares = new ArrayList<>();
-    public static List<Sprite> Sprites = new ArrayList<>();
-
-    public void LoadTextures()
-    {
-
-    }
+    public static List<OpenGLObject> Drawables = new ArrayList<>();
 }

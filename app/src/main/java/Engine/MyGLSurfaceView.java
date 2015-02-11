@@ -7,6 +7,8 @@ import android.graphics.PointF;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+import Engine.OpenGLObjects.Sprite;
+import Engine.OpenGLObjects.Square;
 import appsatwork_internal.awesomeopenglestestgame.R;
 
 /**
@@ -15,10 +17,8 @@ import appsatwork_internal.awesomeopenglestestgame.R;
 public class MyGLSurfaceView extends GLSurfaceView
 {
     private OpenGLRenderer renderer;
-    private Sprite test;
-    private Sprite test2;
-    private Square test3;
-    private Square test4;
+    private Square test;
+    private Square test2;
 
     public MyGLSurfaceView(Context context)
     {
@@ -35,41 +35,26 @@ public class MyGLSurfaceView extends GLSurfaceView
     public void InitGameObjects()
     {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.dj);
-        test = new Sprite(-0.5f, 0.5f, 1.0f, 1.0f, bmp);
-        test2 = new Sprite(0.5f, -0.5f, 1.0f, 1.0f, bmp);
-        test3 = new Square(0.25f, -0.25f, 0.5f, 0.75f, 0.2f, 0.5f, 0.3f);
-        test4 = new Square(-0.25f, 0.25f, 0.5f, 0.25f, 0.5f, 0.3f, 0.4f);
-        OpenGLObjectManager.Sprites.add(test);
-        OpenGLObjectManager.Sprites.add(test2);
-        OpenGLObjectManager.Squares.add(test3);
-        OpenGLObjectManager.Squares.add(test4);
+        test = new Square(0.25f, -0.25f, 0.5f, 0.75f, 0.2f, 0.5f, 0.3f, 1.0f);
+        test2 = new Square(-0.25f, 0.25f, 0.5f, 0.25f, 0.5f, 0.3f, 0.4f, 1.0f);
+        OpenGLObjectManager.Drawables.add(test);
+        OpenGLObjectManager.Drawables.add(test2);
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        test.CenterAt(ToWorldSpace(new PointF(event.getX(), event.getY())));
+        test.SetCenter(ToWorldSpace(new PointF(event.getX(), event.getY())));
         test.SetRotation(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(-1.0f, 1.0f)) * 360.0f);
         test.SetScale(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(0,0)));
-        test.UpdateVertexData();
+        test.ApplyTransformations();
 
         PointF ding = ToWorldSpace(new PointF(event.getX(), event.getY()));
-        test2.CenterAt(new PointF(-ding.x, -ding.y));
+        test2.SetCenter(new PointF(-ding.x, -ding.y));
         test2.SetRotation(Util.Distance(new PointF(-ding.x, -ding.y), new PointF(-1.0f, 1.0f)) * 360.0f);
         test2.SetScale(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(0,0)));
-        test2.UpdateVertexData();
-
-        test3.CenterAt(new PointF(-ding.x, ding.y));
-        test3.SetRotation(Util.Distance(new PointF(-ding.x, -ding.y), new PointF(-1.0f, 1.0f)) * 360.0f);
-        test3.SetScale(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(0,0)));
-        test3.UpdateVertexData();
-
-        test4.CenterAt(new PointF(ding.x, -ding.y));
-        test4.SetRotation(Util.Distance(new PointF(-ding.x, -ding.y), new PointF(-1.0f, 1.0f)) * 360.0f);
-        test4.SetScale(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(0,0)));
-        test4.UpdateVertexData();
-
+        test2.ApplyTransformations();
         return true;
     }
 

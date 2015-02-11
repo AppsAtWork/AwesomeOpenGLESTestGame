@@ -1,4 +1,4 @@
-package Engine;
+package Engine.OpenGLObjects;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
@@ -7,6 +7,8 @@ import android.opengl.GLUtils;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import Engine.OpenGLObjects.Square;
 
 /**
  * Created by Casper on 8-2-2015.
@@ -19,7 +21,7 @@ public class Sprite extends Square
     private boolean sent = false;
 
     public Sprite(float left, float top, float width, float height, Bitmap bmp) {
-        super(left, top, width, height, 1.0f, 1.0f, 1.0f);
+        super(left, top, width, height, 1.0f, 1.0f, 1.0f, 1.0f);
         Texture = bmp;
         LoadUVBuffer();
     }

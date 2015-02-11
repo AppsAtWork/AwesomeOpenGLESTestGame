@@ -1,4 +1,4 @@
-package Engine;
+package Engine.OpenGLObjects;
 
 import android.graphics.PointF;
 import android.opengl.GLES20;
@@ -11,12 +11,8 @@ import java.nio.ShortBuffer;
 /**
  * Created by Casper on 7-2-2015.
  */
-public class Square
+public class Square extends OpenGLGeometry
 {
-    protected float R;
-    protected float G;
-    protected float B;
-
     protected float[] BaseLeftUpper;
     protected float[] BaseRightUpper;
     protected float[] BaseRightLower;
@@ -27,19 +23,7 @@ public class Square
     protected float[] RightLower;
     protected float[] LeftLower;
 
-    protected float[] vertices;
-    protected short[] drawingOrder = new short[] {0,1,2,0,2,3};
-    protected float[] color;
-
-    protected FloatBuffer vertexBuffer;
-    protected ShortBuffer drawListBuffer;
-
-    protected float scale = 1;
-    protected float degrees = 0;
-    protected float[] translation;
-
-
-    public Square(float left, float top, float width, float height, float r, float g, float b)
+    public Square(float left, float top, float width, float height, float r, float g, float b, float a)
     {
         BaseLeftUpper = new float[] { -width/2.0f, height/2.0f };
         BaseLeftLower = new float[] { -width/2.0f, -height/2.0f };
@@ -52,31 +36,13 @@ public class Square
         RightLower = new float[] {left + width, top-height};
 
         translation = new float[] { left + width/2, top - height/2};
-
-        R = r;
-        G = g;
-        B = b;
+        color = new float[] {r,g,b,a};
 
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
     }
 
-    public void SetScale(float factor)
-    {
-        scale = factor;
-    }
-
-    public void SetRotation(float deg)
-    {
-        degrees = deg;
-    }
-
-    public void CenterAt(PointF position)
-    {
-        translation = new float[]{position.x, position.y};
-    }
-
-    public void UpdateVertexData()
+    public void ApplyTransformations()
     {
         LeftUpper = new float[] {BaseLeftUpper[0], BaseLeftUpper[1]};
         LeftLower = new float[] {BaseLeftLower[0], BaseLeftLower[1]};
@@ -140,7 +106,7 @@ public class Square
 
     public PointF GetCenter()
     {
-        return null;
+        return new PointF((LeftUpper[0] + RightUpper[0])/2.0f, (LeftLower[1] + LeftUpper[1]) / 2.0f);
     }
 
     public PointF GetCorner(int number)
@@ -193,15 +159,7 @@ public class Square
         GLES20.glDisableVertexAttribArray(positionHandle);
     }
 
-    public void SetColor(float r, float g, float b)
-    {
-        R= r;
-        G = g;
-        B = b;
-        color = new float[] {R,G,B, 1.0f};
-    }
-
-    private void UpdateVertexBuffer()
+    protected void UpdateVertexBuffer()
     {
         vertices = new float[]{
                 LeftUpper[0], LeftUpper[1], 0.0f,
@@ -209,7 +167,6 @@ public class Square
                 RightLower[0], RightLower[1], 0.0f,
                 LeftLower[0], LeftLower[1], 0.0f
         };
-        color = new float[] {R,G,B, 1.0f};
 
         //Each float takes 4 bytes
         ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -219,7 +176,7 @@ public class Square
         vertexBuffer.position(0);
     }
 
-    private void UpdateDrawListBuffer()
+    protected void UpdateDrawListBuffer()
     {
         //Each short takes up 2 bytes.
         ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);

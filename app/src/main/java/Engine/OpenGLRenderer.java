@@ -9,6 +9,9 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import Engine.OpenGLObjects.OpenGLObject;
+import Engine.OpenGLObjects.Square;
+
 /**
  * Created by Casper on 7-2-2015.
  */
@@ -82,9 +85,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        for(Square sq : OpenGLObjectManager.Squares)
+        for(OpenGLObject sq : OpenGLObjectManager.Drawables)
             sq.Draw(ProjectionViewMatrix, ShaderProgram);
-        for(Sprite sp : OpenGLObjectManager.Sprites)
-            sp.Draw(ProjectionViewMatrix, ShaderProgram);
     }
 }
