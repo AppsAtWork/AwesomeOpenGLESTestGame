@@ -2,6 +2,7 @@ package Engine.OpenGLObjects;
 
 import android.graphics.PointF;
 import android.opengl.GLES20;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,7 +12,7 @@ import java.nio.ShortBuffer;
 /**
  * Created by Casper on 7-2-2015.
  */
-public class Square extends OpenGLGeometry
+public class Rectangle extends OpenGLGeometry
 {
     protected float[] BaseLeftUpper;
     protected float[] BaseRightUpper;
@@ -23,20 +24,31 @@ public class Square extends OpenGLGeometry
     protected float[] RightLower;
     protected float[] LeftLower;
 
-    public Square(float left, float top, float width, float height, float r, float g, float b, float a)
+    public float Width;
+    public float Height;
+
+    private float baseWidth;
+    private float baseHeight;
+
+    public Rectangle(float centerX, float centerY, float width, float height, float r, float g, float b, float a)
     {
         BaseLeftUpper = new float[] { -width/2.0f, height/2.0f };
         BaseLeftLower = new float[] { -width/2.0f, -height/2.0f };
         BaseRightUpper = new float[] { width/2.0f, height/2.0f };
         BaseRightLower = new float[] { width/2.0f, -height/2.0f};
 
-        LeftUpper = new float[] { left, top };
-        LeftLower = new float[] { left, top - height};
-        RightUpper = new float[] {left + width, top};
-        RightLower = new float[] {left + width, top-height};
+        LeftUpper = new float[] { centerX - width/2.0f, centerY + height/2.0f };
+        LeftLower = new float[] { centerX - width/2.0f, centerY - height/2.0f};
+        RightUpper = new float[] {centerX + width/2.0f, centerY + height/2.0f};
+        RightLower = new float[] {centerX + width/2.0f, centerY - height/2.0f};
 
-        translation = new float[] { left + width/2, top - height/2};
+        translation = new float[] { centerX , centerY };
+
         color = new float[] {r,g,b,a};
+        Width = width;
+        Height = height;
+        baseWidth = width;
+        baseHeight = height;
 
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
@@ -49,22 +61,22 @@ public class Square extends OpenGLGeometry
         RightUpper = new float[] {BaseRightUpper[0], BaseRightUpper[1]};
         RightLower = new float[] {BaseRightLower[0], BaseRightLower[1]};
 
-        //Calculate new width and height
-        float newWidth = Math.abs(BaseLeftUpper[0] - BaseRightUpper[0])*scale;
-        float newHeight = Math.abs(BaseLeftUpper[1] - BaseLeftLower[1])*scale;
-
         //Apply scaling
-        LeftUpper[0] = -newWidth/2.0f;
-        LeftUpper[1] = newHeight/2.0f;
+        LeftUpper[0] *= scale;
+        LeftUpper[1] *= scale;
 
-        LeftLower[0] = -newWidth/2.0f;
-        LeftLower[1] = -newHeight/2.0f;
+        LeftLower[0] *= scale;
+        LeftLower[1] *= scale;
 
-        RightUpper[0] = newWidth/2.0f;
-        RightUpper[1] = newHeight/2.0f;
+        RightUpper[0] *= scale;
+        RightUpper[1] *= scale;
 
-        RightLower[0] = newWidth/2.0f;
-        RightLower[1] = -newHeight/2.0f;
+        RightLower[0] *= scale;
+        RightLower[1] *= scale;
+
+        //Apply to global vars
+        Width  = baseWidth * scale;
+        Height = baseHeight * scale;
 
 
         //Apply rotation
@@ -125,40 +137,6 @@ public class Square extends OpenGLGeometry
         return null;
     }
 
-    public void Draw(float[] projectionViewMatrix, int program)
-    {
-        //Get a handle to the vPosition member of the shader
-        //If I understand correctly, this is pretty much the point that is being rasterized.
-        int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
-
-        //Enable the vertex array that will contain the positions that will be drawn
-        GLES20.glEnableVertexAttribArray(positionHandle);
-
-        //Send the vertex data to the OpenGLES pipeline.
-        GLES20.glVertexAttribPointer(
-                positionHandle, //Which variable will hold the vertices
-                3, //The amount of floats used to represents a vertex.
-                GLES20.GL_FLOAT, //Tell OpenGLES that we are using floats
-                false,
-                0, //We can pass 0 here, because we use the drawingOrder in the drawListBuffer
-                vertexBuffer);
-
-        //We need to send our projectionview matrix to OpenGLES too.
-        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(program, "uMVPMatrix"),1,false,projectionViewMatrix,0);
-
-        //Send over the drawing type to the shader
-        GLES20.glUniform1i(GLES20.glGetUniformLocation(program, "drawingType"), 0);
-
-        //Send over the color of the square
-        GLES20.glUniform4fv(GLES20.glGetUniformLocation(program, "vColor"),1,color,0);
-
-        //OpenGLES now knows everything necessary to draw the square (except the color, later)
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-
-        //Disable the vertex array again :)
-        GLES20.glDisableVertexAttribArray(positionHandle);
-    }
-
     protected void UpdateVertexBuffer()
     {
         vertices = new float[]{
@@ -178,11 +156,40 @@ public class Square extends OpenGLGeometry
 
     protected void UpdateDrawListBuffer()
     {
+        drawingOrder = new short[] {0,1,2,0,2,3};
         //Each short takes up 2 bytes.
         ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
         buffer.order(ByteOrder.nativeOrder());
         drawListBuffer = buffer.asShortBuffer();
         drawListBuffer.put(drawingOrder);
         drawListBuffer.position(0);
+    }
+
+    @Override
+    public float Intersects(PointF point)
+    {
+        float[] pt = new float[] {point.x, point.y};
+        float triangleSum =
+                TriangleArea(LeftLower, pt, RightLower) +
+                TriangleArea(RightLower, pt, RightUpper) +
+                TriangleArea(RightUpper, pt, LeftUpper) +
+                TriangleArea(pt, LeftUpper, LeftLower);
+
+        return triangleSum - Area();
+    }
+
+    private float TriangleArea(float[] p1, float[] p2, float[] p3)
+    {
+        PointF a = new PointF(p1[0], p1[1]);
+        PointF b = new PointF(p2[0], p2[1]);
+        PointF c = new PointF(p3[0], p3[1]);
+
+        //abs((Bx*Ay-Ax*By)+(Cx*Bx-Bx*Cx)+(Ax*Cy-Cx*Ay))/2
+        return Math.abs(a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y))/2.0f;
+    }
+
+    private float Area()
+    {
+        return Width * Height;
     }
 }

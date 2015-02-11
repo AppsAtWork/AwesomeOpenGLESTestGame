@@ -8,12 +8,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import Engine.OpenGLObjects.Square;
-
 /**
  * Created by Casper on 8-2-2015.
  */
-public class Sprite extends Square
+public class Sprite extends Rectangle
 {
     private static float uvs[] = new float[8];
     private FloatBuffer uvBuffer;

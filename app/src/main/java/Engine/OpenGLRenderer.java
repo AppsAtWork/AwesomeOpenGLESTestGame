@@ -10,7 +10,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import Engine.OpenGLObjects.OpenGLObject;
-import Engine.OpenGLObjects.Square;
 
 /**
  * Created by Casper on 7-2-2015.

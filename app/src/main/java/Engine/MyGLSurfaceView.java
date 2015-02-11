@@ -1,15 +1,13 @@
 package Engine;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
-import Engine.OpenGLObjects.Sprite;
-import Engine.OpenGLObjects.Square;
-import appsatwork_internal.awesomeopenglestestgame.R;
+import Engine.OpenGLObjects.OpenGLObject;
+import Engine.OpenGLObjects.Rectangle;
+import Engine.OpenGLObjects.Triangle;
 
 /**
  * Created by Casper on 7-2-2015.
@@ -17,8 +15,10 @@ import appsatwork_internal.awesomeopenglestestgame.R;
 public class MyGLSurfaceView extends GLSurfaceView
 {
     private OpenGLRenderer renderer;
-    private Square test;
-    private Square test2;
+    private Triangle driehoekie;
+    private Rectangle blokje;
+    private Rectangle blokje2;
+    private Rectangle blokje3;
 
     public MyGLSurfaceView(Context context)
     {
@@ -34,31 +34,33 @@ public class MyGLSurfaceView extends GLSurfaceView
 
     public void InitGameObjects()
     {
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.dj);
-        test = new Square(0.25f, -0.25f, 0.5f, 0.75f, 0.2f, 0.5f, 0.3f, 1.0f);
-        test2 = new Square(-0.25f, 0.25f, 0.5f, 0.25f, 0.5f, 0.3f, 0.4f, 1.0f);
-        OpenGLObjectManager.Drawables.add(test);
-        OpenGLObjectManager.Drawables.add(test2);
+        driehoekie = new Triangle(new PointF(-0.5f, 0.0f), new PointF(0.5f, 0.0f), new PointF(0.0f, 0.5f), 1.0f, 0.0f, 0.0f, 0.7f);
+        blokje = new Rectangle(0,0,0.5f,0.25f, 0.0f, 1.0f, 0.0f, 0.7f);
+        blokje2 = new Rectangle(0,0,0.25f,0.5f, 1.0f, 0.0f, 0.0f, 0.7f);
+        blokje3 = new Rectangle(0,0,0.65f,0.75f, 1.0f, 0.0f, 1.0f, 0.7f);
+        OpenGLObjectManager.Drawables.add(blokje);
+        OpenGLObjectManager.Drawables.add(blokje2);
+        OpenGLObjectManager.Drawables.add(blokje3);
+        OpenGLObjectManager.Drawables.add(driehoekie);
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        test.SetCenter(ToWorldSpace(new PointF(event.getX(), event.getY())));
-        test.SetRotation(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(-1.0f, 1.0f)) * 360.0f);
-        test.SetScale(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(0,0)));
-        test.ApplyTransformations();
+        PointF worldCoords = Clip(new PointF(event.getX(), event.getY()));
+        OpenGLObject oglObject = OpenGLObjectManager.FirstIntersection(worldCoords);
 
-        PointF ding = ToWorldSpace(new PointF(event.getX(), event.getY()));
-        test2.SetCenter(new PointF(-ding.x, -ding.y));
-        test2.SetRotation(Util.Distance(new PointF(-ding.x, -ding.y), new PointF(-1.0f, 1.0f)) * 360.0f);
-        test2.SetScale(Util.Distance(ToWorldSpace(new PointF(event.getX(), event.getY())), new PointF(0,0)));
-        test2.ApplyTransformations();
+        if(oglObject != null) {
+            OpenGLObjectManager.MoveToFront(oglObject);
+            oglObject.SetCenter(worldCoords);
+            oglObject.SetRotation(Util.Distance(new PointF(0,0), worldCoords)*360.0f);
+            oglObject.SetScale(Util.Distance(new PointF(0,0), worldCoords)+0.3f);
+            oglObject.ApplyTransformations();
+        }
         return true;
     }
 
-    private PointF ToWorldSpace(PointF point)
+    private PointF Clip(PointF point)
     {
         float x = point.x / (float)getWidth() * 2.0f - 1.0f;
         float y = point.y / (float)getHeight() * -2.0f + 1.0f;

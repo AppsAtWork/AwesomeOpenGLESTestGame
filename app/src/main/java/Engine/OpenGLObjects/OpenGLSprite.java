@@ -31,4 +31,9 @@ public class OpenGLSprite extends OpenGLObject
     protected void UpdateDrawListBuffer() {
 
     }
+
+    @Override
+    public float Intersects(PointF point) {
+        return 0.0f;
+    }
 }
