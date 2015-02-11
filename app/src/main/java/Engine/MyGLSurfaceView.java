@@ -36,12 +36,15 @@ public class MyGLSurfaceView extends GLSurfaceView
     {
         driehoekie = new Triangle(new PointF(-0.5f, 0.0f), new PointF(0.5f, 0.0f), new PointF(0.0f, 0.5f), 1.0f, 0.0f, 0.0f, 0.7f);
         blokje = new Rectangle(0,0,0.5f,0.25f, 0.0f, 1.0f, 0.0f, 0.7f);
-        blokje2 = new Rectangle(0,0,0.25f,0.5f, 1.0f, 0.0f, 0.0f, 0.7f);
-        blokje3 = new Rectangle(0,0,0.65f,0.75f, 1.0f, 0.0f, 1.0f, 0.7f);
+        blokje2 = new Rectangle(0,0,0.25f,0.5f, 0.3f, 0.3f, 0.3f, 0.8f);
+        blokje3 = new Rectangle(0,0,0.65f,0.75f, 0.0f, 0.0f, 1.0f, 0.7f);
+
         OpenGLObjectManager.Drawables.add(blokje);
         OpenGLObjectManager.Drawables.add(blokje2);
         OpenGLObjectManager.Drawables.add(blokje3);
         OpenGLObjectManager.Drawables.add(driehoekie);
+        OpenGLObjectManager.Drawables.add(new Triangle(new PointF(-0.3f, 0.7f), new PointF(0.3f, 0.5f), new PointF(0.3f, -0.3f), 0.6f, 0.0f, 0.8f, 0.7f));
+        OpenGLObjectManager.Drawables.add(new Triangle(new PointF(-0.2f, 0.1f), new PointF(0.6f, 0.3f), new PointF(0.6f, 0.7f), 1.0f, 1.0f, 0.0f, 0.7f));
     }
 
     @Override
