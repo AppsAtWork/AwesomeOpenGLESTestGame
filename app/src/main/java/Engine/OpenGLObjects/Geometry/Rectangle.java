@@ -1,13 +1,9 @@
-package Engine.OpenGLObjects;
+package Engine.OpenGLObjects.Geometry;
 
 import android.graphics.PointF;
-import android.opengl.GLES20;
-import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 /**
  * Created by Casper on 7-2-2015.

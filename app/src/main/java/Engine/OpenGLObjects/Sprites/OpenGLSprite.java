@@ -1,6 +1,8 @@
-package Engine.OpenGLObjects;
+package Engine.OpenGLObjects.Sprites;
 
 import android.graphics.PointF;
+
+import Engine.OpenGLObjects.OpenGLObject;
 
 /**
  * Created by Casper on 11-2-2015.

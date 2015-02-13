@@ -1,4 +1,4 @@
-package Engine.OpenGLObjects;
+package Engine.OpenGLObjects.Geometry;
 
 import android.graphics.PointF;
 

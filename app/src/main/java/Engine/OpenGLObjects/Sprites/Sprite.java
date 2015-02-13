@@ -1,4 +1,4 @@
-package Engine.OpenGLObjects;
+package Engine.OpenGLObjects.Sprites;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
@@ -7,6 +7,8 @@ import android.opengl.GLUtils;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import Engine.OpenGLObjects.Geometry.Rectangle;
 
 /**
  * Created by Casper on 8-2-2015.
