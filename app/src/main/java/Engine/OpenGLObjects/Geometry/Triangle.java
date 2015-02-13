@@ -10,105 +10,38 @@ import java.nio.ByteOrder;
  */
 public class Triangle extends OpenGLGeometry
 {
-    protected float[] BaseP1;
-    protected float[] BaseP2;
-    protected float[] BaseP3;
-
-    protected float[] P1;
-    protected float[] P2;
-    protected float[] P3;
-
+    public PointF P1() { return new PointF(vertices[0], vertices[1]);}
+    public PointF P2() { return new PointF(vertices[3], vertices[4]);}
+    public PointF P3() { return new PointF(vertices[6], vertices[7]);}
+    @Override
+    public PointF Center() { return new PointF((1.0f/3.0f) * (P1().x + P2().x + P3().x), (1.0f/3.0f) * (P1().y + P2().y + P3().y)); }
 
     public Triangle(PointF point1, PointF point2, PointF point3, float r, float g, float b, float a)
     {
         color = new float[] {r,g,b,a};
 
-        BaseP1 = new float[] {point1.x, point1.y};
-        BaseP2 = new float[] {point2.x, point2.y};
-        BaseP3 = new float[] {point3.x, point3.y};
+        vertices = new float[] {
+              point1.x, point1.y, 0.0f,
+              point2.x, point2.y, 0.0f,
+              point3.x, point3.y, 0.0f
+        };
 
-        P1 = new float[] {point1.x, point1.y};
-        P2 = new float[] {point2.x, point2.y};
-        P3 = new float[] {point3.x, point3.y};
+        PointF center = Center();
 
-        PointF correction = GetCenter();
-        BaseP1[0] = BaseP1[0] - correction.x;
-        BaseP1[1] = BaseP1[1] - correction.y;
-
-        BaseP2[0] = BaseP2[0] - correction.x;
-        BaseP2[1] = BaseP2[1] - correction.y;
-
-        BaseP3[0] = BaseP3[0] - correction.x;
-        BaseP3[1] = BaseP3[1] - correction.y;
+        baseVertices = new float[]
+                {
+                  point1.x - center.x, point1.y - center.y, 0.0f,
+                  point2.x - center.x, point2.y - center.y, 0.0f,
+                  point3.x - center.x, point3.y - center.y, 0.0f
+                };
 
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
     }
 
     @Override
-    public PointF GetCenter()
-    {
-        return new PointF((1.0f/3.0f) * (P1[0] + P2[0] + P3[0]), (1.0f/3.0f) * (P1[1] + P2[1] + P3[1]));
-    }
-
-    @Override
-    public void ApplyTransformations()
-    {
-        //Reset coords
-        P1[0] = BaseP1[0];
-        P1[1] = BaseP1[1];
-
-        P2[0] = BaseP2[0];
-        P2[1] = BaseP2[1];
-
-        P3[0] = BaseP3[0];
-        P3[1] = BaseP3[1];
-
-        //Scale
-        P1[0] *= scale;
-        P2[0] *= scale;
-        P3[0] *= scale;
-        P1[1] *= scale;
-        P2[1] *= scale;
-        P3[1] *= scale;
-
-        //Rotate
-        float sin = (float) Math.sin(Math.toRadians(degrees));
-        float cos = (float) Math.cos(Math.toRadians(degrees));
-
-        float p10 = P1[0];
-        float p20 = P2[0];
-        float p30 = P3[0];
-
-        P1[0] = cos * P1[0] - sin * P1[1];
-        P1[1] = sin * p10 + cos * P1[1];
-
-        P2[0] = cos * P2[0] - sin * P2[1];
-        P2[1] = sin * p20+ cos * P2[1];
-
-        P3[0] = cos * P3[0] - sin * P3[1];
-        P3[1] = sin * p30 + cos * P3[1];
-
-        //Translate
-        P1[0] = P1[0] + translation[0];
-        P2[0] = P2[0] + translation[0];
-        P3[0] = P3[0] + translation[0];
-
-        P1[1] = P1[1] + translation[1];
-        P2[1] = P2[1] + translation[1];
-        P3[1] = P3[1] + translation[1];
-        UpdateVertexBuffer();
-    }
-
-    @Override
     protected void UpdateVertexBuffer()
     {
-        vertices = new float[] {
-                P1[0], P1[1], 0.0f,
-                P2[0], P2[1], 0.0f,
-                P3[0], P3[1], 0.0f
-        };
-
         //Each float takes 4 bytes
         ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
         buffer.order(ByteOrder.nativeOrder());
@@ -132,9 +65,9 @@ public class Triangle extends OpenGLGeometry
     @Override
     public float Intersects(PointF p)
     {
-        PointF p1 = new PointF(P1[0], P1[1]);
-        PointF p2 = new PointF(P2[0], P2[1]);
-        PointF p3 = new PointF(P3[0], P3[1]);
+        PointF p1 = P1();
+        PointF p2 = P2();
+        PointF p3 = P3();
 
         float alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y)) /
                 ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));

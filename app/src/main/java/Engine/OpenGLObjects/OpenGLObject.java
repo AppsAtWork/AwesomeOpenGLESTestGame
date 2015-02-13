@@ -23,7 +23,7 @@ public abstract class OpenGLObject
 
     public abstract void Draw(float[] projectionViewMatrix, int program);
 
-    public abstract PointF GetCenter();
+    public abstract PointF Center();
 
     public void ApplyTransformations()
     {

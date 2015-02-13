@@ -10,6 +10,7 @@ import Engine.OpenGLObjects.OpenGLObject;
 public abstract class OpenGLGeometry extends OpenGLObject
 {
     protected float[] color;
+    protected int GLESDrawingMode = GLES20.GL_TRIANGLES;
 
     public void SetColor(float r, float g, float b, float alpha)
     {
@@ -44,7 +45,7 @@ public abstract class OpenGLGeometry extends OpenGLObject
         GLES20.glUniform4fv(GLES20.glGetUniformLocation(program, "vColor"),1,color,0);
 
         //OpenGLES now knows everything necessary to draw the square (except the color, later)
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+        GLES20.glDrawElements(GLESDrawingMode, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         //Disable the vertex array again :)
         GLES20.glDisableVertexAttribArray(positionHandle);

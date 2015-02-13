@@ -15,47 +15,27 @@ import Engine.Util;
  */
 public class Circle extends OpenGLGeometry
 {
-    private float[] BaseCenter;
-    private float[] Center;
-    private float BaseRadius;
-    private float Radius;
+    private float precision = 0.05f;
+    @Override
+    public PointF Center() { return new PointF(translation[0], translation[1]);}
+    public float Radius() { return BaseRadius * scale; }
+    public float BaseRadius;
 
     public Circle(float centerX, float centerY, float radius, float r, float g, float b, float alpha)
     {
         color = new float[] {r,g,b,alpha};
-        BaseCenter = new float[] { 0, 0 };
-        Center = new float[] {centerX, centerY};
-        BaseRadius = radius;
-        Radius = radius;
 
+        baseVertices = GenerateCircleVertices(0,0, radius);
+        vertices = GenerateCircleVertices(centerX, centerY, radius);
+        translation = new float[] {centerX, centerY};
+        BaseRadius = radius;
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
     }
 
     @Override
-    public PointF GetCenter() {
-        return null;
-    }
-
-    @Override
-    public void ApplyTransformations()
-    {
-        Center[0] = translation[0];
-        Center[1] = translation[1];
-
-        UpdateVertexBuffer();
-    }
-
-    boolean regenerate = true;
-
-    @Override
     protected void UpdateVertexBuffer()
     {
-        if(regenerate)
-            vertices = GenerateCircleVertices();
-        else
-        {
-        }
         ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
         buffer.order(ByteOrder.nativeOrder());
         vertexBuffer = buffer.asFloatBuffer();
@@ -63,17 +43,17 @@ public class Circle extends OpenGLGeometry
         vertexBuffer.position(0);
     }
 
-    private float[] GenerateCircleVertices()
+    private float[] GenerateCircleVertices(float x, float y, float r)
     {
-        float[] vertices = new float[(int)(3.0f * 2.0f/0.05f)+6] ;
-        vertices[0] = Center[0];
-        vertices[1] = Center[1];
+        float[] vertices = new float[(int)(3.0f * 2.0f/precision)+6] ;
+        vertices[0] = x;
+        vertices[1] = y;
         vertices[2] = 0.0f;
         int i = 3;
-        for(float factor = 0; factor <= 2; factor = factor + 0.05f)
+        for(float factor = 0; factor <= 2 + precision/2.0f; factor = factor + precision)
         {
-            vertices[i++] = ((float)(Radius * Math.cos(Math.PI * factor) + translation[0]));
-            vertices[i++] = ((float)(Radius * Math.sin(Math.PI * factor) + translation[1]));
+            vertices[i++] = ((float)(r * Math.cos(Math.PI * factor)) + x);
+            vertices[i++] = ((float)(r * Math.sin(Math.PI * factor)) + y);
             vertices[i++] = (0.0f);
         }
         return vertices;
@@ -101,7 +81,8 @@ public class Circle extends OpenGLGeometry
     }
 
     @Override
-    public float Intersects(PointF point) {
-        return Util.Distance(point, new PointF(Center[0], Center[1]))/10.0f;
+    public float Intersects(PointF point)
+    {
+        return Util.Distance(Center(), point) - Radius() - 0.2f;
     }
 }

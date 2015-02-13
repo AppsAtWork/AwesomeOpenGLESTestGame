@@ -84,7 +84,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        for(OpenGLObject sq : OpenGLObjectManager.Drawables)
+        for(OpenGLObject sq : OpenGLObjectManager.GetDrawables())
             sq.Draw(ProjectionViewMatrix, ShaderProgram);
     }
 }

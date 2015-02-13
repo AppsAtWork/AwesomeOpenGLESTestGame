@@ -15,7 +15,7 @@ public class OpenGLSprite extends OpenGLObject
     }
 
     @Override
-    public PointF GetCenter() {
+    public PointF Center() {
         return null;
     }
 
