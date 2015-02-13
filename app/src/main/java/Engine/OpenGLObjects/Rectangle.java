@@ -14,7 +14,7 @@ import java.nio.ShortBuffer;
  */
 public class Rectangle extends OpenGLGeometry
 {
-    protected float[] BaseLeftUpper;
+/*    protected float[] BaseLeftUpper;
     protected float[] BaseRightUpper;
     protected float[] BaseRightLower;
     protected float[] BaseLeftLower;
@@ -22,39 +22,48 @@ public class Rectangle extends OpenGLGeometry
     protected float[] LeftUpper;
     protected float[] RightUpper;
     protected float[] RightLower;
-    protected float[] LeftLower;
+    protected float[] LeftLower;*/
 
     public float Width;
     public float Height;
 
-    private float baseWidth;
-    private float baseHeight;
-
     public Rectangle(float centerX, float centerY, float width, float height, float r, float g, float b, float a)
     {
-        BaseLeftUpper = new float[] { -width/2.0f, height/2.0f };
-        BaseLeftLower = new float[] { -width/2.0f, -height/2.0f };
-        BaseRightUpper = new float[] { width/2.0f, height/2.0f };
-        BaseRightLower = new float[] { width/2.0f, -height/2.0f};
+//        BaseLeftUpper = new float[] { -width/2.0f, height/2.0f };
+//        BaseLeftLower = new float[] { -width/2.0f, -height/2.0f };
+//        BaseRightUpper = new float[] { width/2.0f, height/2.0f };
+//        BaseRightLower = new float[] { width/2.0f, -height/2.0f};
+//
+//        LeftUpper = new float[] { centerX - width/2.0f, centerY + height/2.0f };
+//        LeftLower = new float[] { centerX - width/2.0f, centerY - height/2.0f};
+//        RightUpper = new float[] {centerX + width/2.0f, centerY + height/2.0f};
+//        RightLower = new float[] {centerX + width/2.0f, centerY - height/2.0f};
 
-        LeftUpper = new float[] { centerX - width/2.0f, centerY + height/2.0f };
-        LeftLower = new float[] { centerX - width/2.0f, centerY - height/2.0f};
-        RightUpper = new float[] {centerX + width/2.0f, centerY + height/2.0f};
-        RightLower = new float[] {centerX + width/2.0f, centerY - height/2.0f};
+        baseVertices = new float[] {
+                -width/2.0f, height/2.0f, 0.0f,
+                -width/2.0f, -height/2.0f, 0.0f,
+                width/2.0f, height/2.0f, 0.0f,
+                width/2.0f, -height/2.0f, 0.0f
+        };
+
+        vertices = new float[] {
+                centerX - width/2.0f, centerY + height/2.0f, 0.0f,
+                centerX - width/2.0f, centerY - height/2.0f, 0.0f,
+                centerX + width/2.0f, centerY + height/2.0f, 0.0f,
+                centerX + width/2.0f, centerY - height/2.0f, 0.0f
+        };
 
         translation = new float[] { centerX , centerY };
 
         color = new float[] {r,g,b,a};
         Width = width;
         Height = height;
-        baseWidth = width;
-        baseHeight = height;
 
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
     }
 
-    public void ApplyTransformations()
+    /*public void ApplyTransformations()
     {
         LeftUpper = new float[] {BaseLeftUpper[0], BaseLeftUpper[1]};
         LeftLower = new float[] {BaseLeftLower[0], BaseLeftLower[1]};
@@ -114,38 +123,35 @@ public class Rectangle extends OpenGLGeometry
         RightLower[1] += translation[1];
 
         UpdateVertexBuffer();
-    }
+    }*/
 
     public PointF GetCenter()
     {
-        return new PointF((LeftUpper[0] + RightUpper[0])/2.0f, (LeftLower[1] + LeftUpper[1]) / 2.0f);
+        return new PointF((vertices[0] + vertices[3])/2.0f, (vertices[7] + vertices[1]) / 2.0f);
     }
 
-    public PointF GetCorner(int number)
+    public PointF LeftUpper()
     {
-        switch(number)
-        {
-            case 0:
-                return new PointF(LeftUpper[0], LeftUpper[1]);
-            case 1:
-                return new PointF(RightUpper[0], RightUpper[1]);
-            case 2:
-                return new PointF(RightLower[0], RightLower[1]);
-            case 3:
-                return new PointF(LeftLower[0], LeftLower[1]);
-        }
-        return null;
+        return new PointF(vertices[0], vertices[1]);
+    }
+
+    public PointF RightUpper()
+    {
+        return new PointF(vertices[3], vertices[4]);
+    }
+
+    public PointF RightLower()
+    {
+        return new PointF(vertices[6], vertices[7]);
+    }
+
+    public PointF LeftLower()
+    {
+        return new PointF(vertices[9], vertices[10]);
     }
 
     protected void UpdateVertexBuffer()
     {
-        vertices = new float[]{
-                LeftUpper[0], LeftUpper[1], 0.0f,
-                RightUpper[0], RightUpper[1], 0.0f,
-                RightLower[0], RightLower[1], 0.0f,
-                LeftLower[0], LeftLower[1], 0.0f
-        };
-
         //Each float takes 4 bytes
         ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
         buffer.order(ByteOrder.nativeOrder());
@@ -168,23 +174,17 @@ public class Rectangle extends OpenGLGeometry
     @Override
     public float Intersects(PointF point)
     {
-        float[] pt = new float[] {point.x, point.y};
         float triangleSum =
-                TriangleArea(LeftLower, pt, RightLower) +
-                TriangleArea(RightLower, pt, RightUpper) +
-                TriangleArea(RightUpper, pt, LeftUpper) +
-                TriangleArea(pt, LeftUpper, LeftLower);
+                TriangleArea(LeftLower(), point, RightLower()) +
+                TriangleArea(RightLower(), point, RightUpper()) +
+                TriangleArea(RightUpper(), point, LeftUpper()) +
+                TriangleArea(point, LeftUpper(), LeftLower());
 
         return triangleSum - Area();
     }
 
-    private float TriangleArea(float[] p1, float[] p2, float[] p3)
+    private float TriangleArea(PointF a, PointF b, PointF c)
     {
-        PointF a = new PointF(p1[0], p1[1]);
-        PointF b = new PointF(p2[0], p2[1]);
-        PointF c = new PointF(p3[0], p3[1]);
-
-        //abs((Bx*Ay-Ax*By)+(Cx*Bx-Bx*Cx)+(Ax*Cy-Cx*Ay))/2
         return Math.abs(a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y))/2.0f;
     }
 
