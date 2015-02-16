@@ -50,12 +50,16 @@ public class Circle extends OpenGLGeometry
         vertices[1] = y;
         vertices[2] = 0.0f;
         int i = 3;
-        for(float factor = 0; factor <= 2 + precision/2.0f; factor = factor + precision)
+        for(float factor = 0; factor < 2 ; factor = factor + precision)
         {
             vertices[i++] = ((float)(r * Math.cos(Math.PI * factor)) + x);
             vertices[i++] = ((float)(r * Math.sin(Math.PI * factor)) + y);
             vertices[i++] = (0.0f);
         }
+        vertices[i++] = ((float)(r * Math.cos(Math.PI * 2)) + x);
+        vertices[i++] = ((float)(r * Math.sin(Math.PI * 2)) + y);
+        vertices[i++] = (0.0f);
+
         return vertices;
     }
 
