@@ -10,7 +10,8 @@ import Engine.OpenGLObjects.OpenGLObject;
 public class OpenGLSprite extends OpenGLObject
 {
     @Override
-    public void Draw(float[] projectionMatrix, int program) {
+    public void Draw(float[] projectionMatrix, int program)
+    {
 
     }
 

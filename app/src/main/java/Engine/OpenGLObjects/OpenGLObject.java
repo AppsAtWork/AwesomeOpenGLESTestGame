@@ -5,11 +5,15 @@ import android.graphics.PointF;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import Engine.OpenGLObjectManager;
+
 /**
  * Created by Casper on 11-2-2015.
  */
 public abstract class OpenGLObject
 {
+    protected boolean enabled = true;
+
     protected float[] vertices;
     protected float[] baseVertices;
     protected short[] drawingOrder;
@@ -66,4 +70,15 @@ public abstract class OpenGLObject
 
     public abstract float Intersects(PointF point);
 
+    public void StopDrawing()
+    {
+        if(enabled)
+            OpenGLObjectManager.Drawables.remove(this);
+    }
+
+    public void StartDrawing()
+    {
+        if(!enabled)
+            OpenGLObjectManager.Drawables.add(this);
+    }
 }

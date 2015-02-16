@@ -16,29 +16,25 @@ import Engine.OpenGLObjects.OpenGLObject;
 public class OpenGLObjectManager
 {
     //Hier kun je echt kekke shit doen met datastructuren.
-    private static List<OpenGLObject> Drawables = new ArrayList<>();
-    private static List<OpenGLObject> NonStaticDrawables = new ArrayList<>();
-
-    public static List<OpenGLObject> GetDrawables() {return Drawables;}
-
-    public static void AddDrawable(OpenGLObject oglObject, boolean itsStatic)
-    {
-        if(!itsStatic)
-        {
-            NonStaticDrawables.add(oglObject);
-        }
-        Drawables.add(oglObject);
-    }
-
-
+    public static List<OpenGLObject> Drawables = new ArrayList<>();
+    private static OpenGLObject Grabbed;
     //Returns the first object that a ray cast through this point into the scene intersects with.
     //So that is the top-most object at this point.
     public static OpenGLObject FirstIntersection(PointF point)
     {
-        for(int i = NonStaticDrawables.size()-1; i >= 0; i--)
+        if(Grabbed != null) {
+
+            if(Grabbed.Intersects(point) < 0.15f)
+                return Grabbed;
+            else
+                Grabbed = null;
+        }
+        for(int i = Drawables.size()-1; i >= 0; i--)
         {
-            if(NonStaticDrawables.get(i).Intersects(point) < 0.025f)
-                return NonStaticDrawables.get(i);
+            if(Drawables.get(i).Intersects(point) < 0.005f)
+            {
+                Grabbed = Drawables.get(i);
+                return Drawables.get(i);}
         }
         return null;
     }

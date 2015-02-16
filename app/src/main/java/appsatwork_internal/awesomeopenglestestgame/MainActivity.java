@@ -1,22 +1,39 @@
 package appsatwork_internal.awesomeopenglestestgame;
 
+import android.graphics.PointF;
+import android.opengl.GLSurfaceView;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
-import Engine.MyGLSurfaceView;
+import Engine.OpenGLCanvas;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    OpenGLCanvas gameCanvas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MyGLSurfaceView surfaceView = new MyGLSurfaceView(this);
-        setContentView(surfaceView);
+        gameCanvas = new OpenGLCanvas(this);
+        this.setContentView(gameCanvas);
+        gameCanvas.setOnTouchListener(touchListener);
+        gameCanvas.DrawLine(new PointF(0.0f, 0.0f), new PointF(0.0f, 1.0f), 10, 0, 0, 0, 1);
     }
 
+    private View.OnTouchListener touchListener = new View.OnTouchListener()
+    {
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+
+
+            return false;
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

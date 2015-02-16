@@ -71,7 +71,7 @@ public class Line extends OpenGLGeometry
     @Override
     public float Intersects(PointF point)
     {
-        return DistanceToLine(point)/5.0f;
+        return DistanceToLine(point);
     }
 
     private float DistanceToLine(PointF point)

@@ -83,6 +83,6 @@ public class Circle extends OpenGLGeometry
     @Override
     public float Intersects(PointF point)
     {
-        return Util.Distance(Center(), point) - Radius() - 0.2f;
+        return Util.Distance(Center(), point) - Radius();
     }
 }
