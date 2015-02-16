@@ -50,4 +50,14 @@ public class TextureManagement
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, atlasses.get(i).bitmap, 0);
         }
     }
+
+    public static int GetAtlasSamplerHandle(TextureAtlas atlas)
+    {
+        return textureHandles[atlasses.indexOf(atlas)];
+    }
+
+    public static int GetAtlasNumber(TextureAtlas atlas)
+    {
+        return atlasses.indexOf(atlas);
+    }
 }

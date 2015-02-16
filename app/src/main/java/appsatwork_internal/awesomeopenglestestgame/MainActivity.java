@@ -64,6 +64,18 @@ public class MainActivity extends ActionBarActivity {
         sprite3.StartDrawing();
         OpenGLSprite sprite4 = new OpenGLSprite(atlas, 3, 0.0f, 0.0f, 0.5f, 0.5f);
         sprite4.StartDrawing();
+
+        Bitmap atlas2bmp = BitmapFactory.decodeResource(getResources(), R.drawable.just_another_puzzle);
+        TextureAtlas atlas2 = new TextureAtlas(256, atlas2bmp);
+        TextureManagement.AddTextureAtlas(atlas2);
+        OpenGLSprite spriteA = new OpenGLSprite(atlas2, 0, 0.1f, 0.1f, 0.5f, 0.5f);
+        spriteA.StartDrawing();
+        OpenGLSprite spriteB = new OpenGLSprite(atlas2, 1, 0.1f, 0.1f, 0.5f, 0.5f);
+        spriteB.StartDrawing();
+        OpenGLSprite spriteC = new OpenGLSprite(atlas2, 2, 0.1f, 0.1f, 0.5f, 0.5f);
+        spriteC.StartDrawing();
+        OpenGLSprite spriteD = new OpenGLSprite(atlas2, 3, 0.1f, 0.1f, 0.5f, 0.5f);
+        spriteD.StartDrawing();
     }
 
     private View.OnTouchListener touchListener = new View.OnTouchListener()
@@ -78,8 +90,9 @@ public class MainActivity extends ActionBarActivity {
                 geometry.SetColor(new OpenGLColor(dist.x, mid, dist.y, 1.0f));
             }*/
             OpenGLObject openGLObject = OpenGLObjectManager.FirstIntersection(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
-            openGLObject.SetCenter(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
-            openGLObject.ApplyTransformations();
+            if(openGLObject != null)
+            {            openGLObject.SetCenter(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
+            openGLObject.ApplyTransformations(); }
             return true;
         }
     };
