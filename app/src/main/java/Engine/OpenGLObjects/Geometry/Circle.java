@@ -1,12 +1,6 @@
 package Engine.OpenGLObjects.Geometry;
 
 import android.graphics.PointF;
-import android.opengl.GLES20;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.List;
 
 import Engine.Util;
 
@@ -31,16 +25,6 @@ public class Circle extends OpenGLGeometry
         BaseRadius = radius;
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
-    }
-
-    @Override
-    protected void UpdateVertexBuffer()
-    {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        buffer.order(ByteOrder.nativeOrder());
-        vertexBuffer = buffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
     }
 
     private float[] GenerateCircleVertices(float x, float y, float r)
@@ -72,12 +56,7 @@ public class Circle extends OpenGLGeometry
             drawingOrder[i+2] = 0;
         }
 
-        //Each short takes up 2 bytes.
-        ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
-        buffer.order(ByteOrder.nativeOrder());
-        drawListBuffer = buffer.asShortBuffer();
-        drawListBuffer.put(drawingOrder);
-        drawListBuffer.position(0);
+        CreateDrawListBuffer();
     }
 
     @Override

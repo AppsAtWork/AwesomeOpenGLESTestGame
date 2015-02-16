@@ -3,9 +3,6 @@ package Engine.OpenGLObjects.Geometry;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
 /**
  * Created by Casper on 2/12/2015.
  */
@@ -48,24 +45,10 @@ public class Line extends OpenGLGeometry
     }
 
     @Override
-    protected void UpdateVertexBuffer()
-    {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        buffer.order(ByteOrder.nativeOrder());
-        vertexBuffer = buffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-    }
-
-    @Override
     protected void UpdateDrawListBuffer()
     {
         drawingOrder = new short[] { 0,1 };
-        ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
-        buffer.order(ByteOrder.nativeOrder());
-        drawListBuffer = buffer.asShortBuffer();
-        drawListBuffer.put(drawingOrder);
-        drawListBuffer.position(0);
+        CreateDrawListBuffer();
     }
 
     @Override
@@ -76,10 +59,8 @@ public class Line extends OpenGLGeometry
 
     private float DistanceToLine(PointF point)
     {
-
         float upper = Math.abs((P2().y - P1().y)*point.x - (P2().x-P1().x)*point.y + P2().x*P1().y-P2().y*P1().x);
         return (float)(upper/(Math.sqrt((P2().y-P1().y)*(P2().y-P1().y) + (P2().x - P1().x)* (P2().x - P1().x))));
-
     }
 
     @Override

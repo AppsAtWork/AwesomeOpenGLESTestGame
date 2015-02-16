@@ -68,25 +68,10 @@ public class Rectangle extends OpenGLGeometry
         UpdateDrawListBuffer();
     }
 
-    protected void UpdateVertexBuffer()
-    {
-        //Each float takes 4 bytes
-        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        buffer.order(ByteOrder.nativeOrder());
-        vertexBuffer = buffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-    }
-
     protected void UpdateDrawListBuffer()
     {
         drawingOrder = new short[] {0,1,2,0,2,3};
-        //Each short takes up 2 bytes.
-        ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
-        buffer.order(ByteOrder.nativeOrder());
-        drawListBuffer = buffer.asShortBuffer();
-        drawListBuffer.put(drawingOrder);
-        drawListBuffer.position(0);
+        CreateDrawListBuffer();
     }
 
     @Override

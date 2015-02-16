@@ -2,9 +2,6 @@ package Engine.OpenGLObjects.Geometry;
 
 import android.graphics.PointF;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
 /**
  * Created by Casper on 11-2-2015.
  */
@@ -40,26 +37,10 @@ public class Triangle extends OpenGLGeometry
     }
 
     @Override
-    protected void UpdateVertexBuffer()
-    {
-        //Each float takes 4 bytes
-        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        buffer.order(ByteOrder.nativeOrder());
-        vertexBuffer = buffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-    }
-
-    @Override
     protected void UpdateDrawListBuffer()
     {
         drawingOrder = new short[] {0,1,2};
-        //Each short takes up 2 bytes.
-        ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
-        buffer.order(ByteOrder.nativeOrder());
-        drawListBuffer = buffer.asShortBuffer();
-        drawListBuffer.put(drawingOrder);
-        drawListBuffer.position(0);
+        CreateDrawListBuffer();
     }
 
     @Override
