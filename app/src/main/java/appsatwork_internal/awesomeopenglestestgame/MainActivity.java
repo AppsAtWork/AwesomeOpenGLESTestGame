@@ -10,18 +10,22 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import Engine.OpenGLCanvas;
+import Engine.OpenGLObjects.Geometry.Circle;
+import Engine.Util;
 
 
 public class MainActivity extends ActionBarActivity {
 
     OpenGLCanvas gameCanvas;
+    Circle circle;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         gameCanvas = new OpenGLCanvas(this);
         this.setContentView(gameCanvas);
         gameCanvas.setOnTouchListener(touchListener);
-        gameCanvas.DrawLine(new PointF(0.0f, 0.0f), new PointF(0.0f, 1.0f), 10, 0, 0, 0, 1);
+        circle = gameCanvas.DrawCircle(new PointF(0,0), 0.5f, 0.3f, 0.3f, 0.3f, 1.0f);
     }
 
     private View.OnTouchListener touchListener = new View.OnTouchListener()
@@ -29,9 +33,10 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event)
         {
+            PointF dist = gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY()));
 
-
-            return false;
+            circle.SetColor(dist.x, 0.8f, dist.y, 1.0f);
+            return true;
         }
     };
 

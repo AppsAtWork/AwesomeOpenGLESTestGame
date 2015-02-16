@@ -14,7 +14,7 @@ import Engine.OpenGLObjectManager;
  */
 public abstract class OpenGLObject
 {
-    protected boolean enabled = true;
+    protected boolean enabled = false;
 
     protected float[] vertices;
     protected float[] baseVertices;

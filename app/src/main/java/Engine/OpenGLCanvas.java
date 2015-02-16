@@ -21,6 +21,7 @@ public class OpenGLCanvas extends GLSurfaceView
     public OpenGLCanvas(Context context)
     {
         super(context);
+        this.setEGLContextClientVersion(2);
         renderer = new OpenGLRenderer(context);
         this.setRenderer(renderer);
 
@@ -28,7 +29,7 @@ public class OpenGLCanvas extends GLSurfaceView
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
 
-    public Triangle DrawTriangle(PointF pt1, PointF pt2, PointF pt3, int r, int g, int b, int alpha)
+    public Triangle DrawTriangle(PointF pt1, PointF pt2, PointF pt3, float r, float g, float b, float alpha)
     {
         Triangle triangle = new Triangle(pt1, pt2, pt3, r,g,b,alpha);
         triangle.StartDrawing();
@@ -38,7 +39,7 @@ public class OpenGLCanvas extends GLSurfaceView
     //Draw a circle with the specified radius and center point.
     //Coordinates and lengths are in world space.
     //Returns a circle that can be manipulated flexibly (but indirectly).
-    public Circle DrawCircle(PointF center, int radius, int r, int g, int b, int alpha)
+    public Circle DrawCircle(PointF center, float radius, float r, float g, float b, float alpha)
     {
         Circle circle = new Circle(center.x, center.y, radius,r,g,b,alpha);
         circle.StartDrawing();
@@ -47,7 +48,7 @@ public class OpenGLCanvas extends GLSurfaceView
 
     //Draw a line between pt1 and pt2 with thickness. Coordinates and lengths are in world space.
     //Return a line that can be manipulated flexibly.
-    public Line DrawLine(PointF pt1, PointF pt2, int thickness, int r, int g, int b, int alpha)
+    public Line DrawLine(PointF pt1, PointF pt2, float thickness, float r, float g, float b, float alpha)
     {
         Line line = new Line(pt1, pt2,thickness, r,g,b,alpha);
         line.StartDrawing();
@@ -61,7 +62,7 @@ public class OpenGLCanvas extends GLSurfaceView
 
     //Draw a rectangle. Coordinates and lengths are in world space.
     //Returns a rectangle that can be manipulated flexibly.
-    public Rectangle DrawRectangle(PointF center, float width, float height, int r, int g, int b, int alpha)
+    public Rectangle DrawRectangle(PointF center, float width, float height, float r, float g, float b, float alpha)
     {
         Rectangle rect = new Rectangle(center.x,center.y, width, height, r,g,b,alpha);
         rect.StartDrawing();
