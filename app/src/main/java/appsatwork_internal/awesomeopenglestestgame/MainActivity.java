@@ -9,8 +9,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Engine.OpenGLCanvas;
 import Engine.OpenGLObjects.Geometry.Circle;
+import Engine.OpenGLObjects.Geometry.OpenGLGeometry;
+import Engine.OpenGLObjects.Geometry.RegularPolygon;
+import Engine.OpenGLObjects.OpenGLColor;
 import Engine.Util;
 
 
@@ -18,6 +24,10 @@ public class MainActivity extends ActionBarActivity {
 
     OpenGLCanvas gameCanvas;
     Circle circle;
+    OpenGLColor color = new OpenGLColor(0.3f, 0.3f, 0.3f, 1.0f);
+
+    List<OpenGLGeometry> geometryList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -25,7 +35,12 @@ public class MainActivity extends ActionBarActivity {
         gameCanvas = new OpenGLCanvas(this);
         this.setContentView(gameCanvas);
         gameCanvas.setOnTouchListener(touchListener);
-        circle = gameCanvas.DrawCircle(new PointF(0,0), 0.5f, 0.3f, 0.3f, 0.3f, 1.0f);
+
+        for(int i = 10; i > 0; i--)
+        {
+            RegularPolygon polygon = gameCanvas.DrawRegularPolygon(new PointF(0,0), 0.5f, (2*i + 1), new OpenGLColor(1.0f, 1-((i-1) * 0.1f) - 0.1f,1.0f, 1.0f));
+            geometryList.add(polygon);
+        }
     }
 
     private View.OnTouchListener touchListener = new View.OnTouchListener()
@@ -34,8 +49,11 @@ public class MainActivity extends ActionBarActivity {
         public boolean onTouch(View v, MotionEvent event)
         {
             PointF dist = gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY()));
-
-            circle.SetColor(dist.x, 0.8f, dist.y, 1.0f);
+            for(OpenGLGeometry geometry : geometryList)
+            {
+                float mid = geometry.GetColor().G;
+                geometry.SetColor(new OpenGLColor(dist.x, mid, dist.y, 1.0f));
+            }
             return true;
         }
     };

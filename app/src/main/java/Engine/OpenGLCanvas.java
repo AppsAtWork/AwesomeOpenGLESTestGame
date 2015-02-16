@@ -9,7 +9,9 @@ import android.opengl.GLSurfaceView;
 import Engine.OpenGLObjects.Geometry.Circle;
 import Engine.OpenGLObjects.Geometry.Line;
 import Engine.OpenGLObjects.Geometry.Rectangle;
+import Engine.OpenGLObjects.Geometry.RegularPolygon;
 import Engine.OpenGLObjects.Geometry.Triangle;
+import Engine.OpenGLObjects.OpenGLColor;
 import Engine.OpenGLObjects.Sprites.Sprite;
 
 /**
@@ -41,7 +43,7 @@ public class OpenGLCanvas extends GLSurfaceView
     //Returns a circle that can be manipulated flexibly (but indirectly).
     public Circle DrawCircle(PointF center, float radius, float r, float g, float b, float alpha)
     {
-        Circle circle = new Circle(center.x, center.y, radius,r,g,b,alpha);
+        Circle circle = new Circle(center.x, center.y, radius, new OpenGLColor(r,g,b,alpha));
         circle.StartDrawing();
         return circle;
     }
@@ -67,6 +69,13 @@ public class OpenGLCanvas extends GLSurfaceView
         Rectangle rect = new Rectangle(center.x,center.y, width, height, r,g,b,alpha);
         rect.StartDrawing();
         return rect;
+    }
+
+    public RegularPolygon DrawRegularPolygon(PointF center, float radius, int corners, OpenGLColor color)
+    {
+        RegularPolygon pol = new RegularPolygon(center.x, center.y, radius, corners, color);
+        pol.StartDrawing();
+        return pol;
     }
 
     public PointF ScreenSpaceToWorldSpace(PointF point)

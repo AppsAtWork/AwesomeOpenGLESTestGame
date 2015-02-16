@@ -18,6 +18,9 @@ public abstract class OpenGLGeometry extends OpenGLObject
         color = new float[] {col.R, col.G, col.B, col.Alpha};
     }
 
+    public OpenGLColor GetColor() { return new OpenGLColor(color[0], color[1],color[2],color[3]);}
+
+
     public void Draw(float[] projectionViewMatrix, int program)
     {
         //Get a handle to the vPosition member of the shader

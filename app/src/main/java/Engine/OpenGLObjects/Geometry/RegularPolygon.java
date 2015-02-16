@@ -29,7 +29,7 @@ public class RegularPolygon extends OpenGLGeometry {
 
     private float[] GenerateVertices(float x, float y, float r, float n)
     {
-        float[] vertices = new float[((int)n + 1)*3];
+        float[] vertices = new float[((int)n + 1)*3 + 6];
         vertices[0] = x;
         vertices[1] = y;
         vertices[2] = 0.0f;
