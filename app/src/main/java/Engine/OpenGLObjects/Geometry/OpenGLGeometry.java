@@ -2,6 +2,7 @@ package Engine.OpenGLObjects.Geometry;
 
 import android.opengl.GLES20;
 
+import Engine.OpenGLObjects.OpenGLColor;
 import Engine.OpenGLObjects.OpenGLObject;
 
 /**
@@ -12,9 +13,9 @@ public abstract class OpenGLGeometry extends OpenGLObject
     protected float[] color;
     protected int GLESDrawingMode = GLES20.GL_TRIANGLES;
 
-    public void SetColor(float r, float g, float b, float alpha)
+    public void SetColor(OpenGLColor col)
     {
-        color = new float[] {r,g,b, alpha};
+        color = new float[] {col.R, col.G, col.B, col.Alpha};
     }
 
     public void Draw(float[] projectionViewMatrix, int program)
@@ -50,5 +51,4 @@ public abstract class OpenGLGeometry extends OpenGLObject
         //Disable the vertex array again :)
         GLES20.glDisableVertexAttribArray(positionHandle);
     }
-
 }

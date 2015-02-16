@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import Engine.OpenGLObjects.OpenGLColor;
+import Engine.Util;
 
 /**
  * Created by Casper on 16-2-2015.
@@ -17,7 +18,7 @@ public class RegularPolygon extends OpenGLGeometry {
     public float BaseRadius;
 
     public RegularPolygon(float centerX, float centerY, float radius, float n, OpenGLColor col){
-        color = col.GetFloatArray();
+        SetColor(col);
         baseVertices = GenerateVertices(0,0,radius,n);
         vertices = GenerateVertices(centerX,centerY,radius,n);
         translation = new float[]{centerX, centerY};
@@ -47,21 +48,22 @@ public class RegularPolygon extends OpenGLGeometry {
     }
 
     @Override
-    protected void UpdateVertexBuffer() {
-        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        buffer.order(ByteOrder.nativeOrder());
-        vertexBuffer = buffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-    }
-
-    @Override
     protected void UpdateDrawListBuffer() {
-
+        drawingOrder = new short[vertices.length - 3];
+        drawingOrder[0] = 0;
+        int vertexNumber = 1;
+        for(int i = 1; i < drawingOrder.length-3; i+=3)
+        {
+            drawingOrder[i] = (short)(vertexNumber);
+            drawingOrder[i+1] = (short)(++vertexNumber);
+            drawingOrder[i+2] = 0;
+        }
+        CreateDrawListBuffer();
     }
 
     @Override
-    public float Intersects(PointF point) {
-        return 0;
+    public float Intersects(PointF point)
+    {
+        return Util.Distance(Center(), point) - Radius();
     }
 }
