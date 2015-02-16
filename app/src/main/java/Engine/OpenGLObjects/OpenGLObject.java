@@ -2,6 +2,8 @@ package Engine.OpenGLObjects;
 
 import android.graphics.PointF;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
@@ -64,9 +66,27 @@ public abstract class OpenGLObject
 
     public void TranslateBy(float deltaX, float deltaY) {translation[0] += deltaX; translation[1] += deltaY;}
 
-    protected abstract void UpdateVertexBuffer();
+    protected void UpdateVertexBuffer()
+    {
+        //Each float takes 4 bytes
+        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
+        buffer.order(ByteOrder.nativeOrder());
+        vertexBuffer = buffer.asFloatBuffer();
+        vertexBuffer.put(vertices);
+        vertexBuffer.position(0);
+    }
 
     protected abstract void UpdateDrawListBuffer();
+
+    protected void CreateDrawListBuffer()
+    {
+        //Each short takes up 2 bytes.
+        ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
+        buffer.order(ByteOrder.nativeOrder());
+        drawListBuffer = buffer.asShortBuffer();
+        drawListBuffer.put(drawingOrder);
+        drawListBuffer.position(0);
+    }
 
     public abstract float Intersects(PointF point);
 
