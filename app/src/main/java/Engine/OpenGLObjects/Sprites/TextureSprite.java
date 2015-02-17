@@ -3,25 +3,21 @@ package Engine.OpenGLObjects.Sprites;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
-import org.w3c.dom.Text;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import Engine.OpenGLObjects.Geometry.Rectangle;
 import Engine.OpenGLObjects.OpenGLObject;
 
 /**
- * Created by Casper on 11-2-2015.
+ * Created by Casper on 17-2-2015.
  */
-public class OpenGLSprite extends OpenGLObject
+public class TextureSprite extends OpenGLObject
 {
     private static float uvs[] = new float[8];
     private FloatBuffer uvBuffer;
 
-    private TextureAtlas Atlas;
-    private int TextureIndex;
+    private Texture texture;
 
     public float Width() {return BaseWidth*scale;}
     public float Height() {return BaseHeight * scale;}
@@ -57,10 +53,9 @@ public class OpenGLSprite extends OpenGLObject
         return Width() * Height();
     }
 
-    public OpenGLSprite(TextureAtlas atlas, int textureIndex, float centerX, float centerY, float width, float height)
+    public TextureSprite(Texture tex, float centerX, float centerY, float width, float height)
     {
-        Atlas = atlas;
-        TextureIndex = textureIndex;
+        texture = tex;
 
         baseVertices = new float[]{
                 -width / 2.0f, height / 2.0f, 0.0f,
@@ -91,11 +86,11 @@ public class OpenGLSprite extends OpenGLObject
     {
         if(TextureManagement.ResendTextures)
         {
-            TextureManagement.SendAtlasses();
+            TextureManagement.SendTextures();
             TextureManagement.ResendTextures = false;
         }
 
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + Atlas.TextureSlot);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + texture.TextureSlot);
         int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
 
         GLES20.glEnableVertexAttribArray(positionHandle);
@@ -127,7 +122,7 @@ public class OpenGLSprite extends OpenGLObject
 
         //Get the texture sampler and set it to 0. 0 is the position where the texture is stored in SendTextureToOpenGLES().
         int samplerHandle = GLES20.glGetUniformLocation(program, "s_texture");
-        GLES20.glUniform1i(samplerHandle, Atlas.TextureHandle);
+        GLES20.glUniform1i(samplerHandle, texture.TextureHandle);
 
         //Draw the sprite with the texture
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
@@ -139,7 +134,7 @@ public class OpenGLSprite extends OpenGLObject
 
     protected void UpdateUVBuffer()
     {
-        uvs = Atlas.GetUVCoords(TextureIndex);
+        uvs = texture.GetUVCoords();
         ByteBuffer buffer = ByteBuffer.allocateDirect(uvs.length*4);
         buffer.order(ByteOrder.nativeOrder());
         uvBuffer = buffer.asFloatBuffer();
