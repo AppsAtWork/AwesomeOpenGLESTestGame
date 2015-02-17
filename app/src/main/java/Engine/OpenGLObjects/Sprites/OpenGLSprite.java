@@ -89,13 +89,13 @@ public class OpenGLSprite extends OpenGLObject
     @Override
     public void Draw(float[] projectionViewMatrix, int program)
     {
-        if(TextureManagement.sent == false)
+        if(TextureManagement.ResendTextures)
         {
             TextureManagement.SendAtlasses();
-            TextureManagement.sent=true;
+            TextureManagement.ResendTextures = false;
         }
 
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + TextureManagement.GetAtlasNumber(Atlas));
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + Atlas.TextureSlot);
         int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
 
         GLES20.glEnableVertexAttribArray(positionHandle);
@@ -127,8 +127,7 @@ public class OpenGLSprite extends OpenGLObject
 
         //Get the texture sampler and set it to 0. 0 is the position where the texture is stored in SendTextureToOpenGLES().
         int samplerHandle = GLES20.glGetUniformLocation(program, "s_texture");
-        int bla = TextureManagement.GetAtlasSamplerHandle(Atlas);
-        GLES20.glUniform1i(samplerHandle, bla-1);
+        GLES20.glUniform1i(samplerHandle, Atlas.TextureHandle);
 
         //Draw the sprite with the texture
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
@@ -164,10 +163,7 @@ public class OpenGLSprite extends OpenGLObject
                         TriangleArea(RightUpper(), point, LeftUpper()) +
                         TriangleArea(point, LeftUpper(), LeftLower());
 
-        if(triangleSum > Area())
-            return 10;
-        else
-            return 0;
+        return triangleSum - Area();
     }
 
     private float TriangleArea(PointF a, PointF b, PointF c)

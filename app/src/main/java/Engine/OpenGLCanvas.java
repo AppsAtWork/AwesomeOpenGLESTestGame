@@ -12,8 +12,6 @@ import Engine.OpenGLObjects.Geometry.Rectangle;
 import Engine.OpenGLObjects.Geometry.RegularPolygon;
 import Engine.OpenGLObjects.Geometry.Triangle;
 import Engine.OpenGLObjects.OpenGLColor;
-import Engine.OpenGLObjects.Sprites.Sprite;
-
 /**
  * Created by Casper on 16-2-2015.
  */
@@ -55,11 +53,6 @@ public class OpenGLCanvas extends GLSurfaceView
         Line line = new Line(pt1, pt2,thickness, r,g,b,alpha);
         line.StartDrawing();
         return line;
-    }
-
-    public Sprite DrawSprite(Bitmap texture, Rectangle rectangle)
-    {
-        return null;
     }
 
     //Draw a rectangle. Coordinates and lengths are in world space.

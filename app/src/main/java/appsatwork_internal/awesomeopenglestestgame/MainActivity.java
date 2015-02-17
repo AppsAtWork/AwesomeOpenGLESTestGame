@@ -51,31 +51,45 @@ public class MainActivity extends ActionBarActivity {
             geometryList.add(polygon);
         } */
 
-        Bitmap atlasbmp = BitmapFactory.decodeResource(getResources(), R.drawable.awesome_atlas);
-        TextureAtlas atlas = new TextureAtlas(256, atlasbmp);
-        TextureManagement.AddTextureAtlas(atlas);
+        TextureAtlas texAtlas = TextureManagement.LoadAsTextureAtlas(getResources(), R.drawable.awesome_atlas, 256);
 
-        OpenGLSprite sprite = new OpenGLSprite(atlas, 0, 0.0f, 0.0f, 0.5f, 0.5f);
+        OpenGLSprite sprite = new OpenGLSprite(texAtlas, 0, 0.0f, 0.0f, 0.3f, 0.3f);
         sprite.StartDrawing();
-        OpenGLSprite sprite2 = new OpenGLSprite(atlas, 1, 0.0f, 0.0f, 0.5f, 0.5f);
+        OpenGLSprite sprite2 = new OpenGLSprite(texAtlas, 1, 0.0f, 0.0f, 0.3f, 0.3f);
         sprite2.StartDrawing();
-
-        OpenGLSprite sprite3 = new OpenGLSprite(atlas, 2, 0.0f, 0.0f, 0.5f, 0.5f);
+        OpenGLSprite sprite3 = new OpenGLSprite(texAtlas, 2, 0.0f, 0.0f, 0.3f, 0.3f);
         sprite3.StartDrawing();
-        OpenGLSprite sprite4 = new OpenGLSprite(atlas, 3, 0.0f, 0.0f, 0.5f, 0.5f);
+        OpenGLSprite sprite4 = new OpenGLSprite(texAtlas, 3, 0.0f, 0.0f, 0.3f, 0.3f);
         sprite4.StartDrawing();
 
-        Bitmap atlas2bmp = BitmapFactory.decodeResource(getResources(), R.drawable.just_another_puzzle);
-        TextureAtlas atlas2 = new TextureAtlas(256, atlas2bmp);
-        TextureManagement.AddTextureAtlas(atlas2);
-        OpenGLSprite spriteA = new OpenGLSprite(atlas2, 0, 0.1f, 0.1f, 0.5f, 0.5f);
+        TextureAtlas atlas2 = TextureManagement.LoadAsTextureAtlas(getResources(), R.drawable.just_another_puzzle, 128);
+        OpenGLSprite spriteA = new OpenGLSprite(atlas2, 0, -0.6f, 0.1f, 0.2f, 0.2f);
         spriteA.StartDrawing();
-        OpenGLSprite spriteB = new OpenGLSprite(atlas2, 1, 0.1f, 0.1f, 0.5f, 0.5f);
+        OpenGLSprite spriteB = new OpenGLSprite(atlas2, 1, -0.1f, 0.3f, 0.2f, 0.2f);
         spriteB.StartDrawing();
-        OpenGLSprite spriteC = new OpenGLSprite(atlas2, 2, 0.1f, 0.1f, 0.5f, 0.5f);
+        OpenGLSprite spriteC = new OpenGLSprite(atlas2, 2, 0.2f, 0.5f, 0.2f, 0.2f);
         spriteC.StartDrawing();
-        OpenGLSprite spriteD = new OpenGLSprite(atlas2, 3, 0.1f, 0.1f, 0.5f, 0.5f);
+        OpenGLSprite spriteD = new OpenGLSprite(atlas2, 3, 0.1f, -0.2f, 0.2f, 0.2f);
         spriteD.StartDrawing();
+        OpenGLSprite spriteE = new OpenGLSprite(atlas2, 4, 0.3f, 0.3f, 0.2f, 0.2f);
+        spriteE.StartDrawing();
+        OpenGLSprite spriteF = new OpenGLSprite(atlas2, 5, -0.4f, 0.1f, 0.2f, 0.2f);
+        spriteF.StartDrawing();
+        OpenGLSprite spriteG = new OpenGLSprite(atlas2, 6, 0.5f, -0.1f, 0.2f, 0.2f);
+        spriteG.StartDrawing();
+        OpenGLSprite spriteH = new OpenGLSprite(atlas2, 7, 0.5f, -0.4f, 0.2f, 0.2f);
+        spriteH.StartDrawing();
+        new OpenGLSprite(atlas2, 8, -0.5f, -0.4f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 9, 0.3f, -0.2f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 10, 0.1f, 0.4f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 11, 0.6f, -0.2f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 12, 0.4f, -0.1f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 13, 0.5f, 0.6f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 14, 0.2f, -0.3f, 0.2f, 0.2f).StartDrawing();
+        new OpenGLSprite(atlas2, 15, 0.0f, 0.2f, 0.2f, 0.2f).StartDrawing();
+        gameCanvas.DrawRegularPolygon(new  PointF(0.0f, 0.0f), 0.2f, 5, new OpenGLColor(0.7f, 0.2f, 0.2f, 0.7f));
+        gameCanvas.DrawRegularPolygon(new  PointF(0.0f, 0.0f), 0.2f, 6, new OpenGLColor(0.4f, 0.8f, 0.4f, 0.6f));
+        gameCanvas.DrawRegularPolygon(new  PointF(0.0f, 0.0f), 0.2f, 9, new OpenGLColor(0.6f, 0.3f, 0.1f, 0.8f));
     }
 
     private View.OnTouchListener touchListener = new View.OnTouchListener()
@@ -92,6 +106,7 @@ public class MainActivity extends ActionBarActivity {
             OpenGLObject openGLObject = OpenGLObjectManager.FirstIntersection(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
             if(openGLObject != null)
             {            openGLObject.SetCenter(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
+                OpenGLObjectManager.MoveToFront(openGLObject);
             openGLObject.ApplyTransformations(); }
             return true;
         }

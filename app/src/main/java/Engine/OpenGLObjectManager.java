@@ -22,13 +22,13 @@ public class OpenGLObjectManager
     //So that is the top-most object at this point.
     public static OpenGLObject FirstIntersection(PointF point)
     {
-        if(Grabbed != null) {
+       /* if(Grabbed != null) {
 
             if(Grabbed.Intersects(point) < 0.15f)
                 return Grabbed;
             else
                 Grabbed = null;
-        }
+        } */
         for(int i = Drawables.size()-1; i >= 0; i--)
         {
             if(Drawables.get(i).Intersects(point) < 0.005f)
