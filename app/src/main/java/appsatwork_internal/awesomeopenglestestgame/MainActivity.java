@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     int atlasIndex = 0;
     TextureAtlas atlas;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
