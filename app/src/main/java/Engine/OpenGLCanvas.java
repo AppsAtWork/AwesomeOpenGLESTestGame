@@ -21,25 +21,19 @@ import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
 /**
  * Created by Casper on 16-2-2015.
  */
-public class OpenGLCanvas extends GLSurfaceView
+public class OpenGLCanvas
 {
-    OpenGLRenderer renderer;
+    private Context context;
     public OpenGLCanvas(Context context)
     {
-        super(context);
-        this.setEGLContextClientVersion(2);
-        renderer = new OpenGLRenderer(context);
-        this.setRenderer(renderer);
-
-        //Don't wait till dirty
-        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        this.context = context;
     }
 
     public TextureAtlas LoadTextureAtlas(int resourceID, int textureSize)
     {
         if(TextureManagement.GetTextureProvider(resourceID) == null)
         {
-            TextureAtlas atlas = new TextureAtlas(textureSize,getResources(), resourceID);
+            TextureAtlas atlas = new TextureAtlas(textureSize,context.getResources(), resourceID);
             TextureManagement.EnableTextureProvider(atlas);
             return atlas;
         }
@@ -85,7 +79,7 @@ public class OpenGLCanvas extends GLSurfaceView
     private TextureSprite GetTextureSprite(int resourceID, PointF center, float width, float height, FittingType type)
     {
         //Create a new texture provider and return the damn thing
-        Texture texture = new Texture(getResources(), resourceID);
+        Texture texture = new Texture(context.getResources(), resourceID);
         TextureSprite textureSprite = new TextureSprite(texture, center.x, center.y, width, height, type);
         TextureManagement.EnableTextureProvider(texture);
         textureSprite.StartDrawing();
@@ -132,12 +126,5 @@ public class OpenGLCanvas extends GLSurfaceView
         RegularPolygon pol = new RegularPolygon(center.x, center.y, radius, corners, color);
         pol.StartDrawing();
         return pol;
-    }
-
-    public PointF ScreenSpaceToWorldSpace(PointF point)
-    {
-        float x = point.x / (float)getWidth() * 2.0f - 1.0f;
-        float y = point.y / (float)getHeight() * -2.0f + 1.0f;
-        return renderer.ToWorldCoords(new PointF(x,y));
     }
 }

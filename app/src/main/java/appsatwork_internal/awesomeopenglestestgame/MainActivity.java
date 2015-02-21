@@ -10,6 +10,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import Engine.OpenGLCanvas;
 import Engine.OpenGLObjectManager;
@@ -24,46 +25,13 @@ import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureAtlas;
 
 
-public class MainActivity extends ActionBarActivity {
-
-    OpenGLCanvas gameCanvas;
-    int atlasIndex = 0;
-    TextureAtlas atlas;
-
+public class MainActivity extends ActionBarActivity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gameCanvas = new OpenGLCanvas(this);
-        this.setContentView(gameCanvas);
-        gameCanvas.setOnTouchListener(touchListener);
-
-        gameCanvas.DrawSprite(R.drawable.dj, new PointF(0,0), 0.5f, 0.5f, FittingType.Stretch);
-        atlas = gameCanvas.LoadTextureAtlas(R.drawable.just_another_puzzle, 128);
+        this.setContentView(new TestGame(this));
     }
-
-    private View.OnTouchListener touchListener = new View.OnTouchListener()
-    {
-        @Override
-        public boolean onTouch(View v, MotionEvent event)
-        {
-            OpenGLObject openGLObject = OpenGLObjectManager.FirstIntersection(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
-            if(openGLObject != null)
-            {
-                openGLObject.SetCenter(gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())));
-                OpenGLObjectManager.MoveToFront(openGLObject);
-                openGLObject.ApplyTransformations();
-            }
-            else
-            {
-                gameCanvas.DrawSprite(R.drawable.npot, gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())), 0.3f, 0.4f, FittingType.Stretch );
-                gameCanvas.DrawSprite(atlas, (atlasIndex++ % 16), gameCanvas.ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY())), 0.3f, 0.3f, FittingType.Stretch);
-
-                return false;
-            }
-            return true;
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

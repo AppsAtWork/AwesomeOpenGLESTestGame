@@ -21,10 +21,13 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     private float[] ProjectionViewMatrix = new float[16];
     private int ShaderProgram = -1;
     private Context context;
+    private Game game;
 
-    public OpenGLRenderer(Context c)
+    public OpenGLRenderer(Context c, Game g)
     {
         context = c;
+        game = g;
+        previousTime = System.currentTimeMillis();
     }
 
     public PointF ToWorldCoords(PointF clipped)
@@ -39,11 +42,17 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         return new PointF(result[0], result[1]);
     }
 
+    public void SetClearColor(float r, float g, float b)
+    {
+        //Black background
+        GLES20.glClearColor(r,g,b,1.0f);
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
         //Black background
-        GLES20.glClearColor(0.95f, 0.95f, 0.95f, 1);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1);
 
         //Enable alpha blending
         GLES20.glEnable(GLES20.GL_BLEND);
@@ -78,9 +87,19 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         Matrix.multiplyMM(ProjectionViewMatrix, 0, ProjectionMatrix, 0, ViewMatrix, 0);
     }
 
+    long previousTime = -1;
     @Override
     public synchronized void onDrawFrame(GL10 gl)
     {
+        long currentMillis = System.currentTimeMillis();
+        long timeSinceLast = currentMillis - previousTime;
+        while(timeSinceLast >= 0)
+        {
+            game.Update();
+            timeSinceLast -=game.TimeStepMillis;
+        }
+        previousTime = currentMillis;
+
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 

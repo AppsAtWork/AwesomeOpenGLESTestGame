@@ -66,6 +66,8 @@ public abstract class OpenGLObject
 
     public void TranslateBy(float deltaX, float deltaY) {translation[0] += deltaX; translation[1] += deltaY;}
 
+    public void RotateBy(float degrees) { this.degrees += degrees; }
+
     protected void UpdateVertexBuffer()
     {
         //Each float takes 4 bytes
