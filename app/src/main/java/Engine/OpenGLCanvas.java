@@ -1,8 +1,6 @@
 package Engine;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.opengl.GLSurfaceView;
 
@@ -12,6 +10,14 @@ import Engine.OpenGLObjects.Geometry.Rectangle;
 import Engine.OpenGLObjects.Geometry.RegularPolygon;
 import Engine.OpenGLObjects.Geometry.Triangle;
 import Engine.OpenGLObjects.OpenGLColor;
+import Engine.OpenGLObjects.Sprites.FittingType;
+import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
+import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
+import Engine.OpenGLObjects.Sprites.TextureManagement;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureAtlas;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
+
 /**
  * Created by Casper on 16-2-2015.
  */
@@ -27,6 +33,63 @@ public class OpenGLCanvas extends GLSurfaceView
 
         //Don't wait till dirty
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+    }
+
+    public TextureAtlas LoadTextureAtlas(int resourceID, int textureSize)
+    {
+        if(TextureManagement.GetTextureProvider(resourceID) == null)
+        {
+            TextureAtlas atlas = new TextureAtlas(textureSize,getResources(), resourceID);
+            TextureManagement.EnableTextureProvider(atlas);
+            return atlas;
+        }
+        else
+        {
+            return (TextureAtlas)TextureManagement.GetTextureProvider(resourceID);
+        }
+    }
+
+    public AtlasSprite DrawSprite(TextureAtlas atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
+    {
+        AtlasSprite atlasSprite = new AtlasSprite(atlas, atlasIndex, center.x, center.y, width,height, type);
+        atlasSprite.StartDrawing();
+        return atlasSprite;
+    }
+
+    public TextureSprite DrawSprite(int resourceID, PointF center, float width, float height, FittingType type)
+    {
+        //Check if there is already a texture in tehre
+        TextureProvider provider = TextureManagement.GetTextureProvider(resourceID);
+        if(provider == null)
+        {
+           return GetTextureSprite(resourceID, center, width, height, type);
+        }
+        else
+        {
+            //There is a texture provider in there for this texture, but we can only use it if it is not a texture atlas
+            if(provider.getClass() == Texture.class)
+            {
+                //Use the provided texture provider
+                Texture texture = (Texture)provider;
+                TextureSprite sprite = new TextureSprite(texture, center.x, center.y, width, height, type);
+                sprite.StartDrawing();
+                return sprite;
+            }
+            else
+            {
+                return GetTextureSprite(resourceID, center, width, height, type);
+            }
+        }
+    }
+
+    private TextureSprite GetTextureSprite(int resourceID, PointF center, float width, float height, FittingType type)
+    {
+        //Create a new texture provider and return the damn thing
+        Texture texture = new Texture(getResources(), resourceID);
+        TextureSprite textureSprite = new TextureSprite(texture, center.x, center.y, width, height, type);
+        TextureManagement.EnableTextureProvider(texture);
+        textureSprite.StartDrawing();
+        return textureSprite;
     }
 
     public Triangle DrawTriangle(PointF pt1, PointF pt2, PointF pt3, float r, float g, float b, float alpha)

@@ -1,123 +1,86 @@
 package Engine.OpenGLObjects.Sprites;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
+
 /**
  * Created by Casper on 16-2-2015.
  */
 public class TextureManagement
 {
-    public static boolean ResendAtlasses = true;
     public static boolean ResendTextures = true;
-    private static boolean Delete = false;
-    private static List<TextureAtlas> atlasses = new ArrayList<>();
-    private static List<Texture> textures = new ArrayList<>();
-    private static Resources resources;
+    private static List<TextureProvider> textureProviders = new ArrayList<>();
 
-    public static Texture LoadAsTexture(Resources res, int resourceID)
+    public static TextureProvider GetTextureProvider(int resID)
     {
-        Texture texture = new Texture(res, resourceID);
-        textures.add(texture);
-        return texture;
-    }
-
-    public static TextureAtlas LoadAsTextureAtlas(Resources res, int resourceID, int textureSize)
-    {
-        TextureAtlas atlas = new TextureAtlas(textureSize, res, resourceID);
-        atlasses.add(atlas);
-        return atlas;
-    }
-
-    private static int[] GetAtlasHandles()
-    {
-        int[] array = new int[atlasses.size()];
-        for(int i = 0; i < array.length; i++)
+        for(int i = 0; i < textureProviders.size(); i++)
         {
-            array[i] = atlasses.get(i).TextureHandle;
+            TextureProvider provider = textureProviders.get(i);
+            if(provider.ResourceID == resID)
+            {
+                return provider;
+            }
         }
-        return array;
+        return null;
+    }
+
+    public static void EnableTextureProvider(TextureProvider texture)
+    {
+        ResendTextures = true;
+        textureProviders.add(texture);
     }
 
     private static int[] GetTextureHandles()
     {
-        int[] array = new int[textures.size()];
+        int[] array = new int[textureProviders.size()];
         for(int i = 0; i < array.length; i++)
         {
-            array[i] = textures.get(i).TextureHandle;
+            array[i] = textureProviders.get(i).TextureHandle;
         }
         return array;
     }
 
     public static void SendTextures()
     {
-        if(Delete)
+        if(ResendTextures)
         {
             int[] textureHandles = GetTextureHandles();
             GLES20.glDeleteTextures(textureHandles.length, textureHandles, 0);
+            ResendTextures = false;
         }
 
         //Get handles for the texture(s)
-        int[] textureHandles = new int[textures.size()];
-        GLES20.glGenTextures(textures.size(), textureHandles, 0);
+        int[] textureHandles = new int[textureProviders.size()];
+        GLES20.glGenTextures(textureProviders.size(), textureHandles, 0);
 
-        for(int i = 0; i < textures.size(); i++)
+        for(int i = 0; i < textureProviders.size(); i++)
         {
-            textures.get(i).TextureHandle = textureHandles[i]-1;
-            textures.get(i).TextureSlot = i + atlasses.size();
-            //Set the texture as active in OpenGLES
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i + (atlasses.size()));
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandles[i]);
-
-            //Set filtering on the textures
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-
-            //Set wrapping on the textures - Atlasses are always POT textures, so no need to set this.
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-
-            //Load the bitmap into the texture that we just set params for
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, textures.get(i).GetBitmap(), 0);
-        }
-    }
-
-    public static void SendAtlasses()
-    {
-        if(Delete)
-        {
-            int[] textureHandles = GetAtlasHandles();
-            GLES20.glDeleteTextures(textureHandles.length, textureHandles, 0);
-        }
-
-        //Get handles for the texture(s)
-        int[] textureHandles = new int[atlasses.size()];
-        GLES20.glGenTextures(atlasses.size(), textureHandles, 0);
-
-        for(int i = 0; i < atlasses.size(); i++)
-        {
-            atlasses.get(i).TextureHandle = textureHandles[i]-1;
-            atlasses.get(i).TextureSlot = i;
+            textureProviders.get(i).TextureHandle = textureHandles[i];
+            textureProviders.get(i).TextureSlot = i;
             //Set the texture as active in OpenGLES
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandles[i]);
 
-            //Set filtering on the textures
+            //Set filtering on the textureProviders
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
-            //Set wrapping on the textures - Atlasses are always POT textures, so no need to set this.
-//            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-//            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+            //Set wrapping on the textureProviders
+            if(textureProviders.get(i).getClass() == Texture.class)
+            {
+                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+            }
 
             //Load the bitmap into the texture that we just set params for
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, atlasses.get(i).GetBitmap(), 0);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, textureProviders.get(i).GetBitmap(), 0);
         }
     }
 }

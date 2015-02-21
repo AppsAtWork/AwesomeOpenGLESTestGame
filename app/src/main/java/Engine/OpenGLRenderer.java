@@ -79,12 +79,14 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     }
 
     @Override
-    public void onDrawFrame(GL10 gl)
+    public synchronized void onDrawFrame(GL10 gl)
     {
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        for(OpenGLObject sq : OpenGLObjectManager.Drawables)
-            sq.Draw(ProjectionViewMatrix, ShaderProgram);
+        for(int i = 0; i < OpenGLObjectManager.Drawables.size(); i++) {
+            OpenGLObject obj = OpenGLObjectManager.Drawables.get(i);
+            obj.Draw(ProjectionViewMatrix, ShaderProgram);
+        }
     }
 }

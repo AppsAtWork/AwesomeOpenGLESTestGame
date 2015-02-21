@@ -16,7 +16,7 @@ import Engine.OpenGLObjects.OpenGLObject;
 public class OpenGLObjectManager
 {
     //Hier kun je echt kekke shit doen met datastructuren.
-    public static List<OpenGLObject> Drawables = new ArrayList<>();
+    public volatile static List<OpenGLObject> Drawables = new ArrayList<>();
     private static OpenGLObject Grabbed;
     //Returns the first object that a ray cast through this point into the scene intersects with.
     //So that is the top-most object at this point.

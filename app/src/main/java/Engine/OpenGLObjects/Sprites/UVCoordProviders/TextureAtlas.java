@@ -1,33 +1,24 @@
-package Engine.OpenGLObjects.Sprites;
+package Engine.OpenGLObjects.Sprites.UVCoordProviders;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 /**
  * Created by Casper on 16-2-2015.
  */
-public class TextureAtlas
+public class TextureAtlas extends TextureProvider
 {
-    public int ResourceID;
     public int TextureResolution = 256;
     public static int AtlasResolution = 512;
     public int TextureSlot = -1;
     public int TextureHandle = -1;
-    private Resources resources;
 
     public TextureAtlas(int textureRes, Resources res, int resourceID)
     {
-        resources = res;
-        ResourceID = resourceID;
+        super(res, resourceID);
         TextureResolution = textureRes;
     }
 
-    public Bitmap GetBitmap()
-    {
-        return BitmapFactory.decodeResource(resources, ResourceID);
-    }
-
+    @Override
     public float[] GetUVCoords(int textureIndex)
     {
         int texturesPerRow = AtlasResolution / TextureResolution;

@@ -1,4 +1,4 @@
-package Engine.OpenGLObjects.Sprites;
+package Engine.OpenGLObjects.Sprites.SpriteObjects;
 
 import android.graphics.PointF;
 import android.opengl.GLES20;
@@ -8,35 +8,32 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import Engine.OpenGLObjects.OpenGLObject;
+import Engine.OpenGLObjects.Sprites.FittingType;
+import Engine.OpenGLObjects.Sprites.TextureManagement;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
 
 /**
- * Created by Casper on 17-2-2015.
+ * Created by Casper on 21-2-2015.
  */
-public class TextureSprite extends OpenGLObject
+public class OpenGLSprite extends OpenGLObject
 {
-    private static float uvs[] = new float[8];
-    private FloatBuffer uvBuffer;
-
-    private Texture texture;
+    protected float uvs[] = new float[8];
+    protected FloatBuffer uvBuffer;
 
     public float Width() {return BaseWidth*scale;}
     public float Height() {return BaseHeight * scale;}
 
-    private float BaseWidth;
-    private float BaseHeight;
+    protected float BaseWidth;
+    protected float BaseHeight;
+
+    protected TextureProvider textureProvider;
 
     @Override
     public PointF Center() { return new PointF((vertices[0] + vertices[3])/2.0f, (vertices[7] + vertices[1]) / 2.0f); }
 
-    public PointF LeftUpper()
-    {
-        return new PointF(vertices[0], vertices[1]);
-    }
+    public PointF LeftUpper() { return new PointF(vertices[0], vertices[1]); }
 
-    public PointF RightUpper()
-    {
-        return new PointF(vertices[3], vertices[4]);
-    }
+    public PointF RightUpper() { return new PointF(vertices[3], vertices[4]); }
 
     public PointF RightLower()
     {
@@ -48,14 +45,11 @@ public class TextureSprite extends OpenGLObject
         return new PointF(vertices[9], vertices[10]);
     }
 
-    public float Area()
-    {
-        return Width() * Height();
-    }
+    public float Area() { return Width() * Height(); }
 
-    public TextureSprite(Texture tex, float centerX, float centerY, float width, float height)
+    public OpenGLSprite(TextureProvider provider, float centerX, float centerY, float width, float height, FittingType fittingType)
     {
-        texture = tex;
+        textureProvider = provider;
 
         baseVertices = new float[]{
                 -width / 2.0f, height / 2.0f, 0.0f,
@@ -78,19 +72,16 @@ public class TextureSprite extends OpenGLObject
 
         UpdateVertexBuffer();
         UpdateDrawListBuffer();
-        UpdateUVBuffer();
     }
+
 
     @Override
     public void Draw(float[] projectionViewMatrix, int program)
     {
         if(TextureManagement.ResendTextures)
-        {
             TextureManagement.SendTextures();
-            TextureManagement.ResendTextures = false;
-        }
 
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + texture.TextureSlot);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureProvider.TextureSlot);
         int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
 
         GLES20.glEnableVertexAttribArray(positionHandle);
@@ -122,7 +113,7 @@ public class TextureSprite extends OpenGLObject
 
         //Get the texture sampler and set it to 0. 0 is the position where the texture is stored in SendTextureToOpenGLES().
         int samplerHandle = GLES20.glGetUniformLocation(program, "s_texture");
-        GLES20.glUniform1i(samplerHandle, texture.TextureHandle);
+        GLES20.glUniform1i(samplerHandle, textureProvider.TextureSlot);
 
         //Draw the sprite with the texture
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
@@ -132,21 +123,20 @@ public class TextureSprite extends OpenGLObject
         GLES20.glDisableVertexAttribArray(texCoordHandle);
     }
 
-    protected void UpdateUVBuffer()
-    {
-        uvs = texture.GetUVCoords();
-        ByteBuffer buffer = ByteBuffer.allocateDirect(uvs.length*4);
-        buffer.order(ByteOrder.nativeOrder());
-        uvBuffer = buffer.asFloatBuffer();
-        uvBuffer.put(uvs);
-        uvBuffer.position(0);
-    }
-
     @Override
     protected void UpdateDrawListBuffer()
     {
         drawingOrder = new short[] {0,1,2,0,2,3};
         CreateDrawListBuffer();
+    }
+
+    protected void CreateUVBuffer()
+    {
+        ByteBuffer buffer = ByteBuffer.allocateDirect(uvs.length*4);
+        buffer.order(ByteOrder.nativeOrder());
+        uvBuffer = buffer.asFloatBuffer();
+        uvBuffer.put(uvs);
+        uvBuffer.position(0);
     }
 
     @Override
