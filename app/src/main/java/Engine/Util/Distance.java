@@ -1,11 +1,11 @@
-package Engine;
+package Engine.Util;
 
 import android.graphics.PointF;
 
 /**
- * Created by Casper on 8-2-2015.
+ * Created by Casper on 22-2-2015.
  */
-public class Util
+public class Distance
 {
     public static float Distance(PointF p1, PointF p2)
     {

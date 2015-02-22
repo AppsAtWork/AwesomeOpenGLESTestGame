@@ -3,7 +3,6 @@ package Engine.OpenGLObjects.Geometry;
 import android.graphics.PointF;
 
 import Engine.OpenGLObjects.OpenGLColor;
-import Engine.Util;
 
 /**
  * Created by Casper on 2/12/2015.
@@ -18,6 +17,6 @@ public class Circle extends RegularPolygon
     @Override
     public float Intersects(PointF point)
     {
-        return Util.Distance(Center(), point) - Radius();
+        return Engine.Util.Distance.Distance(Center(), point) - Radius();
     }
 }

@@ -9,6 +9,7 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import Engine.Gaming.Game;
 import Engine.OpenGLObjects.OpenGLObject;
 
 /**

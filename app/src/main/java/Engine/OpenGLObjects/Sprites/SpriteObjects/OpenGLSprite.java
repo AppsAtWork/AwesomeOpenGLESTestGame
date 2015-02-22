@@ -29,7 +29,19 @@ public class OpenGLSprite extends OpenGLObject
     protected TextureProvider textureProvider;
 
     @Override
-    public PointF Center() { return new PointF((vertices[0] + vertices[3])/2.0f, (vertices[7] + vertices[1]) / 2.0f); }
+    public PointF Center()
+    {
+        float xSum = 0;
+        float ySum = 0;
+        int count = 0;
+        for(int i = 0; i < vertices.length; i += 3)
+        {
+            count += 2;
+            xSum += vertices[i];
+            ySum += vertices[i+1];
+        }
+        return new PointF(xSum / count, ySum / count);
+    }
 
     public PointF LeftUpper() { return new PointF(vertices[0], vertices[1]); }
 

@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import Engine.OpenGLObjects.OpenGLColor;
-import Engine.Util;
 
 /**
  * Created by Casper on 16-2-2015.
@@ -64,6 +63,6 @@ public class RegularPolygon extends OpenGLGeometry {
     @Override
     public float Intersects(PointF point)
     {
-        return Util.Distance(Center(), point) - Radius();
+        return Engine.Util.Distance.Distance(Center(), point) - Radius();
     }
 }
