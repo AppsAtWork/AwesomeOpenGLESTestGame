@@ -19,6 +19,22 @@ public abstract class Game extends GLSurfaceView
     public long TimeStepMillis;
     public OpenGLCanvas Canvas;
     public OpenGLRenderer renderer;
+
+    public Game(Context context, int FPS)
+    {
+        super(context);
+        TimeStepMillis = (long)(1000.0f/(float)FPS);
+        Canvas = new OpenGLCanvas(context);
+        this.setEGLContextClientVersion(2);
+        renderer = new OpenGLRenderer(context, this);
+        this.setRenderer(renderer);
+
+        //Don't wait till dirty
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        Init();
+    }
+
     public Game(Context context, AttributeSet atrs, int FPS)
     {
         super(context, atrs);

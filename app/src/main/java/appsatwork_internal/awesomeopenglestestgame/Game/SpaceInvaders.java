@@ -12,6 +12,7 @@ import Engine.Gaming.Game;
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
 import Engine.OpenGLObjectManager;
+import Engine.OpenGLObjects.OpenGLObject;
 import Engine.OpenGLObjects.Sprites.FittingType;
 import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
 import Engine.OpenGLObjects.Sprites.TextureManagement;
@@ -29,8 +30,15 @@ public class SpaceInvaders extends Game
     Spaceship ship;
     Asteroid asteroid;
     Backdrop drop;
+    FireButton fireButton;
     int bulletCount = 0;
     Bullet[] bullets = new Bullet[10];
+
+    public SpaceInvaders(Context context)
+    {
+        super(context, 60);
+        this.setOnTouchListener(listener);
+    }
 
     public SpaceInvaders(Context context, AttributeSet atrs)
     {
@@ -46,13 +54,59 @@ public class SpaceInvaders extends Game
         bullets[bulletCount++] = new Bullet(Canvas, new PointF(ship.Position.x, ship.Position.y + 0.15f), ship.Direction.Clone());
     }
 
+    long lastBullet = 0;
     OnTouchListener listener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            PointF worldCoords = ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY()));
-            ship.SetAtPosition(worldCoords);
 
-            drop.SetAtPosition(new PointF(-worldCoords.x/4.0f, -worldCoords.y/4.0f));
+            if(event.getPointerCount() == 1)
+            {
+                //Touching at one point
+                PointF worldCoords = ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY()));
+                boolean intersects = fireButton.Intersects(worldCoords);
+
+                if(intersects)
+                {
+                    if( System.currentTimeMillis() - lastBullet > 100)
+                    {
+                        lastBullet = System.currentTimeMillis();
+                        SpawnBullet();
+                    }
+                }
+                else
+                {
+                    ship.SetAtPosition(worldCoords);
+                    drop.SetAtPosition(new PointF(-worldCoords.x / 4.0f, -worldCoords.y / 4.0f));
+                }
+
+            }
+            else if(event.getPointerCount() == 2)
+            {
+                PointF worldCoords1 = ScreenSpaceToWorldSpace(new PointF(event.getX(0), event.getY(0)));
+                PointF worldCoords2 = ScreenSpaceToWorldSpace(new PointF(event.getX(1), event.getY(1)));
+                //Touching at two points
+                boolean coords1Button = fireButton.Intersects(worldCoords1);
+                boolean coords2Button = fireButton.Intersects(worldCoords2);
+
+                if(coords1Button || coords2Button)
+                {
+                    if( System.currentTimeMillis() - lastBullet > 100)
+                    {
+                        lastBullet = System.currentTimeMillis();
+                        SpawnBullet();
+                    }
+                }
+
+                PointF pos;
+                if(coords1Button)
+                    pos = worldCoords2;
+                else
+                    pos = worldCoords1;
+
+                ship.SetAtPosition(pos);
+                drop.SetAtPosition(new PointF(-pos.x / 4.0f, -pos.y / 4.0f));
+            }
+
             return true;
         }
     };
@@ -69,6 +123,7 @@ public class SpaceInvaders extends Game
         drop = new Backdrop(Canvas);
         asteroid = new Asteroid(Canvas);
         ship = new Spaceship(Canvas);
+        fireButton = new FireButton(Canvas);
         Texture texture = new Texture(getResources(), R.drawable.bullet);
         TextureManagement.EnableTextureProvider(texture);
     }

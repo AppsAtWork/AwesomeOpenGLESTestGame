@@ -6,10 +6,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/invaders"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:text="Fire!"
-        android:onClick="FireButton_OnClick"
-        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

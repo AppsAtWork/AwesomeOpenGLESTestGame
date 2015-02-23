@@ -22,7 +22,7 @@ public class Backdrop extends GameObject
 
     @Override
     public void Load() {
-        background = Canvas.DrawSprite(R.drawable.background, new PointF(0,0), 1.7f, 2.54f, FittingType.Stretch);
+        background = Canvas.DrawSprite(R.drawable.background, new PointF(0,0), 1.7f, 2.6f, FittingType.Stretch);
     }
 
     public void SetAtPosition(PointF pos)
