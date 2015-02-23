@@ -35,6 +35,7 @@ public class SpaceInvaders extends Game
     FireButton fireButton;
     int bulletCount = 0;
     Bullet[] bullets = new Bullet[10];
+    Enemy enemy;
 
     public SpaceInvaders(Context context)
     {
@@ -129,10 +130,13 @@ public class SpaceInvaders extends Game
         asteroid = new Asteroid(Canvas);
         ship = new Spaceship(Canvas);
         fireButton = new FireButton(Canvas);
+        enemy = new Enemy(Canvas);
         Texture texture = new Texture(getResources(), R.drawable.bullet);
         TextureManagement.EnableTextureProvider(texture);
     }
 
+    long lastEnemy = System.currentTimeMillis();
+    int enemyCount = 0;
     @Override
     public void Update()
     {
@@ -141,5 +145,14 @@ public class SpaceInvaders extends Game
         for(int i = 0; i < bullets.length; i++)
             if(bullets[i] != null)
                 bullets[i].Update();
+
+        if(System.currentTimeMillis() - lastEnemy > 4000)
+        {
+            //Spawn an enemy every 2000 ms
+            enemy.Reset();
+            lastEnemy = System.currentTimeMillis();
+        }
+
+         enemy.Update();
     }
 }

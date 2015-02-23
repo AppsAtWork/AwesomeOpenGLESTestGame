@@ -41,7 +41,7 @@ public class Asteroid extends GameObject
         {
             velocity.InvertY();
         }
-        asteroid.RotateBy(1);
+        asteroid.RotateBy(0.5f);
         asteroid.TranslateBy(velocity.SpeedVector.X, velocity.SpeedVector.Y);
         asteroid.ApplyTransformations();
     }
