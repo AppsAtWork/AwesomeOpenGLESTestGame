@@ -27,6 +27,7 @@ public class OpenGLSprite extends OpenGLObject
     protected float BaseHeight;
 
     protected TextureProvider textureProvider;
+    protected int TextureIndex;
 
     @Override
     public PointF Center()
@@ -140,6 +141,12 @@ public class OpenGLSprite extends OpenGLObject
     {
         drawingOrder = new short[] {0,1,2,0,2,3};
         CreateDrawListBuffer();
+    }
+
+    protected void UpdateUVBuffer()
+    {
+        uvs = textureProvider.GetUVCoords(TextureIndex);
+        CreateUVBuffer();
     }
 
     protected void CreateUVBuffer()

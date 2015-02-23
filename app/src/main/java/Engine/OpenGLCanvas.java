@@ -2,7 +2,6 @@ package Engine;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.opengl.GLSurfaceView;
 
 import Engine.OpenGLObjects.Geometry.Circle;
 import Engine.OpenGLObjects.Geometry.Line;
@@ -15,7 +14,7 @@ import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
 import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
 import Engine.OpenGLObjects.Sprites.TextureManagement;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureAtlas;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.SimpleTextureAtlas;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
 
 
@@ -30,21 +29,21 @@ public class OpenGLCanvas
         this.context = context;
     }
 
-    public TextureAtlas LoadTextureAtlas(int resourceID, int textureSize)
+    public SimpleTextureAtlas LoadTextureAtlas(int resourceID, int textureSize)
     {
         if(TextureManagement.GetTextureProvider(resourceID) == null)
         {
-            TextureAtlas atlas = new TextureAtlas(textureSize,context.getResources(), resourceID);
+            SimpleTextureAtlas atlas = new SimpleTextureAtlas(textureSize,context.getResources(), resourceID);
             TextureManagement.EnableTextureProvider(atlas);
             return atlas;
         }
         else
         {
-            return (TextureAtlas)TextureManagement.GetTextureProvider(resourceID);
+            return (SimpleTextureAtlas)TextureManagement.GetTextureProvider(resourceID);
         }
     }
 
-    public AtlasSprite DrawSprite(TextureAtlas atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
+    public AtlasSprite DrawSprite(SimpleTextureAtlas atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
     {
         AtlasSprite atlasSprite = new AtlasSprite(atlas, atlasIndex, center.x, center.y, width,height, type);
         atlasSprite.StartDrawing();

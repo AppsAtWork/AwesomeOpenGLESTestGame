@@ -14,9 +14,11 @@ import Engine.OpenGLCanvas;
 import Engine.OpenGLObjectManager;
 import Engine.OpenGLObjects.OpenGLObject;
 import Engine.OpenGLObjects.Sprites.FittingType;
+import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
 import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
 import Engine.OpenGLObjects.Sprites.TextureManagement;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.VariableTextureAtlas;
 import Engine.Util.Vector2;
 import Engine.Util.Velocity;
 import appsatwork_internal.awesomeopenglestestgame.R;
@@ -129,6 +131,12 @@ public class SpaceInvaders extends Game
         fireButton = new FireButton(Canvas);
         Texture texture = new Texture(getResources(), R.drawable.bullet);
         TextureManagement.EnableTextureProvider(texture);
+
+        VariableTextureAtlas atlas = new VariableTextureAtlas(getResources(), R.drawable.sheet, R.raw.sheet_atlas);
+        TextureManagement.EnableTextureProvider(atlas);
+
+        AtlasSprite sprite = new AtlasSprite(atlas, 1, 0.0f, 0.0f, 0.3f, 0.3f, FittingType.Stretch);
+        sprite.StartDrawing();
     }
 
     @Override

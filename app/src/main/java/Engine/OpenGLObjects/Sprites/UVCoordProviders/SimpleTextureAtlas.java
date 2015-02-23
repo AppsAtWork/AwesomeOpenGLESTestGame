@@ -5,14 +5,14 @@ import android.content.res.Resources;
 /**
  * Created by Casper on 16-2-2015.
  */
-public class TextureAtlas extends TextureProvider
+public class SimpleTextureAtlas extends TextureProvider
 {
     public int TextureResolution = 256;
     public static int AtlasResolution = 512;
     public int TextureSlot = -1;
     public int TextureHandle = -1;
 
-    public TextureAtlas(int textureRes, Resources res, int resourceID)
+    public SimpleTextureAtlas(int textureRes, Resources res, int resourceID)
     {
         super(res, resourceID);
         TextureResolution = textureRes;
