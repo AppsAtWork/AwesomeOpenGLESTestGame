@@ -18,6 +18,7 @@ public class MainActivity extends Activity
 
     public void FireButton_OnClick(View view)
     {
+        
         if(invaders == null)
             invaders = (SpaceInvaders)(findViewById(R.id.invaders));
         invaders.SpawnBullet();
