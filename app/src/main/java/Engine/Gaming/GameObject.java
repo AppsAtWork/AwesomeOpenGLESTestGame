@@ -27,4 +27,8 @@ public abstract class GameObject
     {
         OpenGLObjectManager.MoveToFront(OGLObject);
     }
+
+    public void MoveForward() {OpenGLObjectManager.MoveForward(OGLObject);}
+
+    public void MoveBackward() {OpenGLObjectManager.MoveBackward(OGLObject);}
 }

@@ -28,8 +28,6 @@ public class VariableTextureAtlas extends TextureProvider
 {
     public static int AtlasResolution = 512;
     private int XMLID;
-    public int TextureSlot = -1;
-    public int TextureHandle = -1;
     private HashMap<Integer, float[]> UVMap = new HashMap<>();
 
     public VariableTextureAtlas(Resources resources, int textureID, int xmlID) {

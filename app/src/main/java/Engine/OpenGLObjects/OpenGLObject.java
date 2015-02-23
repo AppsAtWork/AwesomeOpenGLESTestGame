@@ -14,8 +14,6 @@ import Engine.OpenGLObjectManager;
  */
 public abstract class OpenGLObject
 {
-    protected boolean enabled = false;
-
     protected float[] vertices;
     protected float[] baseVertices;
     protected short[] drawingOrder;
@@ -94,13 +92,11 @@ public abstract class OpenGLObject
 
     public void StopDrawing()
     {
-        if(enabled)
             OpenGLObjectManager.Drawables.remove(this);
     }
 
     public void StartDrawing()
     {
-        if(!enabled)
             OpenGLObjectManager.Drawables.add(this);
     }
 }

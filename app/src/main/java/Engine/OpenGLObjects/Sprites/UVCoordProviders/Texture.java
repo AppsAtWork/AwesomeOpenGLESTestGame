@@ -7,9 +7,6 @@ import android.content.res.Resources;
  */
 public class Texture extends TextureProvider
 {
-    public int TextureSlot = -1;
-    public int TextureHandle = -1;
-
     public Texture(Resources res, int resID) { super(res, resID); }
 
     @Override

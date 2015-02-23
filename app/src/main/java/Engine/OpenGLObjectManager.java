@@ -1,6 +1,7 @@
 package Engine;
 
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,23 +18,15 @@ public class OpenGLObjectManager
 {
     //Hier kun je echt kekke shit doen met datastructuren.
     public volatile static List<OpenGLObject> Drawables = new ArrayList<>();
-    private static OpenGLObject Grabbed;
+
     //Returns the first object that a ray cast through this point into the scene intersects with.
     //So that is the top-most object at this point.
     public static OpenGLObject FirstIntersection(PointF point)
     {
-       /* if(Grabbed != null) {
-
-            if(Grabbed.Intersects(point) < 0.15f)
-                return Grabbed;
-            else
-                Grabbed = null;
-        } */
         for(int i = Drawables.size()-1; i >= 0; i--)
         {
             if(Drawables.get(i).Intersects(point) < 0.005f)
             {
-                Grabbed = Drawables.get(i);
                 return Drawables.get(i);}
         }
         return null;
@@ -42,5 +35,19 @@ public class OpenGLObjectManager
     public static void MoveToFront(OpenGLObject oglObject)
     {
         Collections.rotate(Drawables.subList(Drawables.indexOf(oglObject), Drawables.size()), -1);
+    }
+
+    public static void MoveForward(OpenGLObject oglObject)
+    {
+        int oglObjectIndex = Drawables.indexOf(oglObject);
+        Drawables.set(oglObjectIndex, Drawables.get(oglObjectIndex + 1));
+        Drawables.set(oglObjectIndex + 1, oglObject);
+    }
+
+    public static void MoveBackward(OpenGLObject oglObject)
+    {
+        int oglObjectIndex = Drawables.indexOf(oglObject);
+        Drawables.set(oglObjectIndex, Drawables.get(oglObjectIndex - 1));
+        Drawables.set(oglObjectIndex - 1, oglObject);
     }
 }
