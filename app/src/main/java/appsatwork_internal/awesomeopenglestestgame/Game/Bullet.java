@@ -30,7 +30,7 @@ public class Bullet extends GameObject
 
     @Override
     public void Load() {
-        bullet = Canvas.DrawSprite(R.drawable.bullet, spawn, 0.03f, 0.12f, FittingType.Stretch);
+        bullet = Canvas.DrawSprite(R.drawable.bullet, spawn, 0.02f, 0.1f, FittingType.Stretch);
         velocity = new Velocity(direction, 0.05f);
     }
 

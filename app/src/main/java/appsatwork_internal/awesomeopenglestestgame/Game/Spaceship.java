@@ -35,7 +35,7 @@ public class Spaceship extends GameObject {
     {
         Position = new PointF(0,0);
         Direction = new Vector2(0,1);
-        ship = Canvas.DrawSprite(Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas), 0, new PointF(0,0), 0.2f, 0.3f, FittingType.Stretch);
+        ship = Canvas.DrawSprite(Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas), 0, new PointF(0,0), 0.3f, 0.45f, FittingType.Stretch);
     }
 
     @Override
