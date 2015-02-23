@@ -40,4 +40,9 @@ public class Bullet extends GameObject
         bullet.TranslateBy(velocity.SpeedVector.X, velocity.SpeedVector.Y);
         bullet.ApplyTransformations();
     }
+
+    public void Remove()
+    {
+        bullet.StopDrawing();
+    }
 }

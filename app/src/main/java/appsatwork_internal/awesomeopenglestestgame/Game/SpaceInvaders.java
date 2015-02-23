@@ -51,6 +51,9 @@ public class SpaceInvaders extends Game
         if(bulletCount >= bullets.length)
             bulletCount = 0;
 
+        if(bullets[bulletCount] != null)
+            bullets[bulletCount].Remove();
+
         bullets[bulletCount++] = new Bullet(Canvas, new PointF(ship.Position.x, ship.Position.y + 0.15f), ship.Direction.Clone());
     }
 
