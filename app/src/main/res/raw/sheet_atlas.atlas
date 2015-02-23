@@ -1,0 +1,8 @@
+<Atlas>
+	<Texture Index="0" X="0" Y="0" Width="256" Height="384"/>
+	<Texture Index="1" X="256" Y="0" Width="128" Height="128"/>
+	<Texture Index="2" X="256" Y="128" Width="128" Height="128"/>
+	<Texture Index="3" X="384" Y="0" Width="128" Height="128"/>
+	<Texture Index="4" X="384" Y="128" Width="128" Height="128"/>
+	<Texture Index="5" X="256" Y="256" Width="256" Height="256"/>
+</Atlas>
