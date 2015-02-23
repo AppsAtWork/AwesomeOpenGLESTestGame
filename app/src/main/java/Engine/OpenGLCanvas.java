@@ -18,6 +18,7 @@ import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureAtlas;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
 
+
 /**
  * Created by Casper on 16-2-2015.
  */
