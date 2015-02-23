@@ -16,6 +16,7 @@ import Engine.OpenGLObjects.Sprites.TextureManagement;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.SimpleTextureAtlas;
 import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
+import Engine.OpenGLObjects.Sprites.UVCoordProviders.VariableTextureAtlas;
 
 
 /**
@@ -29,7 +30,7 @@ public class OpenGLCanvas
         this.context = context;
     }
 
-    public SimpleTextureAtlas LoadTextureAtlas(int resourceID, int textureSize)
+    public SimpleTextureAtlas LoadSimpleTextureAtlas(int resourceID, int textureSize)
     {
         if(TextureManagement.GetTextureProvider(resourceID) == null)
         {
@@ -43,7 +44,21 @@ public class OpenGLCanvas
         }
     }
 
-    public AtlasSprite DrawSprite(SimpleTextureAtlas atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
+    public VariableTextureAtlas LoadVariableTextureAtlas(int resourceID, int xmlID)
+    {
+        if(TextureManagement.GetTextureProvider(resourceID) == null)
+        {
+            VariableTextureAtlas atlas = new VariableTextureAtlas(context.getResources(), resourceID, xmlID);
+            TextureManagement.EnableTextureProvider(atlas);
+            return atlas;
+        }
+        else
+        {
+            return (VariableTextureAtlas)TextureManagement.GetTextureProvider(resourceID);
+        }
+    }
+
+    public AtlasSprite DrawSprite(TextureProvider atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
     {
         AtlasSprite atlasSprite = new AtlasSprite(atlas, atlasIndex, center.x, center.y, width,height, type);
         atlasSprite.StartDrawing();

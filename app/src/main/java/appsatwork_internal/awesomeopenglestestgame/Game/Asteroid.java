@@ -5,6 +5,7 @@ import android.graphics.PointF;
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
 import Engine.OpenGLObjects.Sprites.FittingType;
+import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
 import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
 import Engine.Util.Vector2;
 import Engine.Util.Velocity;
@@ -15,7 +16,7 @@ import appsatwork_internal.awesomeopenglestestgame.R;
  */
 public class Asteroid extends GameObject
 {
-    private TextureSprite asteroid;
+    private AtlasSprite asteroid;
     private Velocity velocity;
 
     public Asteroid(OpenGLCanvas canvas)
@@ -26,7 +27,7 @@ public class Asteroid extends GameObject
 
     @Override
     public void Load() {
-        asteroid = Canvas.DrawSprite(R.drawable.asteroid, new PointF(0,0), 0.3f, 0.3f, FittingType.Stretch);
+        asteroid = Canvas.DrawSprite(Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas), 5, new PointF(0,0), 0.3f, 0.3f, FittingType.Stretch);
         velocity = new Velocity(new Vector2(1f, 1f), 0.005f);
     }
 

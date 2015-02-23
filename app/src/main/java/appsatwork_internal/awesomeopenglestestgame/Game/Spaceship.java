@@ -5,6 +5,7 @@ import android.graphics.PointF;
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
 import Engine.OpenGLObjects.Sprites.FittingType;
+import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
 import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
 import Engine.Util.Vector2;
 import appsatwork_internal.awesomeopenglestestgame.R;
@@ -13,7 +14,7 @@ import appsatwork_internal.awesomeopenglestestgame.R;
  * Created by Casper on 22-2-2015.
  */
 public class Spaceship extends GameObject {
-    TextureSprite ship;
+    AtlasSprite ship;
     public Vector2 Direction;
     public PointF Position;
 
@@ -34,7 +35,7 @@ public class Spaceship extends GameObject {
     {
         Position = new PointF(0,0);
         Direction = new Vector2(0,1);
-        ship = Canvas.DrawSprite(R.drawable.ship, new PointF(0,0), 0.2f, 0.3f, FittingType.Stretch);
+        ship = Canvas.DrawSprite(Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas), 0, new PointF(0,0), 0.2f, 0.3f, FittingType.Stretch);
     }
 
     @Override

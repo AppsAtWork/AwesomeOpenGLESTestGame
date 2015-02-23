@@ -131,12 +131,6 @@ public class SpaceInvaders extends Game
         fireButton = new FireButton(Canvas);
         Texture texture = new Texture(getResources(), R.drawable.bullet);
         TextureManagement.EnableTextureProvider(texture);
-
-        VariableTextureAtlas atlas = new VariableTextureAtlas(getResources(), R.drawable.sheet, R.raw.sheet_atlas);
-        TextureManagement.EnableTextureProvider(atlas);
-
-        AtlasSprite sprite = new AtlasSprite(atlas, 1, 0.0f, 0.0f, 0.3f, 0.3f, FittingType.Stretch);
-        sprite.StartDrawing();
     }
 
     @Override
