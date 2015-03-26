@@ -11,7 +11,6 @@ import java.util.Random;
 import Engine.Gaming.Game;
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
-import Engine.OpenGLObjectManager;
 import Engine.OpenGLObjects.OpenGLObject;
 import Engine.OpenGLObjects.Sprites.FittingType;
 import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
@@ -69,7 +68,7 @@ public class SpaceInvaders extends Game
             {
                 //Touching at one point
                 PointF worldCoords = ScreenSpaceToWorldSpace(new PointF(event.getX(), event.getY()));
-                boolean intersects = fireButton.Intersects(worldCoords);
+                boolean intersects = false;
 
                 if(intersects)
                 {
@@ -91,8 +90,8 @@ public class SpaceInvaders extends Game
                 PointF worldCoords1 = ScreenSpaceToWorldSpace(new PointF(event.getX(0), event.getY(0)));
                 PointF worldCoords2 = ScreenSpaceToWorldSpace(new PointF(event.getX(1), event.getY(1)));
                 //Touching at two points
-                boolean coords1Button = fireButton.Intersects(worldCoords1);
-                boolean coords2Button = fireButton.Intersects(worldCoords2);
+                boolean coords1Button = false;
+                boolean coords2Button = false;
 
                 if(coords1Button || coords2Button)
                 {

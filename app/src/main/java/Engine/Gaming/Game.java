@@ -26,7 +26,7 @@ public abstract class Game extends GLSurfaceView
         TimeStepMillis = (long)(1000.0f/(float)FPS);
         Canvas = new OpenGLCanvas(context);
         this.setEGLContextClientVersion(2);
-        renderer = new OpenGLRenderer(context, this);
+        renderer = new OpenGLRenderer(context, this, Canvas.DrawingList);
         this.setRenderer(renderer);
 
         //Don't wait till dirty
@@ -41,7 +41,7 @@ public abstract class Game extends GLSurfaceView
         TimeStepMillis = (long)(1000.0f/(float)FPS);
         Canvas = new OpenGLCanvas(context);
         this.setEGLContextClientVersion(2);
-        renderer = new OpenGLRenderer(context, this);
+        renderer = new OpenGLRenderer(context, this, Canvas.DrawingList);
         this.setRenderer(renderer);
 
         //Don't wait till dirty

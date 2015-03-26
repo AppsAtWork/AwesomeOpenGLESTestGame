@@ -1,13 +1,11 @@
 package Engine.OpenGLObjects;
 
-import android.graphics.PointF;
+import  android.graphics.PointF;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-
-import Engine.OpenGLObjectManager;
 
 /**
  * Created by Casper on 11-2-2015.
@@ -89,14 +87,4 @@ public abstract class OpenGLObject
     }
 
     public abstract float Intersects(PointF point);
-
-    public void StopDrawing()
-    {
-            OpenGLObjectManager.Drawables.remove(this);
-    }
-
-    public void StartDrawing()
-    {
-            OpenGLObjectManager.Drawables.add(this);
-    }
 }

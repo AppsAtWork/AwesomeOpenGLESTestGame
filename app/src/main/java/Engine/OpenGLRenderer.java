@@ -22,12 +22,14 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     private float[] ProjectionViewMatrix = new float[16];
     private int ShaderProgram = -1;
     private Context context;
+    private DrawingList drawingList;
     private Game game;
 
-    public OpenGLRenderer(Context c, Game g)
+    public OpenGLRenderer(Context c, Game game, DrawingList drawingList)
     {
         context = c;
-        game = g;
+        this.game = game;
+        this.drawingList = drawingList;
         previousTime = System.currentTimeMillis();
     }
 
@@ -104,8 +106,9 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        for(int i = 0; i < OpenGLObjectManager.Drawables.size(); i++) {
-            OpenGLObject obj = OpenGLObjectManager.Drawables.get(i);
+        for(int i = 0; i < drawingList.Size(); i++)
+        {
+            OpenGLObject obj = drawingList.Get(i);
             obj.Draw(ProjectionViewMatrix, ShaderProgram);
         }
     }

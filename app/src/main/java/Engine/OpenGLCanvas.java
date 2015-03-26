@@ -25,9 +25,11 @@ import Engine.OpenGLObjects.Sprites.UVCoordProviders.VariableTextureAtlas;
 public class OpenGLCanvas
 {
     private Context context;
+    public DrawingList DrawingList;
+
     public OpenGLCanvas(Context context)
     {
-        this.context = context;
+        this.context = context; this.DrawingList = new DrawingList();
     }
 
     public SimpleTextureAtlas LoadSimpleTextureAtlas(int resourceID, int textureSize)
@@ -61,7 +63,7 @@ public class OpenGLCanvas
     public AtlasSprite DrawSprite(TextureProvider atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
     {
         AtlasSprite atlasSprite = new AtlasSprite(atlas, atlasIndex, center.x, center.y, width,height, type);
-        atlasSprite.StartDrawing();
+        DrawingList.Add(atlasSprite);
         return atlasSprite;
     }
 
@@ -81,7 +83,7 @@ public class OpenGLCanvas
                 //Use the provided texture provider
                 Texture texture = (Texture)provider;
                 TextureSprite sprite = new TextureSprite(texture, center.x, center.y, width, height, type);
-                sprite.StartDrawing();
+                DrawingList.Add(sprite);
                 return sprite;
             }
             else
@@ -97,14 +99,14 @@ public class OpenGLCanvas
         Texture texture = new Texture(context.getResources(), resourceID);
         TextureSprite textureSprite = new TextureSprite(texture, center.x, center.y, width, height, type);
         TextureManagement.EnableTextureProvider(texture);
-        textureSprite.StartDrawing();
+        DrawingList.Add(textureSprite);
         return textureSprite;
     }
 
     public Triangle DrawTriangle(PointF pt1, PointF pt2, PointF pt3, float r, float g, float b, float alpha)
     {
         Triangle triangle = new Triangle(pt1, pt2, pt3, r,g,b,alpha);
-        triangle.StartDrawing();
+        DrawingList.Add(triangle);
         return triangle;
     }
 
@@ -114,7 +116,7 @@ public class OpenGLCanvas
     public Circle DrawCircle(PointF center, float radius, float r, float g, float b, float alpha)
     {
         Circle circle = new Circle(center.x, center.y, radius, new OpenGLColor(r,g,b,alpha));
-        circle.StartDrawing();
+        DrawingList.Add(circle);
         return circle;
     }
 
@@ -123,7 +125,7 @@ public class OpenGLCanvas
     public Line DrawLine(PointF pt1, PointF pt2, float thickness, float r, float g, float b, float alpha)
     {
         Line line = new Line(pt1, pt2,thickness, r,g,b,alpha);
-        line.StartDrawing();
+        DrawingList.Add(line);
         return line;
     }
 
@@ -132,14 +134,14 @@ public class OpenGLCanvas
     public Rectangle DrawRectangle(PointF center, float width, float height, float r, float g, float b, float alpha)
     {
         Rectangle rect = new Rectangle(center.x,center.y, width, height, r,g,b,alpha);
-        rect.StartDrawing();
+        DrawingList.Add(rect);
         return rect;
     }
 
     public RegularPolygon DrawRegularPolygon(PointF center, float radius, int corners, OpenGLColor color)
     {
         RegularPolygon pol = new RegularPolygon(center.x, center.y, radius, corners, color);
-        pol.StartDrawing();
+        DrawingList.Add(pol);
         return pol;
     }
 }

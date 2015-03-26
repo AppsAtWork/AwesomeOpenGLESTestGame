@@ -2,9 +2,7 @@ package Engine.Gaming;
 
 
 import Engine.OpenGLCanvas;
-import Engine.OpenGLObjectManager;
-import Engine.OpenGLObjects.OpenGLObject;
-import Engine.OpenGLObjects.Sprites.TextureManagement;
+import Engine.OpenGLObjects.OpenGLObject;;
 
 /**
  * Created by Casper on 22-2-2015.
@@ -22,13 +20,4 @@ public abstract class GameObject
     public abstract void Load();
 
     public abstract void Update();
-
-    public void MoveToFront()
-    {
-        OpenGLObjectManager.MoveToFront(OGLObject);
-    }
-
-    public void MoveForward() {OpenGLObjectManager.MoveForward(OGLObject);}
-
-    public void MoveBackward() {OpenGLObjectManager.MoveBackward(OGLObject);}
 }

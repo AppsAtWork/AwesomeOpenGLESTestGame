@@ -43,6 +43,6 @@ public class Bullet extends GameObject
 
     public void Remove()
     {
-        bullet.StopDrawing();
+        Canvas.DrawingList.Remove(bullet);
     }
 }

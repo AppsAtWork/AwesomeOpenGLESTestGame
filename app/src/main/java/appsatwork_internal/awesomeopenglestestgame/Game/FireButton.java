@@ -4,9 +4,7 @@ import android.graphics.PointF;
 
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
-import Engine.OpenGLObjectManager;
 import Engine.OpenGLObjects.OpenGLColor;
-import Engine.OpenGLObjects.OpenGLObject;
 
 /**
  * Created by Casper on 23-2-2015.
@@ -30,10 +28,5 @@ public class FireButton extends GameObject
     public void Update()
     {
 
-    }
-
-    public boolean Intersects(PointF coords)
-    {
-        return(OpenGLObjectManager.FirstIntersection(coords)) == OGLObject;
     }
 }
