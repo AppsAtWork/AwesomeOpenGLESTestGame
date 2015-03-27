@@ -1,19 +1,19 @@
-package Engine;
+package Engine.Drawing;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Engine.OpenGLObjects.OpenGLObject;
+import Engine.Objects.OpenGLObject;
 
 /**
  * Created by Casper on 3/26/2015.
  */
-public class DrawingList
+public class DrawableList
 {
     private volatile static List<OpenGLObject> Drawables;
 
-    public DrawingList()
+    public DrawableList()
     {
         Drawables = new ArrayList<OpenGLObject>();
     }

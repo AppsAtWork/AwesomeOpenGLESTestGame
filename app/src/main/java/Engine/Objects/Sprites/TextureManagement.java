@@ -1,14 +1,13 @@
-package Engine.OpenGLObjects.Sprites;
+package Engine.Objects.Sprites;
 
-import android.content.res.Resources;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
+import Engine.Objects.Sprites.UVCoordProviders.Texture;
+import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
 
 /**
  * Created by Casper on 16-2-2015.

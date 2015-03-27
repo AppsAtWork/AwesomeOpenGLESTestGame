@@ -1,6 +1,9 @@
-package Engine.OpenGLObjects.Geometry;
+package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
+
+import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.TriangleDrawingListGenerator;
 
 /**
  * Created by Casper on 11-2-2015.
@@ -31,16 +34,9 @@ public class Triangle extends OpenGLGeometry
                   point2.x - center.x, point2.y - center.y, 0.0f,
                   point3.x - center.x, point3.y - center.y, 0.0f
                 };
-
+        this.drawer = new OpenGLGeometryDrawer(this);
+        this.DrawingListGenerator = new TriangleDrawingListGenerator();
         UpdateVertexBuffer();
-        UpdateDrawListBuffer();
-    }
-
-    @Override
-    protected void UpdateDrawListBuffer()
-    {
-        drawingOrder = new short[] {0,1,2};
-        CreateDrawListBuffer();
     }
 
     @Override

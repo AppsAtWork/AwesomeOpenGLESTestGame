@@ -3,20 +3,20 @@ package Engine;
 import android.content.Context;
 import android.graphics.PointF;
 
-import Engine.OpenGLObjects.Geometry.Circle;
-import Engine.OpenGLObjects.Geometry.Line;
-import Engine.OpenGLObjects.Geometry.Rectangle;
-import Engine.OpenGLObjects.Geometry.RegularPolygon;
-import Engine.OpenGLObjects.Geometry.Triangle;
-import Engine.OpenGLObjects.OpenGLColor;
-import Engine.OpenGLObjects.Sprites.FittingType;
-import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
-import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
-import Engine.OpenGLObjects.Sprites.TextureManagement;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.SimpleTextureAtlas;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.VariableTextureAtlas;
+import Engine.Drawing.DrawableList;
+import Engine.Objects.Geometry.Line;
+import Engine.Objects.Geometry.Rectangle;
+import Engine.Objects.Geometry.RegularPolygon;
+import Engine.Objects.Geometry.Triangle;
+import Engine.Objects.Sprites.FittingType;
+import Engine.Objects.Sprites.SpriteObjects.AtlasSprite;
+import Engine.Objects.Sprites.SpriteObjects.TextureSprite;
+import Engine.Objects.Sprites.TextureManagement;
+import Engine.Objects.Sprites.UVCoordProviders.Texture;
+import Engine.Objects.Sprites.UVCoordProviders.SimpleTextureAtlas;
+import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
+import Engine.Objects.Sprites.UVCoordProviders.VariableTextureAtlas;
+import Engine.Util.Color;
 
 
 /**
@@ -25,11 +25,11 @@ import Engine.OpenGLObjects.Sprites.UVCoordProviders.VariableTextureAtlas;
 public class OpenGLCanvas
 {
     private Context context;
-    public DrawingList DrawingList;
+    public Engine.Drawing.DrawableList DrawableList;
 
     public OpenGLCanvas(Context context)
     {
-        this.context = context; this.DrawingList = new DrawingList();
+        this.context = context; this.DrawableList = new DrawableList();
     }
 
     public SimpleTextureAtlas LoadSimpleTextureAtlas(int resourceID, int textureSize)
@@ -63,7 +63,7 @@ public class OpenGLCanvas
     public AtlasSprite DrawSprite(TextureProvider atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
     {
         AtlasSprite atlasSprite = new AtlasSprite(atlas, atlasIndex, center.x, center.y, width,height, type);
-        DrawingList.Add(atlasSprite);
+        DrawableList.Add(atlasSprite);
         return atlasSprite;
     }
 
@@ -83,7 +83,7 @@ public class OpenGLCanvas
                 //Use the provided texture provider
                 Texture texture = (Texture)provider;
                 TextureSprite sprite = new TextureSprite(texture, center.x, center.y, width, height, type);
-                DrawingList.Add(sprite);
+                DrawableList.Add(sprite);
                 return sprite;
             }
             else
@@ -99,25 +99,15 @@ public class OpenGLCanvas
         Texture texture = new Texture(context.getResources(), resourceID);
         TextureSprite textureSprite = new TextureSprite(texture, center.x, center.y, width, height, type);
         TextureManagement.EnableTextureProvider(texture);
-        DrawingList.Add(textureSprite);
+        DrawableList.Add(textureSprite);
         return textureSprite;
     }
 
     public Triangle DrawTriangle(PointF pt1, PointF pt2, PointF pt3, float r, float g, float b, float alpha)
     {
         Triangle triangle = new Triangle(pt1, pt2, pt3, r,g,b,alpha);
-        DrawingList.Add(triangle);
+        DrawableList.Add(triangle);
         return triangle;
-    }
-
-    //Draw a circle with the specified radius and center point.
-    //Coordinates and lengths are in world space.
-    //Returns a circle that can be manipulated flexibly (but indirectly).
-    public Circle DrawCircle(PointF center, float radius, float r, float g, float b, float alpha)
-    {
-        Circle circle = new Circle(center.x, center.y, radius, new OpenGLColor(r,g,b,alpha));
-        DrawingList.Add(circle);
-        return circle;
     }
 
     //Draw a line between pt1 and pt2 with thickness. Coordinates and lengths are in world space.
@@ -125,7 +115,7 @@ public class OpenGLCanvas
     public Line DrawLine(PointF pt1, PointF pt2, float thickness, float r, float g, float b, float alpha)
     {
         Line line = new Line(pt1, pt2,thickness, r,g,b,alpha);
-        DrawingList.Add(line);
+        DrawableList.Add(line);
         return line;
     }
 
@@ -134,14 +124,14 @@ public class OpenGLCanvas
     public Rectangle DrawRectangle(PointF center, float width, float height, float r, float g, float b, float alpha)
     {
         Rectangle rect = new Rectangle(center.x,center.y, width, height, r,g,b,alpha);
-        DrawingList.Add(rect);
+        DrawableList.Add(rect);
         return rect;
     }
 
-    public RegularPolygon DrawRegularPolygon(PointF center, float radius, int corners, OpenGLColor color)
+    public RegularPolygon DrawRegularPolygon(PointF center, float radius, int corners, Color color)
     {
         RegularPolygon pol = new RegularPolygon(center.x, center.y, radius, corners, color);
-        DrawingList.Add(pol);
+        DrawableList.Add(pol);
         return pol;
     }
 }

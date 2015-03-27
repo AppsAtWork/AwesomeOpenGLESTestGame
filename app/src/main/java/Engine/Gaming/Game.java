@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
-import android.view.View;
-
-import java.util.List;
 
 import Engine.OpenGLCanvas;
 import Engine.OpenGLRenderer;
@@ -26,7 +23,7 @@ public abstract class Game extends GLSurfaceView
         TimeStepMillis = (long)(1000.0f/(float)FPS);
         Canvas = new OpenGLCanvas(context);
         this.setEGLContextClientVersion(2);
-        renderer = new OpenGLRenderer(context, this, Canvas.DrawingList);
+        renderer = new OpenGLRenderer(context, this, Canvas.DrawableList);
         this.setRenderer(renderer);
 
         //Don't wait till dirty
@@ -41,7 +38,7 @@ public abstract class Game extends GLSurfaceView
         TimeStepMillis = (long)(1000.0f/(float)FPS);
         Canvas = new OpenGLCanvas(context);
         this.setEGLContextClientVersion(2);
-        renderer = new OpenGLRenderer(context, this, Canvas.DrawingList);
+        renderer = new OpenGLRenderer(context, this, Canvas.DrawableList);
         this.setRenderer(renderer);
 
         //Don't wait till dirty

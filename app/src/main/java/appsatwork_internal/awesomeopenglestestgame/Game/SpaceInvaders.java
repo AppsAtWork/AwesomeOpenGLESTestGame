@@ -9,17 +9,8 @@ import android.view.View;
 import java.util.Random;
 
 import Engine.Gaming.Game;
-import Engine.Gaming.GameObject;
-import Engine.OpenGLCanvas;
-import Engine.OpenGLObjects.OpenGLObject;
-import Engine.OpenGLObjects.Sprites.FittingType;
-import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
-import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
-import Engine.OpenGLObjects.Sprites.TextureManagement;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.Texture;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.VariableTextureAtlas;
-import Engine.Util.Vector2;
-import Engine.Util.Velocity;
+import Engine.Objects.Sprites.TextureManagement;
+import Engine.Objects.Sprites.UVCoordProviders.Texture;
 import appsatwork_internal.awesomeopenglestestgame.R;
 
 /**

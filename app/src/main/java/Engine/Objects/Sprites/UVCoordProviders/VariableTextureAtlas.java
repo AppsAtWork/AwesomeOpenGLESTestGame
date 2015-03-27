@@ -1,25 +1,15 @@
-package Engine.OpenGLObjects.Sprites.UVCoordProviders;
+package Engine.Objects.Sprites.UVCoordProviders;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
-import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import appsatwork_internal.awesomeopenglestestgame.R;
 
 /**
  * Created by Casper on 23-2-2015.

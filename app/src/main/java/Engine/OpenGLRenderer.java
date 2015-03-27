@@ -9,8 +9,9 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import Engine.Drawing.DrawableList;
 import Engine.Gaming.Game;
-import Engine.OpenGLObjects.OpenGLObject;
+import Engine.Objects.OpenGLObject;
 
 /**
  * Created by Casper on 7-2-2015.
@@ -22,14 +23,14 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     private float[] ProjectionViewMatrix = new float[16];
     private int ShaderProgram = -1;
     private Context context;
-    private DrawingList drawingList;
+    private DrawableList drawableList;
     private Game game;
 
-    public OpenGLRenderer(Context c, Game game, DrawingList drawingList)
+    public OpenGLRenderer(Context c, Game game, DrawableList drawableList)
     {
         context = c;
         this.game = game;
-        this.drawingList = drawingList;
+        this.drawableList = drawableList;
         previousTime = System.currentTimeMillis();
     }
 
@@ -106,9 +107,9 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Clear the screen. I'd like to comment this out sometime, for the yolo.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        for(int i = 0; i < drawingList.Size(); i++)
+        for(int i = 0; i < drawableList.Size(); i++)
         {
-            OpenGLObject obj = drawingList.Get(i);
+            OpenGLObject obj = drawableList.Get(i);
             obj.Draw(ProjectionViewMatrix, ShaderProgram);
         }
     }

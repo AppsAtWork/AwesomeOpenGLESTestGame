@@ -6,8 +6,7 @@ import java.util.Random;
 
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
-import Engine.OpenGLObjects.Sprites.FittingType;
-import Engine.OpenGLObjects.Sprites.SpriteObjects.AtlasSprite;
+import Engine.Objects.Sprites.FittingType;
 import Engine.Util.Vector2;
 import Engine.Util.Velocity;
 import appsatwork_internal.awesomeopenglestestgame.R;
@@ -40,7 +39,7 @@ public class Enemy extends GameObject
 
     public void Reset()
     {
-        Canvas.DrawingList.Remove(OGLObject);
+        Canvas.DrawableList.Remove(OGLObject);
         OGLObject = Canvas.DrawSprite(Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas), rand.nextInt(4) + 1, new PointF(rand.nextFloat()*0.6f - 0.3f, 2.0f), 0.2f, 0.2f, FittingType.Stretch);
     }
 }

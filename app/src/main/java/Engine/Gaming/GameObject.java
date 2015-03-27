@@ -2,7 +2,7 @@ package Engine.Gaming;
 
 
 import Engine.OpenGLCanvas;
-import Engine.OpenGLObjects.OpenGLObject;;
+import Engine.Objects.OpenGLObject;;
 
 /**
  * Created by Casper on 22-2-2015.

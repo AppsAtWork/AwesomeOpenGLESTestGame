@@ -1,9 +1,9 @@
-package Engine.OpenGLObjects.Geometry;
+package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.RectangleDrawingListGenerator;
 
 /**
  * Created by Casper on 7-2-2015.
@@ -61,17 +61,12 @@ public class Rectangle extends OpenGLGeometry
         translation = new float[]{centerX, centerY};
 
         color = new float[]{r, g, b, a};
+        this.DrawingListGenerator = new RectangleDrawingListGenerator();
+        this.drawer = new OpenGLGeometryDrawer(this);
         BaseWidth = width;
         BaseHeight = height;
 
         UpdateVertexBuffer();
-        UpdateDrawListBuffer();
-    }
-
-    protected void UpdateDrawListBuffer()
-    {
-        drawingOrder = new short[] {0,1,2,0,2,3};
-        CreateDrawListBuffer();
     }
 
     @Override

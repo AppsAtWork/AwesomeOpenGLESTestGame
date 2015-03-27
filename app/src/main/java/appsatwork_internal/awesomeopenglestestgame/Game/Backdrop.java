@@ -4,8 +4,8 @@ import android.graphics.PointF;
 
 import Engine.Gaming.GameObject;
 import Engine.OpenGLCanvas;
-import Engine.OpenGLObjects.Sprites.FittingType;
-import Engine.OpenGLObjects.Sprites.SpriteObjects.TextureSprite;
+import Engine.Objects.Sprites.FittingType;
+import Engine.Objects.Sprites.SpriteObjects.TextureSprite;
 import appsatwork_internal.awesomeopenglestestgame.R;
 
 /**

@@ -1,4 +1,4 @@
-package Engine.OpenGLObjects.Sprites;
+package Engine.Objects.Sprites;
 
 /**
  * Created by Casper on 21-2-2015.

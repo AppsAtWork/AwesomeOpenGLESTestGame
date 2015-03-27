@@ -1,11 +1,10 @@
-package Engine.OpenGLObjects.Geometry;
+package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
-import Engine.OpenGLObjects.OpenGLColor;
+import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.RegularPolygonDrawingListGenerator;
+import Engine.Util.Color;
 
 /**
  * Created by Casper on 16-2-2015.
@@ -16,14 +15,15 @@ public class RegularPolygon extends OpenGLGeometry {
     public float Radius() { return BaseRadius * scale; }
     public float BaseRadius;
 
-    public RegularPolygon(float centerX, float centerY, float radius, float n, OpenGLColor col){
+    public RegularPolygon(float centerX, float centerY, float radius, float n, Color col){
         SetColor(col);
         baseVertices = GenerateVertices(0,0,radius,n);
         vertices = GenerateVertices(centerX,centerY,radius,n);
         translation = new float[]{centerX, centerY};
         BaseRadius = radius;
+        this.DrawingListGenerator = new RegularPolygonDrawingListGenerator(n);
+        this.drawer = new OpenGLGeometryDrawer(this);
         UpdateVertexBuffer();
-        UpdateDrawListBuffer();
     }
 
     private float[] GenerateVertices(float x, float y, float r, float n)
@@ -44,20 +44,6 @@ public class RegularPolygon extends OpenGLGeometry {
         vertices[i++] = (0.0f);
 
         return vertices;
-    }
-
-    @Override
-    protected void UpdateDrawListBuffer() {
-        drawingOrder = new short[vertices.length - 3];
-        drawingOrder[0] = 0;
-        int vertexNumber = 1;
-        for(int i = 1; i < drawingOrder.length-3; i+=3)
-        {
-            drawingOrder[i] = (short)(vertexNumber);
-            drawingOrder[i+1] = (short)(++vertexNumber);
-            drawingOrder[i+2] = 0;
-        }
-        CreateDrawListBuffer();
     }
 
     @Override

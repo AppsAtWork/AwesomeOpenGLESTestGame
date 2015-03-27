@@ -1,4 +1,4 @@
-package Engine.OpenGLObjects.Sprites.SpriteObjects;
+package Engine.Objects.Sprites.SpriteObjects;
 
 import android.graphics.PointF;
 import android.opengl.GLES20;
@@ -7,10 +7,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import Engine.OpenGLObjects.OpenGLObject;
-import Engine.OpenGLObjects.Sprites.FittingType;
-import Engine.OpenGLObjects.Sprites.TextureManagement;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
+import Engine.Objects.OpenGLObject;
+import Engine.Objects.Sprites.FittingType;
+import Engine.Objects.Sprites.TextureManagement;
+import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
 
 /**
  * Created by Casper on 21-2-2015.
@@ -84,7 +84,7 @@ public class OpenGLSprite extends OpenGLObject
         BaseHeight = height;
 
         UpdateVertexBuffer();
-        UpdateDrawListBuffer();
+        CreateDrawListBuffer();
     }
 
 
@@ -137,10 +137,10 @@ public class OpenGLSprite extends OpenGLObject
     }
 
     @Override
-    protected void UpdateDrawListBuffer()
+    protected void CreateDrawListBuffer()
     {
         drawingOrder = new short[] {0,1,2,0,2,3};
-        CreateDrawListBuffer();
+        UpdateDrawListBuffer();
     }
 
     protected void UpdateUVBuffer()

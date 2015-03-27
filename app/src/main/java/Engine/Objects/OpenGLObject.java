@@ -1,29 +1,34 @@
-package Engine.OpenGLObjects;
+package Engine.Objects;
 
 import  android.graphics.PointF;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
+
+import Engine.Drawing.Drawers.OpenGLDrawer;
+import Engine.Drawing.DrawingListGenerators.IDrawingListGenerator;
 
 /**
  * Created by Casper on 11-2-2015.
  */
 public abstract class OpenGLObject
 {
+    public IDrawingListGenerator DrawingListGenerator;
+    protected OpenGLDrawer drawer;
+
     protected float[] vertices;
     protected float[] baseVertices;
-    protected short[] drawingOrder;
 
     protected FloatBuffer vertexBuffer;
-    protected ShortBuffer drawListBuffer;
 
     protected float scale = 1;
     protected float degrees = 0;
     protected float[] translation = new float[] {0,0};
 
-    public abstract void Draw(float[] projectionViewMatrix, int program);
+    public void Draw(float[] projectionViewMatrix, int program){
+        drawer.Draw(projectionViewMatrix, program);
+    }
 
     public abstract PointF Center();
 
@@ -64,6 +69,8 @@ public abstract class OpenGLObject
 
     public void RotateBy(float degrees) { this.degrees += degrees; }
 
+    public FloatBuffer GetVertexBuffer(){ return vertexBuffer; }
+
     protected void UpdateVertexBuffer()
     {
         //Each float takes 4 bytes
@@ -72,18 +79,6 @@ public abstract class OpenGLObject
         vertexBuffer = buffer.asFloatBuffer();
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
-    }
-
-    protected abstract void UpdateDrawListBuffer();
-
-    protected void CreateDrawListBuffer()
-    {
-        //Each short takes up 2 bytes.
-        ByteBuffer buffer = ByteBuffer.allocateDirect(drawingOrder.length * 2);
-        buffer.order(ByteOrder.nativeOrder());
-        drawListBuffer = buffer.asShortBuffer();
-        drawListBuffer.put(drawingOrder);
-        drawListBuffer.position(0);
     }
 
     public abstract float Intersects(PointF point);

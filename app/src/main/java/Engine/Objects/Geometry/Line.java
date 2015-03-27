@@ -1,7 +1,9 @@
-package Engine.OpenGLObjects.Geometry;
+package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
-import android.opengl.GLES20;
+
+import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.LineDrawingListGenerator;
 
 /**
  * Created by Casper on 2/12/2015.
@@ -33,8 +35,9 @@ public class Line extends OpenGLGeometry
         };
 
         color = new float[] { r,g,b,alpha};
+        this.drawer = new OpenGLGeometryDrawer(this);
+        this.DrawingListGenerator = new LineDrawingListGenerator();
         UpdateVertexBuffer();
-        UpdateDrawListBuffer();
     }
 
     @Override
@@ -42,13 +45,6 @@ public class Line extends OpenGLGeometry
     {
         super.ApplyTransformations();
         Thickness = BaseThickness * scale;
-    }
-
-    @Override
-    protected void UpdateDrawListBuffer()
-    {
-        drawingOrder = new short[] { 0,1 };
-        CreateDrawListBuffer();
     }
 
     @Override
@@ -61,17 +57,5 @@ public class Line extends OpenGLGeometry
     {
         float upper = Math.abs((P2().y - P1().y)*point.x - (P2().x-P1().x)*point.y + P2().x*P1().y-P2().y*P1().x);
         return (float)(upper/(Math.sqrt((P2().y-P1().y)*(P2().y-P1().y) + (P2().x - P1().x)* (P2().x - P1().x))));
-    }
-
-    @Override
-    public void Draw(float[] projectionViewMatrix, int program)
-    {
-        GLES20.glLineWidth(Thickness);
-        GLESDrawingMode = GLES20.GL_LINES;
-
-        super.Draw(projectionViewMatrix, program);
-
-        GLES20.glLineWidth(1.0f);
-        GLESDrawingMode = GLES20.GL_TRIANGLES;
     }
 }

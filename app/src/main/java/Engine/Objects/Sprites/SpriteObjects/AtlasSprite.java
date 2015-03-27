@@ -1,8 +1,7 @@
-package Engine.OpenGLObjects.Sprites.SpriteObjects;
+package Engine.Objects.Sprites.SpriteObjects;
 
-import Engine.OpenGLObjects.Sprites.FittingType;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.SimpleTextureAtlas;
-import Engine.OpenGLObjects.Sprites.UVCoordProviders.TextureProvider;
+import Engine.Objects.Sprites.FittingType;
+import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
 
 /**
  * Created by Casper on 11-2-2015.
