@@ -5,7 +5,7 @@ import android.graphics.PointF;
 import java.util.Random;
 
 import Engine.Gaming.GameObject;
-import Engine.OpenGLCanvas;
+import Engine.Drawing.OpenGLCanvas;
 import Engine.Objects.Sprites.FittingType;
 import Engine.Util.Vector2;
 import Engine.Util.Velocity;

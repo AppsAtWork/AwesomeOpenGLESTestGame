@@ -2,28 +2,32 @@ package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
 
-import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
-import Engine.Drawing.DrawingListGenerators.RegularPolygonDrawingListGenerator;
+import Engine.Drawing.Drawers.GeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.RegularPolygonDrawingList;
 import Engine.Util.Color;
 
 /**
  * Created by Casper on 16-2-2015.
  */
-public class RegularPolygon extends OpenGLGeometry {
+public class RegularPolygon extends Geometry {
 
     public PointF Center() { return new PointF(translation[0], translation[1]);}
     public float Radius() { return BaseRadius * scale; }
     public float BaseRadius;
 
-    public RegularPolygon(float centerX, float centerY, float radius, float n, Color col){
+    public RegularPolygon(float centerX, float centerY, float radius, float n, Color col)
+    {
         SetColor(col);
+
         baseVertices = GenerateVertices(0,0,radius,n);
+
         vertices = GenerateVertices(centerX,centerY,radius,n);
         translation = new float[]{centerX, centerY};
+
         BaseRadius = radius;
-        this.DrawingListGenerator = new RegularPolygonDrawingListGenerator(n);
-        this.drawer = new OpenGLGeometryDrawer(this);
-        UpdateVertexBuffer();
+
+        this.DrawingList = new RegularPolygonDrawingList(n);
+        this.drawer = new GeometryDrawer(this);
     }
 
     private float[] GenerateVertices(float x, float y, float r, float n)

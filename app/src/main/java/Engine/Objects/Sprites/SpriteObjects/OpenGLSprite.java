@@ -1,15 +1,15 @@
 package Engine.Objects.Sprites.SpriteObjects;
 
 import android.graphics.PointF;
-import android.opengl.GLES20;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import Engine.Drawing.Drawers.TextureDrawer;
+import Engine.Drawing.DrawingListGenerators.RectangleDrawingList;
 import Engine.Objects.OpenGLObject;
 import Engine.Objects.Sprites.FittingType;
-import Engine.Objects.Sprites.TextureManagement;
 import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
 
 /**
@@ -20,13 +20,13 @@ public class OpenGLSprite extends OpenGLObject
     protected float uvs[] = new float[8];
     protected FloatBuffer uvBuffer;
 
-    public float Width() {return BaseWidth*scale;}
+    public float Width() {return BaseWidth * scale;}
     public float Height() {return BaseHeight * scale;}
 
     protected float BaseWidth;
     protected float BaseHeight;
 
-    protected TextureProvider textureProvider;
+    public TextureProvider TextureProvider;
     protected int TextureIndex;
 
     @Override
@@ -62,7 +62,7 @@ public class OpenGLSprite extends OpenGLObject
 
     public OpenGLSprite(TextureProvider provider, float centerX, float centerY, float width, float height, FittingType fittingType)
     {
-        textureProvider = provider;
+        TextureProvider = provider;
 
         baseVertices = new float[]{
                 -width / 2.0f, height / 2.0f, 0.0f,
@@ -83,69 +83,15 @@ public class OpenGLSprite extends OpenGLObject
         BaseWidth = width;
         BaseHeight = height;
 
-        UpdateVertexBuffer();
-        CreateDrawListBuffer();
+        this.DrawingList = new RectangleDrawingList();
+        this.drawer = new TextureDrawer(this);
     }
 
-
-    @Override
-    public void Draw(float[] projectionViewMatrix, int program)
-    {
-        if(TextureManagement.ResendTextures)
-            TextureManagement.SendTextures();
-
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureProvider.TextureSlot);
-        int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
-
-        GLES20.glEnableVertexAttribArray(positionHandle);
-
-        //Send the vertex data to the OpenGLES pipeline.
-        GLES20.glVertexAttribPointer(
-                positionHandle, //Which variable will hold the vertices
-                3, //The amount of floats used to represents a vertex.
-                GLES20.GL_FLOAT, //Tell OpenGLES that we are using floats
-                false,
-                0, //We can pass 0 here, because we use the drawingOrder in the drawListBuffer
-                vertexBuffer);
-
-        //Need to send the uv coords to OpenGLES as well
-        int texCoordHandle = GLES20.glGetAttribLocation(program, "a_texCoord");
-
-        //Enable a 'vertex' array to contain the UV vertices
-        GLES20.glEnableVertexAttribArray(texCoordHandle);
-
-        //Send the uv buffer over to OpenGLES
-        GLES20.glVertexAttribPointer(texCoordHandle, 2, GLES20.GL_FLOAT, false, 0, uvBuffer);
-
-        //Set the projection matrix in the shader.
-        int projectionMatrixHandle = GLES20.glGetUniformLocation(program, "uMVPMatrix");
-        GLES20.glUniformMatrix4fv(projectionMatrixHandle, 1, false, projectionViewMatrix, 0);
-
-        //Send over the drawing type to the shader (1 = texture).
-        GLES20.glUniform1i(GLES20.glGetUniformLocation(program, "drawingType"), 1);
-
-        //Get the texture sampler and set it to 0. 0 is the position where the texture is stored in SendTextureToOpenGLES().
-        int samplerHandle = GLES20.glGetUniformLocation(program, "s_texture");
-        GLES20.glUniform1i(samplerHandle, textureProvider.TextureSlot);
-
-        //Draw the sprite with the texture
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawingOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-
-        //Disable the arrays again
-        GLES20.glDisableVertexAttribArray(positionHandle);
-        GLES20.glDisableVertexAttribArray(texCoordHandle);
-    }
-
-    @Override
-    protected void CreateDrawListBuffer()
-    {
-        drawingOrder = new short[] {0,1,2,0,2,3};
-        UpdateDrawListBuffer();
-    }
+    public FloatBuffer GetUVBuffer() {return this.uvBuffer;}
 
     protected void UpdateUVBuffer()
     {
-        uvs = textureProvider.GetUVCoords(TextureIndex);
+        uvs = TextureProvider.GetUVCoords(TextureIndex);
         CreateUVBuffer();
     }
 

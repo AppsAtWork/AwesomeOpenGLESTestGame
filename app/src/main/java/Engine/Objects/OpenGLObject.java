@@ -1,36 +1,30 @@
 package Engine.Objects;
 
 import  android.graphics.PointF;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
-import Engine.Drawing.Drawers.OpenGLDrawer;
-import Engine.Drawing.DrawingListGenerators.IDrawingListGenerator;
+import Engine.Drawing.Drawers.Drawer;
+import Engine.Drawing.DrawingListGenerators.DrawingList;
 
 /**
  * Created by Casper on 11-2-2015.
  */
 public abstract class OpenGLObject
 {
-    public IDrawingListGenerator DrawingListGenerator;
-    protected OpenGLDrawer drawer;
+    public DrawingList DrawingList;
+    protected Drawer drawer;
 
     protected float[] vertices;
     protected float[] baseVertices;
-
-    protected FloatBuffer vertexBuffer;
 
     protected float scale = 1;
     protected float degrees = 0;
     protected float[] translation = new float[] {0,0};
 
-    public void Draw(float[] projectionViewMatrix, int program){
+    public abstract PointF Center();
+
+    public void Draw(float[] projectionViewMatrix, int program)
+    {
         drawer.Draw(projectionViewMatrix, program);
     }
-
-    public abstract PointF Center();
 
     public void ApplyTransformations()
     {
@@ -55,8 +49,7 @@ public abstract class OpenGLObject
             //Set the third element to 0, we're not working in 3D.
             vertices[i+2] = 0.0f;
         }
-
-        UpdateVertexBuffer();
+        drawer.SetDirty();
     }
 
     public void SetScale(float factor) { scale = factor; }
@@ -69,17 +62,7 @@ public abstract class OpenGLObject
 
     public void RotateBy(float degrees) { this.degrees += degrees; }
 
-    public FloatBuffer GetVertexBuffer(){ return vertexBuffer; }
-
-    protected void UpdateVertexBuffer()
-    {
-        //Each float takes 4 bytes
-        ByteBuffer buffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        buffer.order(ByteOrder.nativeOrder());
-        vertexBuffer = buffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-    }
+    public float[] GetVertices(){ return vertices; }
 
     public abstract float Intersects(PointF point);
 }

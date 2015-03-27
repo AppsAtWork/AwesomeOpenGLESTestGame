@@ -11,7 +11,7 @@ import Engine.Objects.OpenGLObject;
  */
 public class DrawableList
 {
-    private volatile static List<OpenGLObject> Drawables;
+    private volatile List<OpenGLObject> Drawables;
 
     public DrawableList()
     {

@@ -2,13 +2,13 @@ package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
 
-import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
-import Engine.Drawing.DrawingListGenerators.RectangleDrawingListGenerator;
+import Engine.Drawing.Drawers.GeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.RectangleDrawingList;
 
 /**
  * Created by Casper on 7-2-2015.
  */
-public class Rectangle extends OpenGLGeometry
+public class Rectangle extends Geometry
 {
     public float Width() {return BaseWidth*scale;}
     public float Height() {return BaseHeight * scale;}
@@ -61,12 +61,11 @@ public class Rectangle extends OpenGLGeometry
         translation = new float[]{centerX, centerY};
 
         color = new float[]{r, g, b, a};
-        this.DrawingListGenerator = new RectangleDrawingListGenerator();
-        this.drawer = new OpenGLGeometryDrawer(this);
         BaseWidth = width;
         BaseHeight = height;
 
-        UpdateVertexBuffer();
+        this.DrawingList = new RectangleDrawingList();
+        this.drawer = new GeometryDrawer(this);
     }
 
     @Override

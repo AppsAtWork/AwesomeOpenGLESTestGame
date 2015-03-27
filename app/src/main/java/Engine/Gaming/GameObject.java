@@ -1,7 +1,7 @@
 package Engine.Gaming;
 
 
-import Engine.OpenGLCanvas;
+import Engine.Drawing.OpenGLCanvas;
 import Engine.Objects.OpenGLObject;;
 
 /**

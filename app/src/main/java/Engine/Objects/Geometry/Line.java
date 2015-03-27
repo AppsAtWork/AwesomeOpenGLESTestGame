@@ -2,13 +2,13 @@ package Engine.Objects.Geometry;
 
 import android.graphics.PointF;
 
-import Engine.Drawing.Drawers.OpenGLGeometryDrawer;
-import Engine.Drawing.DrawingListGenerators.LineDrawingListGenerator;
+import Engine.Drawing.Drawers.GeometryDrawer;
+import Engine.Drawing.DrawingListGenerators.LineDrawingList;
 
 /**
  * Created by Casper on 2/12/2015.
  */
-public class Line extends OpenGLGeometry
+public class Line extends Geometry
 {
     private float BaseThickness;
     private float Thickness;
@@ -35,9 +35,8 @@ public class Line extends OpenGLGeometry
         };
 
         color = new float[] { r,g,b,alpha};
-        this.drawer = new OpenGLGeometryDrawer(this);
-        this.DrawingListGenerator = new LineDrawingListGenerator();
-        UpdateVertexBuffer();
+        this.drawer = new GeometryDrawer(this);
+        this.DrawingList = new LineDrawingList();
     }
 
     @Override

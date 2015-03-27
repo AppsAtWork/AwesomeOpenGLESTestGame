@@ -5,8 +5,8 @@ import android.graphics.PointF;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
-import Engine.OpenGLCanvas;
-import Engine.OpenGLRenderer;
+import Engine.Drawing.OpenGLCanvas;
+import Engine.Drawing.OpenGLRenderer;
 
 /**
  * Created by Casper on 16-2-2015.

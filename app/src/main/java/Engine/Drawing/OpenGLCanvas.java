@@ -1,4 +1,4 @@
-package Engine;
+package Engine.Drawing;
 
 import android.content.Context;
 import android.graphics.PointF;
@@ -25,7 +25,7 @@ import Engine.Util.Color;
 public class OpenGLCanvas
 {
     private Context context;
-    public Engine.Drawing.DrawableList DrawableList;
+    public DrawableList DrawableList;
 
     public OpenGLCanvas(Context context)
     {

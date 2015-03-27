@@ -3,7 +3,7 @@ package appsatwork_internal.awesomeopenglestestgame.Game;
 import android.graphics.PointF;
 
 import Engine.Gaming.GameObject;
-import Engine.OpenGLCanvas;
+import Engine.Drawing.OpenGLCanvas;
 import Engine.Util.Color;
 
 /**

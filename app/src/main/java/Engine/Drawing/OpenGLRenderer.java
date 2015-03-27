@@ -1,4 +1,4 @@
-package Engine;
+package Engine.Drawing;
 
 import android.content.Context;
 import android.graphics.PointF;
@@ -12,6 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
 import Engine.Drawing.DrawableList;
 import Engine.Gaming.Game;
 import Engine.Objects.OpenGLObject;
+import Engine.ShaderTools;
 
 /**
  * Created by Casper on 7-2-2015.

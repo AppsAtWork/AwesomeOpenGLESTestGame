@@ -3,7 +3,7 @@ package appsatwork_internal.awesomeopenglestestgame.Game;
 import android.graphics.PointF;
 
 import Engine.Gaming.GameObject;
-import Engine.OpenGLCanvas;
+import Engine.Drawing.OpenGLCanvas;
 import Engine.Objects.Sprites.FittingType;
 import Engine.Objects.Sprites.SpriteObjects.TextureSprite;
 import appsatwork_internal.awesomeopenglestestgame.R;
