@@ -11,16 +11,16 @@ import Engine.Objects.IDrawable;
  */
 public class DrawableList
 {
-    private volatile List<IDrawable> Drawables;
+    private volatile List<IDrawable> drawables;
 
     public DrawableList()
     {
-        Drawables = new ArrayList<IDrawable>();
+        drawables = new ArrayList<IDrawable>();
     }
 
     public void MoveToFront(IDrawable drawable)
     {
-        Collections.rotate(Drawables.subList(Drawables.indexOf(drawable), Drawables.size()), -1);
+        Collections.rotate(drawables.subList(drawables.indexOf(drawable), drawables.size()), -1);
     }
 
     public void MoveToBack(IDrawable drawable) throws Exception
@@ -30,35 +30,35 @@ public class DrawableList
 
     public void MoveForward(IDrawable drawable)
     {
-        int drawableIndex = Drawables.indexOf(drawable);
-        Drawables.set(drawableIndex, Drawables.get(drawableIndex + 1));
-        Drawables.set(drawableIndex + 1, drawable);
+        int drawableIndex = drawables.indexOf(drawable);
+        drawables.set(drawableIndex, drawables.get(drawableIndex + 1));
+        drawables.set(drawableIndex + 1, drawable);
     }
 
     public void MoveBackward(IDrawable drawable)
     {
-        int drawableIndex = Drawables.indexOf(drawable);
-        Drawables.set(drawableIndex, Drawables.get(drawableIndex - 1));
-        Drawables.set(drawableIndex - 1, drawable);
+        int drawableIndex = drawables.indexOf(drawable);
+        drawables.set(drawableIndex, drawables.get(drawableIndex - 1));
+        drawables.set(drawableIndex - 1, drawable);
     }
 
     public void Add(IDrawable drawable)
     {
-        Drawables.add(drawable);
+        drawables.add(drawable);
     }
 
     public void Remove(IDrawable drawable)
     {
-        Drawables.remove(drawable);
+        drawables.remove(drawable);
     }
 
     public IDrawable Get(int index)
     {
-        return Drawables.get(index);
+        return drawables.get(index);
     }
 
     public int Size()
     {
-        return Drawables.size();
+        return drawables.size();
     }
 }

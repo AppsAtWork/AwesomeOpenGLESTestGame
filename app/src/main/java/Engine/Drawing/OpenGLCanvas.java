@@ -10,7 +10,7 @@ import Engine.Objects.GeometryObjects.RegularPolygon;
 import Engine.Objects.GeometryObjects.Triangle;
 import Engine.Objects.Shape;
 import Engine.Objects.Sprite;
-import Engine.Objects.TextureObjects.TextureManagement;
+import Engine.Objects.TextureObjects.TextureManager;
 import Engine.Objects.TextureObjects.UVCoordProviders.Texture;
 import Engine.Objects.TextureObjects.UVCoordProviders.SimpleTextureAtlas;
 import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
@@ -25,37 +25,40 @@ public class OpenGLCanvas
 {
     private Context context;
     public DrawableList DrawableList;
+    public TextureManager TextureManager;
 
     public OpenGLCanvas(Context context)
     {
-        this.context = context; this.DrawableList = new DrawableList();
+        this.context = context;
+        this.DrawableList = new DrawableList();
+        this.TextureManager = new TextureManager();
     }
 
     public SimpleTextureAtlas LoadSimpleTextureAtlas(int resourceID, int textureSize)
     {
-        if(TextureManagement.GetTextureProvider(resourceID) == null)
+        if(TextureManager.GetTextureProvider(resourceID) == null)
         {
             SimpleTextureAtlas atlas = new SimpleTextureAtlas(textureSize,context.getResources(), resourceID);
-            TextureManagement.EnableTextureProvider(atlas);
+            TextureManager.EnableTextureProvider(atlas);
             return atlas;
         }
         else
         {
-            return (SimpleTextureAtlas)TextureManagement.GetTextureProvider(resourceID);
+            return (SimpleTextureAtlas) TextureManager.GetTextureProvider(resourceID);
         }
     }
 
     public VariableTextureAtlas LoadVariableTextureAtlas(int resourceID, int xmlID)
     {
-        if(TextureManagement.GetTextureProvider(resourceID) == null)
+        if(TextureManager.GetTextureProvider(resourceID) == null)
         {
             VariableTextureAtlas atlas = new VariableTextureAtlas(context.getResources(), resourceID, xmlID);
-            TextureManagement.EnableTextureProvider(atlas);
+            TextureManager.EnableTextureProvider(atlas);
             return atlas;
         }
         else
         {
-            return (VariableTextureAtlas)TextureManagement.GetTextureProvider(resourceID);
+            return (VariableTextureAtlas) TextureManager.GetTextureProvider(resourceID);
         }
     }
 
@@ -76,7 +79,7 @@ public class OpenGLCanvas
     public Sprite DrawSprite(int resourceID, PointF center, float width, float height)
     {
         //Check if there is already a texture in tehre
-        TextureProvider provider = TextureManagement.GetTextureProvider(resourceID);
+        TextureProvider provider = TextureManager.GetTextureProvider(resourceID);
         if(provider == null)
         {
            return GetTextureSprite(resourceID, center, width, height);
@@ -104,7 +107,7 @@ public class OpenGLCanvas
         //Create a new texture provider and return the damn thing
         Texture texture = new Texture(context.getResources(), resourceID);
         Sprite sprite = new Sprite(new Rectangle(center, width, height), texture);
-        TextureManagement.EnableTextureProvider(texture);
+        TextureManager.EnableTextureProvider(texture);
         DrawableList.Add(sprite);
         return sprite;
     }

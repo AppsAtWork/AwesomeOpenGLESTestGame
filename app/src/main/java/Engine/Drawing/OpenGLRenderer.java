@@ -1,6 +1,5 @@
 package Engine.Drawing;
 
-import android.content.Context;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -9,9 +8,9 @@ import android.opengl.Matrix;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import Engine.Drawing.DrawableList;
 import Engine.Gaming.Game;
 import Engine.Objects.IDrawable;
+import Engine.Objects.TextureObjects.TextureManager;
 import Engine.ShaderTools;
 
 /**
@@ -19,24 +18,26 @@ import Engine.ShaderTools;
  */
 public class OpenGLRenderer implements GLSurfaceView.Renderer
 {
-    private float[] ProjectionMatrix = new float[16];
-    private float[] ViewMatrix = new float[16];
-    private float[] ProjectionViewMatrix = new float[16];
-    private int ShaderProgram = -1;
+    private float[] projectionMatrix = new float[16];
+    private float[] viewMatrix = new float[16];
+    private float[] projectionViewMatrix = new float[16];
+    private int shaderProgram = -1;
     private DrawableList drawableList;
     private Game game;
+    private TextureManager textureManager;
 
-    public OpenGLRenderer(Game game, DrawableList drawableList)
+    public OpenGLRenderer(Game game, DrawableList drawableList, TextureManager manager)
     {
         this.game = game;
         this.drawableList = drawableList;
+        this.textureManager = manager;
         previousTime = System.currentTimeMillis();
     }
 
     public PointF ToWorldCoords(PointF clipped)
     {
         float[] inverted = new float[16];
-        Matrix.invertM(inverted, 0, ProjectionViewMatrix,0);
+        Matrix.invertM(inverted, 0, projectionViewMatrix,0);
         float[] vector = new float[] {clipped.x, clipped.y, 0, 0};
         float[] result = new float[4];
 
@@ -70,7 +71,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         ShaderTools.CompileFragmentShader();
 
         //Make OpenGL use the compiled shaders.
-        ShaderProgram = ShaderTools.ApplyCompiledShaders();
+        shaderProgram = ShaderTools.ApplyCompiledShaders();
     }
 
 
@@ -81,19 +82,22 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Working in screen space presents issues when the screen resolution changes (ex: rotation)
 
         //No need for perspective, its 2D.
-        Matrix.orthoM(ProjectionMatrix, 0, -(float)width/height, (float)width/height, -1, 1, 0, 50);
+        Matrix.orthoM(projectionMatrix, 0, -(float)width/height, (float)width/height, -1, 1, 0, 50);
 
         //Define the camera transformation
-        Matrix.setLookAtM(ViewMatrix, 0,0,0,1,0,0,0,0,1,0);
+        Matrix.setLookAtM(viewMatrix, 0,0,0,1,0,0,0,0,1,0);
 
         //Pre-calculate their multiplication
-        Matrix.multiplyMM(ProjectionViewMatrix, 0, ProjectionMatrix, 0, ViewMatrix, 0);
+        Matrix.multiplyMM(projectionViewMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
     }
 
     long previousTime = -1;
     @Override
     public synchronized void onDrawFrame(GL10 gl)
     {
+        //Update textures if necessary.
+        textureManager.UpdateTextures();
+
         long currentMillis = System.currentTimeMillis();
         long timeSinceLast = currentMillis - previousTime;
         while(timeSinceLast >= 0)
@@ -109,7 +113,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         for(int i = 0; i < drawableList.Size(); i++)
         {
             IDrawable obj = drawableList.Get(i);
-            obj.Draw(ProjectionViewMatrix, ShaderProgram);
+            obj.Draw(projectionViewMatrix, shaderProgram);
         }
     }
 }

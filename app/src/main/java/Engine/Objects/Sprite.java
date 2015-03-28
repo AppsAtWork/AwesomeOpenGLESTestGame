@@ -5,7 +5,6 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import Engine.Objects.GeometryObjects.Rectangle;
-import Engine.Objects.TextureObjects.TextureManagement;
 import Engine.Objects.TextureObjects.UVCoordProviders.SimpleTextureAtlas;
 import Engine.Objects.TextureObjects.UVCoordProviders.Texture;
 import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
@@ -66,9 +65,6 @@ public class Sprite implements IDrawable
         //For now, just rebuild the vertex buffer at every draw call. Change this in the future to
         //To use observer patterns and such, or move the vertex buffer building entirely to geometry.
         VertexBuffer = BufferBuilder.BuildFloatBuffer(Rectangle.GetVertices());
-
-        if(TextureManagement.ResendTextures)
-            TextureManagement.SendTextures();
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + TextureProvider.TextureSlot);
         int positionHandle = GLES20.glGetAttribLocation(program, "vPosition");
