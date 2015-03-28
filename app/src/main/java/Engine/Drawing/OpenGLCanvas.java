@@ -3,19 +3,18 @@ package Engine.Drawing;
 import android.content.Context;
 import android.graphics.PointF;
 
-import Engine.Drawing.DrawableList;
-import Engine.Objects.Geometry.Line;
-import Engine.Objects.Geometry.Rectangle;
-import Engine.Objects.Geometry.RegularPolygon;
-import Engine.Objects.Geometry.Triangle;
-import Engine.Objects.Sprites.FittingType;
-import Engine.Objects.Sprites.SpriteObjects.AtlasSprite;
-import Engine.Objects.Sprites.SpriteObjects.TextureSprite;
-import Engine.Objects.Sprites.TextureManagement;
-import Engine.Objects.Sprites.UVCoordProviders.Texture;
-import Engine.Objects.Sprites.UVCoordProviders.SimpleTextureAtlas;
-import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
-import Engine.Objects.Sprites.UVCoordProviders.VariableTextureAtlas;
+import Engine.Objects.GeometryObjects.Circle;
+import Engine.Objects.GeometryObjects.Line;
+import Engine.Objects.GeometryObjects.Rectangle;
+import Engine.Objects.GeometryObjects.RegularPolygon;
+import Engine.Objects.GeometryObjects.Triangle;
+import Engine.Objects.Shape;
+import Engine.Objects.Sprite;
+import Engine.Objects.TextureObjects.TextureManagement;
+import Engine.Objects.TextureObjects.UVCoordProviders.Texture;
+import Engine.Objects.TextureObjects.UVCoordProviders.SimpleTextureAtlas;
+import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
+import Engine.Objects.TextureObjects.UVCoordProviders.VariableTextureAtlas;
 import Engine.Util.Color;
 
 
@@ -60,20 +59,27 @@ public class OpenGLCanvas
         }
     }
 
-    public AtlasSprite DrawSprite(TextureProvider atlas, int atlasIndex, PointF center, float width, float height, FittingType type)
+    public Sprite DrawSprite(SimpleTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
     {
-        AtlasSprite atlasSprite = new AtlasSprite(atlas, atlasIndex, center.x, center.y, width,height, type);
+        Sprite atlasSprite = new Sprite(new Rectangle(center.x, center.y, width, height), atlas, atlasIndex);
         DrawableList.Add(atlasSprite);
         return atlasSprite;
     }
 
-    public TextureSprite DrawSprite(int resourceID, PointF center, float width, float height, FittingType type)
+    public Sprite DrawSprite(VariableTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
+    {
+        Sprite atlasSprite = new Sprite(new Rectangle(center.x, center.y, width, height), atlas, atlasIndex);
+        DrawableList.Add(atlasSprite);
+        return atlasSprite;
+    }
+
+    public Sprite DrawSprite(int resourceID, PointF center, float width, float height)
     {
         //Check if there is already a texture in tehre
         TextureProvider provider = TextureManagement.GetTextureProvider(resourceID);
         if(provider == null)
         {
-           return GetTextureSprite(resourceID, center, width, height, type);
+           return GetTextureSprite(resourceID, center, width, height);
         }
         else
         {
@@ -82,56 +88,68 @@ public class OpenGLCanvas
             {
                 //Use the provided texture provider
                 Texture texture = (Texture)provider;
-                TextureSprite sprite = new TextureSprite(texture, center.x, center.y, width, height, type);
+                Sprite sprite = new Sprite(new Rectangle(center.x, center.y, width, height), texture);
                 DrawableList.Add(sprite);
                 return sprite;
             }
             else
             {
-                return GetTextureSprite(resourceID, center, width, height, type);
+                return GetTextureSprite(resourceID, center, width, height);
             }
         }
     }
 
-    private TextureSprite GetTextureSprite(int resourceID, PointF center, float width, float height, FittingType type)
+    private Sprite GetTextureSprite(int resourceID, PointF center, float width, float height)
     {
         //Create a new texture provider and return the damn thing
         Texture texture = new Texture(context.getResources(), resourceID);
-        TextureSprite textureSprite = new TextureSprite(texture, center.x, center.y, width, height, type);
+        Sprite sprite = new Sprite(new Rectangle(center.x, center.y, width, height), texture);
         TextureManagement.EnableTextureProvider(texture);
-        DrawableList.Add(textureSprite);
-        return textureSprite;
+        DrawableList.Add(sprite);
+        return sprite;
     }
 
-    public Triangle DrawTriangle(PointF pt1, PointF pt2, PointF pt3, float r, float g, float b, float alpha)
+    public Shape DrawTriangle(PointF pt1, PointF pt2, PointF pt3, Color color)
     {
-        Triangle triangle = new Triangle(pt1, pt2, pt3, r,g,b,alpha);
-        DrawableList.Add(triangle);
-        return triangle;
+        Triangle triangle = new Triangle(pt1, pt2, pt3);
+        Shape shape = new Shape(triangle, color);
+        DrawableList.Add(shape);
+        return shape;
     }
 
     //Draw a line between pt1 and pt2 with thickness. Coordinates and lengths are in world space.
     //Return a line that can be manipulated flexibly.
-    public Line DrawLine(PointF pt1, PointF pt2, float thickness, float r, float g, float b, float alpha)
+    public Shape DrawLine(PointF pt1, PointF pt2, float thickness, Color color)
     {
-        Line line = new Line(pt1, pt2,thickness, r,g,b,alpha);
-        DrawableList.Add(line);
-        return line;
+        Line line = new Line(pt1, pt2,thickness);
+        Shape shape = new Shape(line, color);
+        DrawableList.Add(shape);
+        return shape;
     }
 
     //Draw a rectangle. Coordinates and lengths are in world space.
     //Returns a rectangle that can be manipulated flexibly.
-    public Rectangle DrawRectangle(PointF center, float width, float height, float r, float g, float b, float alpha)
+    public Shape DrawRectangle(PointF center, float width, float height, Color color)
     {
-        Rectangle rect = new Rectangle(center.x,center.y, width, height, r,g,b,alpha);
-        DrawableList.Add(rect);
-        return rect;
+        Rectangle rect = new Rectangle(center.x,center.y, width, height);
+        Shape shape = new Shape(rect, color);
+        DrawableList.Add(shape);
+        return shape;
     }
 
-    public RegularPolygon DrawRegularPolygon(PointF center, float radius, int corners, Color color)
+    public Shape DrawRegularPolygon(PointF center, float radius, int corners, Color color)
     {
-        RegularPolygon pol = new RegularPolygon(center.x, center.y, radius, corners, color);
-        DrawableList.Add(pol);
-        return pol;
+        RegularPolygon pol = new RegularPolygon(center, radius, corners);
+        Shape shape = new Shape(pol, color);
+        DrawableList.Add(shape);
+        return shape;
+    }
+
+    public Shape DrawCircle(PointF center, float radius, Color color)
+    {
+        Circle circle = new Circle(center, radius);
+        Shape shape = new Shape(circle, color);
+        DrawableList.Add(shape);
+        return shape;
     }
 }

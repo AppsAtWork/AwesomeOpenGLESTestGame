@@ -4,55 +4,55 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Engine.Objects.OpenGLObject;
+import Engine.Objects.IDrawable;
 
 /**
  * Created by Casper on 3/26/2015.
  */
 public class DrawableList
 {
-    private volatile List<OpenGLObject> Drawables;
+    private volatile List<IDrawable> Drawables;
 
     public DrawableList()
     {
-        Drawables = new ArrayList<OpenGLObject>();
+        Drawables = new ArrayList<IDrawable>();
     }
 
-    public void MoveToFront(OpenGLObject oglObject)
+    public void MoveToFront(IDrawable drawable)
     {
-        Collections.rotate(Drawables.subList(Drawables.indexOf(oglObject), Drawables.size()), -1);
+        Collections.rotate(Drawables.subList(Drawables.indexOf(drawable), Drawables.size()), -1);
     }
 
-    public void MoveToBack(OpenGLObject oglObject) throws Exception
+    public void MoveToBack(IDrawable drawable) throws Exception
     {
         throw new Exception();
     }
 
-    public void MoveForward(OpenGLObject oglObject)
+    public void MoveForward(IDrawable drawable)
     {
-        int oglObjectIndex = Drawables.indexOf(oglObject);
-        Drawables.set(oglObjectIndex, Drawables.get(oglObjectIndex + 1));
-        Drawables.set(oglObjectIndex + 1, oglObject);
+        int drawableIndex = Drawables.indexOf(drawable);
+        Drawables.set(drawableIndex, Drawables.get(drawableIndex + 1));
+        Drawables.set(drawableIndex + 1, drawable);
     }
 
-    public void MoveBackward(OpenGLObject oglObject)
+    public void MoveBackward(IDrawable drawable)
     {
-        int oglObjectIndex = Drawables.indexOf(oglObject);
-        Drawables.set(oglObjectIndex, Drawables.get(oglObjectIndex - 1));
-        Drawables.set(oglObjectIndex - 1, oglObject);
+        int drawableIndex = Drawables.indexOf(drawable);
+        Drawables.set(drawableIndex, Drawables.get(drawableIndex - 1));
+        Drawables.set(drawableIndex - 1, drawable);
     }
 
-    public void Add(OpenGLObject oglObject)
+    public void Add(IDrawable drawable)
     {
-        Drawables.add(oglObject);
+        Drawables.add(drawable);
     }
 
-    public void Remove(OpenGLObject oglObject)
+    public void Remove(IDrawable drawable)
     {
-        Drawables.remove(oglObject);
+        Drawables.remove(drawable);
     }
 
-    public OpenGLObject Get(int index)
+    public IDrawable Get(int index)
     {
         return Drawables.get(index);
     }

@@ -1,4 +1,4 @@
-package Engine.Objects.Sprites;
+package Engine.Objects.TextureObjects;
 
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
@@ -6,8 +6,8 @@ import android.opengl.GLUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import Engine.Objects.Sprites.UVCoordProviders.Texture;
-import Engine.Objects.Sprites.UVCoordProviders.TextureProvider;
+import Engine.Objects.TextureObjects.UVCoordProviders.Texture;
+import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
 
 /**
  * Created by Casper on 16-2-2015.

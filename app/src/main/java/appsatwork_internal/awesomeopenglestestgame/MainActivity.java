@@ -2,14 +2,10 @@ package appsatwork_internal.awesomeopenglestestgame;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-
-import appsatwork_internal.awesomeopenglestestgame.Game.SpaceInvaders;
 
 
 public class MainActivity extends Activity
 {
-    private SpaceInvaders invaders;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

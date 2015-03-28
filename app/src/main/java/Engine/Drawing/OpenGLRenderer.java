@@ -11,7 +11,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import Engine.Drawing.DrawableList;
 import Engine.Gaming.Game;
-import Engine.Objects.OpenGLObject;
+import Engine.Objects.IDrawable;
 import Engine.ShaderTools;
 
 /**
@@ -23,13 +23,11 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     private float[] ViewMatrix = new float[16];
     private float[] ProjectionViewMatrix = new float[16];
     private int ShaderProgram = -1;
-    private Context context;
     private DrawableList drawableList;
     private Game game;
 
-    public OpenGLRenderer(Context c, Game game, DrawableList drawableList)
+    public OpenGLRenderer(Game game, DrawableList drawableList)
     {
-        context = c;
         this.game = game;
         this.drawableList = drawableList;
         previousTime = System.currentTimeMillis();
@@ -110,7 +108,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
 
         for(int i = 0; i < drawableList.Size(); i++)
         {
-            OpenGLObject obj = drawableList.Get(i);
+            IDrawable obj = drawableList.Get(i);
             obj.Draw(ProjectionViewMatrix, ShaderProgram);
         }
     }

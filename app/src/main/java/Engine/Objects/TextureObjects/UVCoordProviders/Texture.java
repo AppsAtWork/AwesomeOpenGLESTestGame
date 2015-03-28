@@ -1,4 +1,4 @@
-package Engine.Objects.Sprites.UVCoordProviders;
+package Engine.Objects.TextureObjects.UVCoordProviders;
 
 import android.content.res.Resources;
 
