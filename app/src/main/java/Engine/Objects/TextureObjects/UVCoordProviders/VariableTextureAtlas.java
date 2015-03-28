@@ -98,15 +98,6 @@ public class VariableTextureAtlas extends TextureProvider
             eventType = xpp.next();
         }
     }
-/*
-    UVMap.put(index, new float[] {
-    AtlasResolution/(float)x,AtlasResolution/(float)y,
-            AtlasResolution/(float)(x + width),  AtlasResolution/(float)(y),
-            AtlasResolution/(float)(x + width),  AtlasResolution/(float)(y + height),
-            AtlasResolution/(float)(x),  AtlasResolution/(float)(x + width)
-});
-    */
-
 
     @Override
     public float[] GetUVCoords(int index) {

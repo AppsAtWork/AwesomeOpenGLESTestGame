@@ -43,6 +43,9 @@ public class Shape implements IDrawable
         this.Border = false;
         this.BorderColor = null;
         this.BorderThickness = 0;
+
+        //Load drawing list buffer
+        this. DrawingListBuffer = BufferBuilder.BuildShortBuffer(geometry.GetDrawingList());
     }
 
     //An open shape with a border
@@ -57,6 +60,9 @@ public class Shape implements IDrawable
         this.Border = true;
         this.BorderColor = borderColor;
         this.BorderThickness = borderThickness;
+
+        //Load drawing list buffer
+        this. DrawingListBuffer = BufferBuilder.BuildShortBuffer(geometry.GetDrawingList());
     }
 
     //A filled shape with a border
@@ -71,6 +77,9 @@ public class Shape implements IDrawable
         this.Border = true;
         this.BorderColor = borderColor;
         this.BorderThickness = borderThickness;
+
+        //Load drawing list buffer
+        this. DrawingListBuffer = BufferBuilder.BuildShortBuffer(geometry.GetDrawingList());
     }
 
     //Border thickness getter and setter

@@ -61,14 +61,14 @@ public class OpenGLCanvas
 
     public Sprite DrawSprite(SimpleTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
     {
-        Sprite atlasSprite = new Sprite(new Rectangle(center.x, center.y, width, height), atlas, atlasIndex);
+        Sprite atlasSprite = new Sprite(new Rectangle(center, width, height), atlas, atlasIndex);
         DrawableList.Add(atlasSprite);
         return atlasSprite;
     }
 
     public Sprite DrawSprite(VariableTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
     {
-        Sprite atlasSprite = new Sprite(new Rectangle(center.x, center.y, width, height), atlas, atlasIndex);
+        Sprite atlasSprite = new Sprite(new Rectangle(center, width, height), atlas, atlasIndex);
         DrawableList.Add(atlasSprite);
         return atlasSprite;
     }
@@ -88,7 +88,7 @@ public class OpenGLCanvas
             {
                 //Use the provided texture provider
                 Texture texture = (Texture)provider;
-                Sprite sprite = new Sprite(new Rectangle(center.x, center.y, width, height), texture);
+                Sprite sprite = new Sprite(new Rectangle(center, width, height), texture);
                 DrawableList.Add(sprite);
                 return sprite;
             }
@@ -103,7 +103,7 @@ public class OpenGLCanvas
     {
         //Create a new texture provider and return the damn thing
         Texture texture = new Texture(context.getResources(), resourceID);
-        Sprite sprite = new Sprite(new Rectangle(center.x, center.y, width, height), texture);
+        Sprite sprite = new Sprite(new Rectangle(center, width, height), texture);
         TextureManagement.EnableTextureProvider(texture);
         DrawableList.Add(sprite);
         return sprite;
@@ -131,7 +131,7 @@ public class OpenGLCanvas
     //Returns a rectangle that can be manipulated flexibly.
     public Shape DrawRectangle(PointF center, float width, float height, Color color)
     {
-        Rectangle rect = new Rectangle(center.x,center.y, width, height);
+        Rectangle rect = new Rectangle(center, width, height);
         Shape shape = new Shape(rect, color);
         DrawableList.Add(shape);
         return shape;
