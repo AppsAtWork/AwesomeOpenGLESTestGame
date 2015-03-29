@@ -20,9 +20,10 @@ public class TestGame extends Game
     private Shape polygon;
     private Sprite sprite;
     private Shape line;
-    private Shape rect;
     private boolean fingerDown;
     private PointF location;
+    private Shape circle;
+    private Shape rectangle;
 
     public TestGame(Context context, AttributeSet attrs) {
 
@@ -45,31 +46,39 @@ public class TestGame extends Game
     }
 
     @Override
-    public void Initialize() {
+    public void Initialize()
+    {
 
     }
 
     @Override
-    public void LoadContent() {
-        rect = this.Canvas.DrawRectangle(new PointF(0,0), 1.0f, 1.0f, new Color(1.0f, 0.0f, 0.0f, 1.0f));
+    public void LoadContent()
+    {
         polygon = this.Canvas.DrawRegularPolygon(new PointF(0,0), 0.1f, 5, new Color(1.0f, 1.0f, 0.0f, 1.0f));
+        line = this.Canvas.DrawLine(new PointF(0.0f, 0.0f), new PointF(0.5f, -0.3f), 3, new Color(1.0f, 1.0f, 1.0f, 1.0f));
+        circle = this.Canvas.DrawCircle(new PointF(0.2f, 0.4f), 0.2f, new Color(0.4f, 0.4f, 0.6f, 1.0f));
+        rectangle = this.Canvas.DrawRectangle(new PointF(-0.2f, -0.3f), 0.2f, 0.2f, new Color(1.0f, 0.1f, 0.1f, 1.0f));
         sprite = this.Canvas.DrawSprite(R.drawable.ship, new PointF(0.2f, 0.2f), 0.15f, 0.3f);
-        line = this.Canvas.DrawLine(new PointF(0.0f, 0.0f), new PointF(0.5f, -0.3f), 10, new Color(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
     @Override
     public void Update()
     {
-        if(fingerDown) {
-            rect.GetGeometry().RotateBy(0.5f);
-            rect.GetGeometry().SetScale(ScreenSpaceToWorldSpace(location).y);
-            rect.GetGeometry().SetCenter(ScreenSpaceToWorldSpace(location));
-            rect.GetGeometry().ApplyTransformations();
+        if(fingerDown)
+        {
+            polygon.GetGeometry().RotateBy(0.5f);
+            polygon.GetGeometry().SetScale(Math.abs(ScreenSpaceToWorldSpace(location).y * 2) + 1);
+            polygon.GetGeometry().SetCenter(ScreenSpaceToWorldSpace(location));
+            polygon.GetGeometry().ApplyTransformations();
         }
 
-        polygon.GetGeometry().RotateBy(0.5f);
-        polygon.GetGeometry().ApplyTransformations();
+        rectangle.GetGeometry().RotateBy(1f);
+        rectangle.GetGeometry().ApplyTransformations();
 
+        if(fingerDown) {
+            circle.GetGeometry().SetScale(Math.abs(ScreenSpaceToWorldSpace(location).y * 1.5f) + 1);
+            circle.GetGeometry().ApplyTransformations();
+        }
         sprite.GetBoundingBox().RotateBy(1.5f);
         sprite.GetBoundingBox().ApplyTransformations();
 

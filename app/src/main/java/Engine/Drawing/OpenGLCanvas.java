@@ -3,7 +3,6 @@ package Engine.Drawing;
 import android.content.Context;
 import android.graphics.PointF;
 
-import Engine.Objects.GeometryObjects.Circle;
 import Engine.Objects.GeometryObjects.Line;
 import Engine.Objects.GeometryObjects.Rectangle;
 import Engine.Objects.GeometryObjects.RegularPolygon;
@@ -135,7 +134,7 @@ public class OpenGLCanvas
     public Shape DrawRectangle(PointF center, float width, float height, Color color)
     {
         Rectangle rect = new Rectangle(center, width, height);
-        Shape shape = new Shape(rect, color);
+        Shape shape = new Shape(rect, color, new Color(0,0,1,1), 2);
         DrawableList.Add(shape);
         return shape;
     }
@@ -143,15 +142,15 @@ public class OpenGLCanvas
     public Shape DrawRegularPolygon(PointF center, float radius, int corners, Color color)
     {
         RegularPolygon pol = new RegularPolygon(center, radius, corners);
-        Shape shape = new Shape(pol, color);
+        Shape shape = new Shape(pol, new Color(1,1,1,1), 1);
         DrawableList.Add(shape);
         return shape;
     }
 
     public Shape DrawCircle(PointF center, float radius, Color color)
     {
-        Circle circle = new Circle(center, radius);
-        Shape shape = new Shape(circle, color);
+        RegularPolygon circle = new RegularPolygon(center, radius, 50);
+        Shape shape = new Shape(circle, color, new Color(0,1,1,1), 2);
         DrawableList.Add(shape);
         return shape;
     }
