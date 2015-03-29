@@ -22,23 +22,20 @@ public class Line extends Geometry
         direction.Normalize(Thickness/2.0f);
         Vector2 perpendicular = new Vector2(-direction.Y, direction.X);
 
-        float xThickness = perpendicular.X;
-        float yThickness = perpendicular.Y;
-
         vertices = new float[] {
-                p1.x + xThickness/2.0f, p1.y + yThickness/2.0f, 0.0f,
-                p2.x + xThickness/2.0f, p2.y + yThickness/2.0f, 0.0f,
-                p2.x - xThickness/2.0f, p2.y - yThickness/2.0f, 0.0f,
-                p1.x - xThickness/2.0f, p1.y - yThickness/2.0f, 0.0f
+                p1.x + perpendicular.X/2.0f, p1.y + perpendicular.Y/2.0f, 0.0f,
+                p2.x + perpendicular.X/2.0f, p2.y + perpendicular.Y/2.0f, 0.0f,
+                p2.x - perpendicular.X/2.0f, p2.y - perpendicular.Y/2.0f, 0.0f,
+                p1.x - perpendicular.X/2.0f, p1.y - perpendicular.Y/2.0f, 0.0f
         };
 
         PointF center = Center();
         translation = new float[]{center.x, center.y};
         baseVertices = new float[] {
-                p1.x + xThickness/2.0f - center.x, p1.y + yThickness/2.0f - center.y, 0.0f,
-                p2.x + xThickness/2.0f - center.x, p2.y + yThickness/2.0f - center.y, 0.0f,
-                p2.x - xThickness/2.0f - center.x, p2.y - yThickness/2.0f - center.y, 0.0f,
-                p1.x - xThickness/2.0f - center.x, p1.y - yThickness/2.0f - center.y, 0.0f
+                p1.x + perpendicular.X/2.0f - center.x, p1.y + perpendicular.Y/2.0f - center.y, 0.0f,
+                p2.x + perpendicular.X/2.0f - center.x, p2.y + perpendicular.Y/2.0f - center.y, 0.0f,
+                p2.x - perpendicular.X/2.0f - center.x, p2.y - perpendicular.Y/2.0f - center.y, 0.0f,
+                p1.x - perpendicular.X/2.0f - center.x, p1.y - perpendicular.Y/2.0f - center.y, 0.0f
         };
 
     }
