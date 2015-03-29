@@ -22,6 +22,7 @@ public class Border extends Geometry
 
     private void ConstructBorder()
     {
+        //Well fuck.
         //Get the center
         //Draw a line from the center to a vertex
         //Draw another line from the center to the next vertex
