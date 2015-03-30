@@ -3,6 +3,9 @@ package Engine.Drawing;
 import android.content.Context;
 import android.graphics.PointF;
 
+import Engine.Objects.BorderedShape;
+import Engine.Objects.GeometryObjects.Border;
+import Engine.Objects.GeometryObjects.Geometry;
 import Engine.Objects.GeometryObjects.Line;
 import Engine.Objects.GeometryObjects.Rectangle;
 import Engine.Objects.GeometryObjects.RegularPolygon;
@@ -134,7 +137,7 @@ public class OpenGLCanvas
     public Shape DrawRectangle(PointF center, float width, float height, Color color)
     {
         Rectangle rect = new Rectangle(center, width, height);
-        Shape shape = new Shape(rect, color, new Color(0,0,1,1), 2);
+        Shape shape = new Shape(rect, color);
         DrawableList.Add(shape);
         return shape;
     }
@@ -142,7 +145,7 @@ public class OpenGLCanvas
     public Shape DrawRegularPolygon(PointF center, float radius, int corners, Color color)
     {
         RegularPolygon pol = new RegularPolygon(center, radius, corners);
-        Shape shape = new Shape(pol, new Color(1,1,1,1), 1);
+        Shape shape = new Shape(pol, color);
         DrawableList.Add(shape);
         return shape;
     }
@@ -150,7 +153,39 @@ public class OpenGLCanvas
     public Shape DrawCircle(PointF center, float radius, Color color)
     {
         RegularPolygon circle = new RegularPolygon(center, radius, 50);
-        Shape shape = new Shape(circle, color, new Color(0,1,1,1), 2);
+        Shape shape = new Shape(circle, color);
+        DrawableList.Add(shape);
+        return shape;
+    }
+
+    public Shape DrawBorder(Rectangle around, float thickness, Color color)
+    {
+        Border border = new Border(around, thickness);
+        Shape shape = new Shape(border, color);
+        DrawableList.Add(shape);
+        return shape;
+    }
+
+    public Shape DrawBorder(RegularPolygon around, float thickness, Color color)
+    {
+        Border border = new Border(around, thickness);
+        Shape shape = new Shape(border, color);
+        DrawableList.Add(shape);
+        return shape;
+    }
+
+    public BorderedShape DrawWithBorder(Rectangle geometry, float thickness, Color color, Color borderColor)
+    {
+        Border border = new Border(geometry, thickness);
+        BorderedShape shape = new BorderedShape(border, geometry, color, borderColor);
+        DrawableList.Add(shape);
+        return shape;
+    }
+
+    public BorderedShape DrawWithBorder(RegularPolygon geometry, float thickness, Color color, Color borderColor)
+    {
+        Border border = new Border(geometry, thickness);
+        BorderedShape shape = new BorderedShape(border, geometry, color, borderColor);
         DrawableList.Add(shape);
         return shape;
     }

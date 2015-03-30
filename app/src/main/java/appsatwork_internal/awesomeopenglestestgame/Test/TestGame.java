@@ -7,6 +7,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import Engine.Gaming.Game;
+import Engine.Objects.BorderedShape;
+import Engine.Objects.GeometryObjects.Rectangle;
+import Engine.Objects.GeometryObjects.RegularPolygon;
 import Engine.Objects.Shape;
 import Engine.Objects.Sprite;
 import Engine.Util.Color;
@@ -17,12 +20,12 @@ import appsatwork_internal.awesomeopenglestestgame.R;
  */
 public class TestGame extends Game
 {
-    private Shape polygon;
+    private BorderedShape polygon;
     private Sprite sprite;
     private Shape line;
     private boolean fingerDown;
     private PointF location;
-    private Shape circle;
+    private Shape border;
     private Shape rectangle;
 
     public TestGame(Context context, AttributeSet attrs) {
@@ -54,9 +57,9 @@ public class TestGame extends Game
     @Override
     public void LoadContent()
     {
-        polygon = this.Canvas.DrawRegularPolygon(new PointF(0,0), 0.1f, 5, new Color(1.0f, 1.0f, 0.0f, 1.0f));
+        polygon = this.Canvas.DrawWithBorder(new RegularPolygon(new PointF(0, 0), 0.1f, 5), 1, new Color(1.0f, 1.0f, 0.0f, 1.0f), new Color(0.8f, 0.3f, 0.4f, 1.0f));
         line = this.Canvas.DrawLine(new PointF(0.0f, 0.0f), new PointF(0.5f, -0.3f), 3, new Color(1.0f, 1.0f, 1.0f, 1.0f));
-        circle = this.Canvas.DrawCircle(new PointF(0.2f, 0.4f), 0.2f, new Color(0.4f, 0.4f, 0.6f, 1.0f));
+        border = this.Canvas.DrawBorder(new Rectangle(new PointF(0.2f, 0.4f), 0.2f, 0.1f), 1, new Color(1,1,1,1));
         rectangle = this.Canvas.DrawRectangle(new PointF(-0.2f, -0.3f), 0.4f, 0.2f, new Color(1.0f, 0.1f, 0.1f, 1.0f));
         sprite = this.Canvas.DrawSprite(R.drawable.ship, new PointF(0.2f, 0.2f), 0.15f, 0.3f);
     }
@@ -72,12 +75,12 @@ public class TestGame extends Game
             polygon.GetGeometry().ApplyTransformations();
         }
 
-        //rectangle.GetGeometry().RotateBy(1f);
-        //rectangle.GetGeometry().ApplyTransformations();
+        rectangle.GetGeometry().RotateBy(1f);
+        rectangle.GetGeometry().ApplyTransformations();
 
         if(fingerDown) {
-            circle.GetGeometry().SetScale(Math.abs(ScreenSpaceToWorldSpace(location).y * 1.5f) + 1);
-            circle.GetGeometry().ApplyTransformations();
+            border.GetGeometry().SetScale(Math.abs(ScreenSpaceToWorldSpace(location).y * 1.5f) + 1);
+            border.GetGeometry().ApplyTransformations();
         }
         sprite.GetBoundingBox().RotateBy(1.5f);
         sprite.GetBoundingBox().ApplyTransformations();
