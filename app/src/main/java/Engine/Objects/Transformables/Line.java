@@ -1,4 +1,4 @@
-package Engine.Objects.GeometryObjects;
+package Engine.Objects.Transformables;
 
 import android.graphics.PointF;
 
@@ -29,7 +29,7 @@ public class Line extends Geometry
                 p1.x - perpendicular.X/2.0f, p1.y - perpendicular.Y/2.0f, 0.0f
         };
 
-        PointF center = Center();
+        PointF center = GetCenter();
         translation = new float[]{center.x, center.y};
         baseVertices = new float[] {
                 p1.x + perpendicular.X/2.0f - center.x, p1.y + perpendicular.Y/2.0f - center.y, 0.0f,

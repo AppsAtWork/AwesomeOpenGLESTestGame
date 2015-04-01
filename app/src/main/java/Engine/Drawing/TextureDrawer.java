@@ -38,7 +38,6 @@ public class TextureDrawer
 
     private void Draw(float[] projectionViewMatrix, int textureSlot, FloatBuffer vertexBuffer, FloatBuffer uvBuffer)
     {
-
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureSlot);
         int positionHandle = GLES20.glGetAttribLocation(programHandle, "vPosition");
 

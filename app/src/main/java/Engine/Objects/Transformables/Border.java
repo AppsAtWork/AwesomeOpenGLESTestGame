@@ -1,4 +1,4 @@
-package Engine.Objects.GeometryObjects;
+package Engine.Objects.Transformables;
 
 import android.graphics.PointF;
 
@@ -29,7 +29,7 @@ public class Border extends Geometry
 
     private void ConstructBorderRectangle()
     {
-        PointF center = geometry.Center();
+        PointF center = geometry.GetCenter();
         float[] verts = geometry.GetVertices();
 
         float[] borderVerts = new float[verts.length * 4];
@@ -104,7 +104,7 @@ public class Border extends Geometry
 
     private void ConstructBorderRegularPolygon()
     {
-        PointF center = geometry.Center();
+        PointF center = geometry.GetCenter();
         float[] verts = geometry.GetVertices();
 
         float[] borderVerts = new float[verts.length * 4];
@@ -176,7 +176,7 @@ public class Border extends Geometry
     {
         //Copy over all transformations of the border to the geometry
         geometry.SetScale(scale);
-        geometry.SetCenter(new PointF(translation[0], translation[1]));
+        geometry.SetTranslation(new PointF(translation[0], translation[1]));
         geometry.SetRotation(degrees);
         geometry.ApplyTransformations();
 

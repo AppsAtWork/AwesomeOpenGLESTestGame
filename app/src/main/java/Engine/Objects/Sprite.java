@@ -1,11 +1,9 @@
 package Engine.Objects;
 
-import android.opengl.GLES20;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 import Engine.Drawing.TextureDrawer;
-import Engine.Objects.GeometryObjects.Rectangle;
+import Engine.Objects.Transformables.Rectangle;
 import Engine.Objects.TextureObjects.UVCoordProviders.SimpleTextureAtlas;
 import Engine.Objects.TextureObjects.UVCoordProviders.Texture;
 import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
@@ -43,13 +41,7 @@ public class Sprite implements IDrawable
         this.UVBuffer = BufferBuilder.BuildFloatBuffer(TextureProvider.GetUVCoords(textureIndex));
     }
 
-
-    public void SetGeometry(Rectangle rectangle)
-    {
-        this.Rectangle = rectangle;
-    }
-
-    public Rectangle GetGeometry()
+    public Rectangle GetTransformable()
     {
         return this.Rectangle;
     }

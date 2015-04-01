@@ -4,12 +4,11 @@ import android.content.Context;
 import android.graphics.PointF;
 
 import Engine.Objects.BorderedShape;
-import Engine.Objects.GeometryObjects.Border;
-import Engine.Objects.GeometryObjects.Geometry;
-import Engine.Objects.GeometryObjects.Line;
-import Engine.Objects.GeometryObjects.Rectangle;
-import Engine.Objects.GeometryObjects.RegularPolygon;
-import Engine.Objects.GeometryObjects.Triangle;
+import Engine.Objects.Transformables.Border;
+import Engine.Objects.Transformables.Line;
+import Engine.Objects.Transformables.Rectangle;
+import Engine.Objects.Transformables.RegularPolygon;
+import Engine.Objects.Transformables.Triangle;
 import Engine.Objects.Shape;
 import Engine.Objects.Sprite;
 import Engine.Objects.TextureObjects.TextureManager;

@@ -1,13 +1,10 @@
 package Engine.Objects;
 
-import android.opengl.GLES20;
-
-import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import Engine.Drawing.FlatDrawer;
-import Engine.Objects.GeometryObjects.Border;
-import Engine.Objects.GeometryObjects.Geometry;
+import Engine.Objects.Transformables.Border;
+import Engine.Objects.Transformables.Geometry;
 import Engine.Util.Color;
 
 /**
@@ -37,7 +34,7 @@ public class BorderedShape implements IDrawable
         this.borderDrawingListBuffer = BufferBuilder.BuildShortBuffer(border.GetDrawingList());
     }
 
-    public Geometry GetGeometry()
+    public Geometry GetTransformable()
     {
         return this.border;
     }

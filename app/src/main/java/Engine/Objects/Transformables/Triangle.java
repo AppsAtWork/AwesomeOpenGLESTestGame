@@ -1,4 +1,4 @@
-package Engine.Objects.GeometryObjects;
+package Engine.Objects.Transformables;
 
 import android.graphics.PointF;
 
@@ -19,7 +19,7 @@ public class Triangle extends Geometry
               point3.x, point3.y, 0.0f
         };
 
-        PointF center = Center();
+        PointF center = GetCenter();
 
         baseVertices = new float[]
                 {

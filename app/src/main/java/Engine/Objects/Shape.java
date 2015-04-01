@@ -1,17 +1,10 @@
 package Engine.Objects;
 
-import android.graphics.PointF;
-import android.opengl.GLES20;
-
-import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import Engine.Drawing.FlatDrawer;
-import Engine.Objects.GeometryObjects.Border;
-import Engine.Objects.GeometryObjects.Geometry;
-import Engine.Objects.GeometryObjects.Rectangle;
+import Engine.Objects.Transformables.Geometry;
 import Engine.Util.Color;
-import Engine.Util.Vector2;
 
 /**
  * Created by Casper on 27-3-2015.
@@ -43,7 +36,7 @@ public class Shape implements IDrawable
     }
 
     //Geometry getter (no setter)
-    public Geometry GetGeometry()
+    public Geometry GetTransformable()
     {
         return geometry;
     }
