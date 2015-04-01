@@ -61,7 +61,7 @@ public class TestGame extends Game
         line = this.Canvas.DrawLine(new PointF(0.0f, 0.0f), new PointF(0.5f, -0.3f), 3, new Color(1.0f, 1.0f, 1.0f, 1.0f));
         border = this.Canvas.DrawBorder(new Rectangle(new PointF(0.2f, 0.4f), 0.2f, 0.1f), 1, new Color(1,1,1,1));
         rectangle = this.Canvas.DrawRectangle(new PointF(-0.2f, -0.3f), 0.4f, 0.2f, new Color(1.0f, 0.1f, 0.1f, 1.0f));
-        sprite = this.Canvas.DrawSprite(R.drawable.ship, new PointF(0.2f, 0.2f), 0.15f, 0.3f);
+        sprite = this.Canvas.DrawSprite(this.Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas), 1, new PointF(0.1f, 0.1f), 0.3f, 0.3f);
     }
 
     @Override
@@ -82,8 +82,8 @@ public class TestGame extends Game
             border.GetGeometry().SetScale(Math.abs(ScreenSpaceToWorldSpace(location).y * 1.5f) + 1);
             border.GetGeometry().ApplyTransformations();
         }
-        sprite.GetBoundingBox().RotateBy(1.5f);
-        sprite.GetBoundingBox().ApplyTransformations();
+        sprite.GetGeometry().RotateBy(1.5f);
+        sprite.GetGeometry().ApplyTransformations();
 
         line.GetGeometry().RotateBy(0.5f);
         line.GetGeometry().ApplyTransformations();
