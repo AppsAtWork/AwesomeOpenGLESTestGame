@@ -6,20 +6,21 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.appsatwork.ezgles.Gaming.Game;
+import com.appsatwork.ezgles.Objects.Drawables.BorderedShape;
+import com.appsatwork.ezgles.Objects.Drawables.CompositeDrawable;
+import com.appsatwork.ezgles.Objects.Drawables.IDrawable;
+import com.appsatwork.ezgles.Objects.Drawables.Shape;
+import com.appsatwork.ezgles.Objects.Drawables.Sprite;
+import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.VariableTextureAtlas;
+import com.appsatwork.ezgles.Objects.Transformables.Geometries.Border;
+import com.appsatwork.ezgles.Objects.Transformables.Geometries.Line;
+import com.appsatwork.ezgles.Objects.Transformables.Geometries.Rectangle;
+import com.appsatwork.ezgles.Objects.Transformables.Geometries.RegularPolygon;
+import com.appsatwork.ezgles.Util.Color;
+
 import java.util.ArrayList;
 
-import Engine.Gaming.Game;
-import Engine.Objects.Drawables.BorderedShape;
-import Engine.Objects.Drawables.CompositeDrawable;
-import Engine.Objects.Drawables.IDrawable;
-import Engine.Objects.TextureObjects.UVCoordProviders.VariableTextureAtlas;
-import Engine.Objects.Transformables.Geometries.Border;
-import Engine.Objects.Transformables.Geometries.Line;
-import Engine.Objects.Transformables.Geometries.Rectangle;
-import Engine.Objects.Transformables.Geometries.RegularPolygon;
-import Engine.Objects.Drawables.Shape;
-import Engine.Objects.Drawables.Sprite;
-import Engine.Util.Color;
 import appsatwork_internal.awesomeopenglestestgame.R;
 
 /**
