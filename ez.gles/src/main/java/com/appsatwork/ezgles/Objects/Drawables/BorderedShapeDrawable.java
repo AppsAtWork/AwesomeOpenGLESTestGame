@@ -11,7 +11,7 @@ import com.appsatwork.ezgles.Util.Color;
 /**
  * Created by Casper on 30-3-2015.
  */
-public class BorderedShape implements IDrawable
+public class BorderedShapeDrawable implements IDrawable
 {
     private Geometry geometry;
     private Color color;
@@ -23,7 +23,7 @@ public class BorderedShape implements IDrawable
 
     private FlatDrawer drawer;
 
-    public BorderedShape(Border border, Geometry fill, Color fillColor, Color borderColor)
+    public BorderedShapeDrawable(Border border, Geometry fill, Color fillColor, Color borderColor)
     {
         this.geometry = fill;
         this.border = border;
@@ -41,10 +41,10 @@ public class BorderedShape implements IDrawable
     }
 
     @Override
-    public void Draw(float[] projectionViewMatrix, int programHandle)
+    public void Draw(float[] projectionViewMatrix)
     {
         if(drawer == null)
-            this.drawer = new FlatDrawer(programHandle);
+            this.drawer = new FlatDrawer();
 
         drawer.Draw(projectionViewMatrix, border.GetVertices(), borderDrawingListBuffer, borderColor);
         drawer.Draw(projectionViewMatrix, geometry.GetVertices(), geometryDrawingListBuffer, color);

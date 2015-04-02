@@ -21,7 +21,6 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
     private float[] projectionMatrix = new float[16];
     private float[] viewMatrix = new float[16];
     private float[] projectionViewMatrix = new float[16];
-    private int shaderProgram = -1;
     private DrawableList drawableList;
     private Game game;
     private TextureManager textureManager;
@@ -61,17 +60,6 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         //Enable alpha blending
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-
-        //Set which shader to use.
-        ShaderTools.SetVertexShaderCode(ShaderTools.GetVertexShaderString());
-        ShaderTools.SetFragmentShaderCode(ShaderTools.GetFragmentShaderString());
-
-        //Compile the shaders
-        ShaderTools.CompileVertexShader();
-        ShaderTools.CompileFragmentShader();
-
-        //Make OpenGL use the compiled shaders.
-        shaderProgram = ShaderTools.ApplyCompiledShaders();
     }
 
 
@@ -113,7 +101,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer
         for(int i = 0; i < drawableList.Size(); i++)
         {
             IDrawable obj = drawableList.Get(i);
-            obj.Draw(projectionViewMatrix, shaderProgram);
+            obj.Draw(projectionViewMatrix);
         }
     }
 }

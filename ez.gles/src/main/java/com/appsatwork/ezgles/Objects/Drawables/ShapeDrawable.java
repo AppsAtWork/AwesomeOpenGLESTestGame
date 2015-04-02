@@ -10,7 +10,7 @@ import com.appsatwork.ezgles.Util.Color;
 /**
  * Created by Casper on 27-3-2015.
  */
-public class Shape implements IDrawable
+public class ShapeDrawable implements IDrawable
 {
     private Geometry geometry;
     private Color color;
@@ -18,7 +18,7 @@ public class Shape implements IDrawable
     private FlatDrawer drawer;
 
     //A filled shape
-    public Shape(Geometry geometry, Color color)
+    public ShapeDrawable(Geometry geometry, Color color)
     {
         this.geometry = geometry;
         this.color = color;
@@ -42,10 +42,10 @@ public class Shape implements IDrawable
         return geometry;
     }
 
-    public void Draw(float[] projectionViewMatrix, int programHandle)
+    public void Draw(float[] projectionViewMatrix)
     {
         if(drawer == null)
-            drawer = new FlatDrawer(programHandle);
+            drawer = new FlatDrawer();
 
         drawer.Draw(projectionViewMatrix, geometry.GetVertices(), geometryDrawingListBuffer, color);
     }

@@ -13,7 +13,7 @@ import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.VariableTex
 /**
  * Created by Casper on 27-3-2015.
  */
-public class Sprite implements IDrawable
+public class SpriteDrawable implements IDrawable
 {
     private Rectangle Rectangle;
     private TextureProvider TextureProvider;
@@ -21,21 +21,21 @@ public class Sprite implements IDrawable
 
     private TextureDrawer drawer;
 
-    public Sprite(Rectangle rectangle, Texture provider)
+    public SpriteDrawable(Rectangle rectangle, Texture provider)
     {
         this.Rectangle = rectangle;
         this.TextureProvider = provider;
         this.UVBuffer = BufferBuilder.BuildFloatBuffer(TextureProvider.GetUVCoords(0));
     }
 
-    public Sprite(Rectangle rectangle, SimpleTextureAtlas provider, int textureIndex)
+    public SpriteDrawable(Rectangle rectangle, SimpleTextureAtlas provider, int textureIndex)
     {
         this.Rectangle = rectangle;
         this.TextureProvider = provider;
         this.UVBuffer = BufferBuilder.BuildFloatBuffer(TextureProvider.GetUVCoords(textureIndex));
     }
 
-    public Sprite(Rectangle rectangle, VariableTextureAtlas provider, int textureIndex)
+    public SpriteDrawable(Rectangle rectangle, VariableTextureAtlas provider, int textureIndex)
     {
         this.Rectangle = rectangle;
         this.TextureProvider = provider;
@@ -47,10 +47,10 @@ public class Sprite implements IDrawable
         return this.Rectangle;
     }
 
-    public void Draw(float[] projectionViewMatrix, int program)
+    public void Draw(float[] projectionViewMatrix)
     {
         if(drawer == null)
-            drawer = new TextureDrawer(program);
+            drawer = new TextureDrawer();
 
         drawer.Draw(projectionViewMatrix, TextureProvider, Rectangle.GetVertices(), UVBuffer);
     }

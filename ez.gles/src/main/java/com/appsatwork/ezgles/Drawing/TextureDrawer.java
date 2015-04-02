@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import com.appsatwork.ezgles.ShaderTools;
 import com.appsatwork.ezgles.Util.BufferBuilder;
 import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.TextureProvider;
 
@@ -13,13 +14,8 @@ import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.TextureProv
  */
 public class TextureDrawer
 {
-    private int programHandle;
+    private ShaderProgram shader = new ShaderProgram(ShaderTools.GetVertexShaderString("texture"), ShaderTools.GetFragmentShaderString("texture"));
     private ShortBuffer drawingListBuffer = BufferBuilder.BuildShortBuffer(new short[] {0,1,2,0,2,3});
-
-    public TextureDrawer(int programHandle)
-    {
-        this.programHandle = programHandle;
-    }
 
     public void Draw(float[] projectionViewMatrix, TextureProvider textureProvider, FloatBuffer vertexBuffer, FloatBuffer uvBuffer)
     {
@@ -38,8 +34,10 @@ public class TextureDrawer
 
     private void Draw(float[] projectionViewMatrix, int textureSlot, FloatBuffer vertexBuffer, FloatBuffer uvBuffer)
     {
+        shader.SetActive();
+
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureSlot);
-        int positionHandle = GLES20.glGetAttribLocation(programHandle, "vPosition");
+        int positionHandle = GLES20.glGetAttribLocation(shader.ProgramHandle, "vPosition");
 
         GLES20.glEnableVertexAttribArray(positionHandle);
 
@@ -53,7 +51,7 @@ public class TextureDrawer
                 vertexBuffer);
 
         //Need to send the uv coords to OpenGLES as well
-        int texCoordHandle = GLES20.glGetAttribLocation(programHandle, "a_texCoord");
+        int texCoordHandle = GLES20.glGetAttribLocation(shader.ProgramHandle, "a_texCoord");
 
         //Enable a 'vertex' array to contain the UV vertices
         GLES20.glEnableVertexAttribArray(texCoordHandle);
@@ -62,14 +60,14 @@ public class TextureDrawer
         GLES20.glVertexAttribPointer(texCoordHandle, 2, GLES20.GL_FLOAT, false, 0, uvBuffer);
 
         //Set the projection matrix in the shader.
-        int projectionMatrixHandle = GLES20.glGetUniformLocation(programHandle, "uMVPMatrix");
+        int projectionMatrixHandle = GLES20.glGetUniformLocation(shader.ProgramHandle, "uMVPMatrix");
         GLES20.glUniformMatrix4fv(projectionMatrixHandle, 1, false, projectionViewMatrix, 0);
 
         //Send over the drawing type to the shader (1 = texture).
-        GLES20.glUniform1i(GLES20.glGetUniformLocation(programHandle, "drawingType"), 1);
+        GLES20.glUniform1i(GLES20.glGetUniformLocation(shader.ProgramHandle, "drawingType"), 1);
 
         //Get the texture sampler and set it to 0. 0 is the position where the texture is stored in SendTextureToOpenGLES().
-        int samplerHandle = GLES20.glGetUniformLocation(programHandle, "s_texture");
+        int samplerHandle = GLES20.glGetUniformLocation(shader.ProgramHandle, "s_texture");
         GLES20.glUniform1i(samplerHandle, textureSlot);
 
         //Draw the sprite with the texture

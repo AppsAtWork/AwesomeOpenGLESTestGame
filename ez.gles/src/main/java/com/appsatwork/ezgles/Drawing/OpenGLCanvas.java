@@ -3,14 +3,14 @@ package com.appsatwork.ezgles.Drawing;
 import android.content.Context;
 import android.graphics.PointF;
 
-import com.appsatwork.ezgles.Objects.Drawables.BorderedShape;
+import com.appsatwork.ezgles.Objects.Drawables.BorderedShapeDrawable;
+import com.appsatwork.ezgles.Objects.Drawables.SpriteDrawable;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.Border;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.Line;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.Rectangle;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.RegularPolygon;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.Triangle;
-import com.appsatwork.ezgles.Objects.Drawables.Shape;
-import com.appsatwork.ezgles.Objects.Drawables.Sprite;
+import com.appsatwork.ezgles.Objects.Drawables.ShapeDrawable;
 import com.appsatwork.ezgles.Objects.TextureObjects.TextureManager;
 import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.Texture;
 import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.SimpleTextureAtlas;
@@ -63,21 +63,21 @@ public class OpenGLCanvas
         }
     }
 
-    public Sprite DrawSprite(SimpleTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
+    public SpriteDrawable DrawSprite(SimpleTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
     {
-        Sprite atlasSprite = new Sprite(new Rectangle(center, width, height), atlas, atlasIndex);
-        DrawableList.Add(atlasSprite);
-        return atlasSprite;
+        SpriteDrawable atlasSpriteDrawable = new SpriteDrawable(new Rectangle(center, width, height), atlas, atlasIndex);
+        DrawableList.Add(atlasSpriteDrawable);
+        return atlasSpriteDrawable;
     }
 
-    public Sprite DrawSprite(VariableTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
+    public SpriteDrawable DrawSprite(VariableTextureAtlas atlas, int atlasIndex, PointF center, float width, float height)
     {
-        Sprite atlasSprite = new Sprite(new Rectangle(center, width, height), atlas, atlasIndex);
-        DrawableList.Add(atlasSprite);
-        return atlasSprite;
+        SpriteDrawable atlasSpriteDrawable = new SpriteDrawable(new Rectangle(center, width, height), atlas, atlasIndex);
+        DrawableList.Add(atlasSpriteDrawable);
+        return atlasSpriteDrawable;
     }
 
-    public Sprite DrawSprite(int resourceID, PointF center, float width, float height)
+    public SpriteDrawable DrawSprite(int resourceID, PointF center, float width, float height)
     {
         //Check if there is already a texture in tehre
         TextureProvider provider = TextureManager.GetTextureProvider(resourceID);
@@ -92,9 +92,9 @@ public class OpenGLCanvas
             {
                 //Use the provided texture provider
                 Texture texture = (Texture)provider;
-                Sprite sprite = new Sprite(new Rectangle(center, width, height), texture);
-                DrawableList.Add(sprite);
-                return sprite;
+                SpriteDrawable spriteDrawable = new SpriteDrawable(new Rectangle(center, width, height), texture);
+                DrawableList.Add(spriteDrawable);
+                return spriteDrawable;
             }
             else
             {
@@ -103,88 +103,88 @@ public class OpenGLCanvas
         }
     }
 
-    private Sprite GetTextureSprite(int resourceID, PointF center, float width, float height)
+    private SpriteDrawable GetTextureSprite(int resourceID, PointF center, float width, float height)
     {
         //Create a new texture provider and return the damn thing
         Texture texture = new Texture(context.getResources(), resourceID);
-        Sprite sprite = new Sprite(new Rectangle(center, width, height), texture);
+        SpriteDrawable spriteDrawable = new SpriteDrawable(new Rectangle(center, width, height), texture);
         TextureManager.EnableTextureProvider(texture);
-        DrawableList.Add(sprite);
-        return sprite;
+        DrawableList.Add(spriteDrawable);
+        return spriteDrawable;
     }
 
-    public Shape DrawTriangle(PointF pt1, PointF pt2, PointF pt3, Color color)
+    public ShapeDrawable DrawTriangle(PointF pt1, PointF pt2, PointF pt3, Color color)
     {
         Triangle triangle = new Triangle(pt1, pt2, pt3);
-        Shape shape = new Shape(triangle, color);
-        DrawableList.Add(shape);
-        return shape;
+        ShapeDrawable shapeDrawable = new ShapeDrawable(triangle, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
     }
 
     //Draw a line between pt1 and pt2 with thickness. Coordinates and lengths are in world space.
     //Return a line that can be manipulated flexibly.
-    public Shape DrawLine(PointF pt1, PointF pt2, float thickness, Color color)
+    public ShapeDrawable DrawLine(PointF pt1, PointF pt2, float thickness, Color color)
     {
         Line line = new Line(pt1, pt2,thickness);
-        Shape shape = new Shape(line, color);
-        DrawableList.Add(shape);
-        return shape;
+        ShapeDrawable shapeDrawable = new ShapeDrawable(line, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
     }
 
     //Draw a rectangle. Coordinates and lengths are in world space.
     //Returns a rectangle that can be manipulated flexibly.
-    public Shape DrawRectangle(PointF center, float width, float height, Color color)
+    public ShapeDrawable DrawRectangle(PointF center, float width, float height, Color color)
     {
         Rectangle rect = new Rectangle(center, width, height);
-        Shape shape = new Shape(rect, color);
-        DrawableList.Add(shape);
-        return shape;
+        ShapeDrawable shapeDrawable = new ShapeDrawable(rect, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
     }
 
-    public Shape DrawRegularPolygon(PointF center, float radius, int corners, Color color)
+    public ShapeDrawable DrawRegularPolygon(PointF center, float radius, int corners, Color color)
     {
         RegularPolygon pol = new RegularPolygon(center, radius, corners);
-        Shape shape = new Shape(pol, color);
-        DrawableList.Add(shape);
-        return shape;
+        ShapeDrawable shapeDrawable = new ShapeDrawable(pol, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
     }
 
-    public Shape DrawCircle(PointF center, float radius, Color color)
+    public ShapeDrawable DrawCircle(PointF center, float radius, Color color)
     {
         RegularPolygon circle = new RegularPolygon(center, radius, 50);
-        Shape shape = new Shape(circle, color);
-        DrawableList.Add(shape);
-        return shape;
+        ShapeDrawable shapeDrawable = new ShapeDrawable(circle, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
     }
 
-    public Shape DrawBorder(Rectangle around, float thickness, Color color)
+    public ShapeDrawable DrawBorder(Rectangle around, float thickness, Color color)
     {
         Border border = new Border(around, thickness);
-        Shape shape = new Shape(border, color);
-        DrawableList.Add(shape);
-        return shape;
+        ShapeDrawable shapeDrawable = new ShapeDrawable(border, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
     }
 
-    public Shape DrawBorder(RegularPolygon around, float thickness, Color color)
+    public ShapeDrawable DrawBorder(RegularPolygon around, float thickness, Color color)
     {
         Border border = new Border(around, thickness);
-        Shape shape = new Shape(border, color);
+        ShapeDrawable shapeDrawable = new ShapeDrawable(border, color);
+        DrawableList.Add(shapeDrawable);
+        return shapeDrawable;
+    }
+
+    public BorderedShapeDrawable DrawWithBorder(Rectangle geometry, float thickness, Color color, Color borderColor)
+    {
+        Border border = new Border(geometry, thickness);
+        BorderedShapeDrawable shape = new BorderedShapeDrawable(border, geometry, color, borderColor);
         DrawableList.Add(shape);
         return shape;
     }
 
-    public BorderedShape DrawWithBorder(Rectangle geometry, float thickness, Color color, Color borderColor)
+    public BorderedShapeDrawable DrawWithBorder(RegularPolygon geometry, float thickness, Color color, Color borderColor)
     {
         Border border = new Border(geometry, thickness);
-        BorderedShape shape = new BorderedShape(border, geometry, color, borderColor);
-        DrawableList.Add(shape);
-        return shape;
-    }
-
-    public BorderedShape DrawWithBorder(RegularPolygon geometry, float thickness, Color color, Color borderColor)
-    {
-        Border border = new Border(geometry, thickness);
-        BorderedShape shape = new BorderedShape(border, geometry, color, borderColor);
+        BorderedShapeDrawable shape = new BorderedShapeDrawable(border, geometry, color, borderColor);
         DrawableList.Add(shape);
         return shape;
     }

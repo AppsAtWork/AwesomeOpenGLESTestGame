@@ -7,11 +7,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.appsatwork.ezgles.Gaming.Game;
-import com.appsatwork.ezgles.Objects.Drawables.BorderedShape;
+import com.appsatwork.ezgles.Objects.Drawables.BorderedShapeDrawable;
 import com.appsatwork.ezgles.Objects.Drawables.CompositeDrawable;
 import com.appsatwork.ezgles.Objects.Drawables.IDrawable;
-import com.appsatwork.ezgles.Objects.Drawables.Shape;
-import com.appsatwork.ezgles.Objects.Drawables.Sprite;
+import com.appsatwork.ezgles.Objects.Drawables.ShapeDrawable;
+import com.appsatwork.ezgles.Objects.Drawables.SpriteDrawable;
 import com.appsatwork.ezgles.Objects.TextureObjects.UVCoordProviders.VariableTextureAtlas;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.Border;
 import com.appsatwork.ezgles.Objects.Transformables.Geometries.Line;
@@ -28,11 +28,11 @@ import appsatwork_internal.awesomeopenglestestgame.R;
  */
 public class TestGame extends Game
 {
-    private BorderedShape polygon;
-    private Shape line;
+    private BorderedShapeDrawable polygon;
+    private ShapeDrawable line;
     private boolean fingerDown;
     private PointF location;
-    private Shape border;
+    private ShapeDrawable border;
     private CompositeDrawable rectangle;
 
     public TestGame(Context context, AttributeSet attrs) {
@@ -66,18 +66,18 @@ public class TestGame extends Game
     {
         polygon = this.Canvas.DrawWithBorder(new RegularPolygon(new PointF(0, 0), 0.1f, 5), 1, new Color(1.0f, 1.0f, 0.0f, 1.0f), new Color(0.8f, 0.3f, 0.4f, 1.0f));
         //line = new Shape(new Line(new PointF(0.0f, 0.0f), new PointF(0.5f, 0.5f), 3), new Color(1.0f, 1.0f, 1.0f, 1.0f));
-        border = new Shape(new Border(new Rectangle(new PointF(0.0f, 0.0f), 0.05f, 0.05f), 1), new Color(0,1,1,1));
+        border = new ShapeDrawable(new Border(new Rectangle(new PointF(0.0f, 0.0f), 0.05f, 0.05f), 1), new Color(0,1,1,1));
       //  rectangle = this.Canvas.DrawRectangle(new PointF(-0.1f, -0.1f), 0.05f, 0.03f, new Color(1.0f, 0.1f, 0.1f, 1.0f));
         ArrayList<IDrawable> drawables = new ArrayList<>();
-        drawables.add(new Shape(new RegularPolygon(new PointF(0.1f, 0.1f), 0.2f, 50), new Color(1,0,1,1)));
+        drawables.add(new ShapeDrawable(new RegularPolygon(new PointF(0.1f, 0.1f), 0.2f, 50), new Color(1,0,1,1)));
         drawables.add(border);
         VariableTextureAtlas atlas = this.Canvas.LoadVariableTextureAtlas(R.drawable.sheet, R.raw.sheet_atlas);
-        Sprite sprite = new Sprite(new Rectangle(new PointF(0.2f, 0.2f), 0.2f, 0.2f), atlas, 1);
-        drawables.add(sprite);
+        SpriteDrawable spriteDrawable = new SpriteDrawable(new Rectangle(new PointF(0.2f, 0.2f), 0.2f, 0.2f), atlas, 1);
+        drawables.add(spriteDrawable);
         CompositeDrawable comp = new CompositeDrawable(drawables);
         ArrayList<IDrawable> drawables2 = new ArrayList<>();
         drawables2.add(comp);
-        drawables2.add(new Shape(new Line(new PointF(0.0f, 0.0f), new PointF(0.5f, 0.5f), 2), new Color(1,0.5f, 0.5f,1.0f)));
+        drawables2.add(new ShapeDrawable(new Line(new PointF(0.0f, 0.0f), new PointF(0.5f, 0.5f), 2), new Color(1,0.5f, 0.5f,1.0f)));
         rectangle = new CompositeDrawable(drawables2);
         this.Canvas.DrawableList.Add(rectangle);
        // this.Canvas.DrawableList.Add(comp);

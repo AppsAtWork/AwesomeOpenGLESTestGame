@@ -29,9 +29,9 @@ public class CompositeDrawable implements IDrawable
     }
 
     @Override
-    public void Draw(float[] projectionViewMatrix, int programHandle)
+    public void Draw(float[] projectionViewMatrix)
     {
         for(IDrawable drawable : drawables)
-            drawable.Draw(projectionViewMatrix, programHandle);
+            drawable.Draw(projectionViewMatrix);
     }
 }

@@ -9,5 +9,5 @@ public interface IDrawable
 {
     public ITransform GetTransformable();
 
-    public void Draw(float[] projectionViewMatrix, int programHandle);
+    public void Draw(float[] projectionViewMatrix);
 }
