@@ -16,11 +16,17 @@ public class Vector2
 
     public void Normalize(float length)
     {
-        float l = (float) Math.sqrt(X*X+Y*Y);
+        float l = length / Length();
 
-        X = X / l * length;
-        Y = Y / l * length;
+        X = X * l;
+        Y = Y * l;
     }
+
+    public float Length()
+    {
+        return (float) Math.sqrt(X*X + Y *Y);
+    }
+
 
     public Vector2 Clone()
     {
