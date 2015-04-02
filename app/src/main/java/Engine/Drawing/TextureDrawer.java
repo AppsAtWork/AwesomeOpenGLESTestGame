@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-import Engine.Objects.BufferBuilder;
+import Engine.Util.BufferBuilder;
 import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
 
 /**

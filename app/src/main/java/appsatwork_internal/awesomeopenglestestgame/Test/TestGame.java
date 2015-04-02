@@ -9,17 +9,16 @@ import android.view.View;
 import java.util.ArrayList;
 
 import Engine.Gaming.Game;
-import Engine.Objects.BorderedShape;
-import Engine.Objects.CompositeDrawable;
-import Engine.Objects.IDrawable;
-import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
+import Engine.Objects.Drawables.BorderedShape;
+import Engine.Objects.Drawables.CompositeDrawable;
+import Engine.Objects.Drawables.IDrawable;
 import Engine.Objects.TextureObjects.UVCoordProviders.VariableTextureAtlas;
-import Engine.Objects.Transformables.Border;
-import Engine.Objects.Transformables.Line;
-import Engine.Objects.Transformables.Rectangle;
-import Engine.Objects.Transformables.RegularPolygon;
-import Engine.Objects.Shape;
-import Engine.Objects.Sprite;
+import Engine.Objects.Transformables.Geometries.Border;
+import Engine.Objects.Transformables.Geometries.Line;
+import Engine.Objects.Transformables.Geometries.Rectangle;
+import Engine.Objects.Transformables.Geometries.RegularPolygon;
+import Engine.Objects.Drawables.Shape;
+import Engine.Objects.Drawables.Sprite;
 import Engine.Util.Color;
 import appsatwork_internal.awesomeopenglestestgame.R;
 

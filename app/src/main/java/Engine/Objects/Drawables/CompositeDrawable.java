@@ -1,10 +1,9 @@
-package Engine.Objects;
+package Engine.Objects.Drawables;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Engine.Objects.Transformables.CompositeTransformable;
-import Engine.Objects.Transformables.Geometry;
 import Engine.Objects.Transformables.ITransform;
 
 /**

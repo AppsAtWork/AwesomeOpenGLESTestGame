@@ -1,4 +1,4 @@
-package Engine.Objects.Transformables;
+package Engine.Objects.Transformables.Geometries;
 
 import android.graphics.PointF;
 
@@ -37,7 +37,6 @@ public class Line extends Geometry
                 p2.x - perpendicular.X/2.0f - center.x, p2.y - perpendicular.Y/2.0f - center.y, 0.0f,
                 p1.x - perpendicular.X/2.0f - center.x, p1.y - perpendicular.Y/2.0f - center.y, 0.0f
         };
-
     }
 
     @Override
@@ -45,6 +44,4 @@ public class Line extends Geometry
     {
         return new short[] {0,1,2,0,2,3};
     }
-
-
 }

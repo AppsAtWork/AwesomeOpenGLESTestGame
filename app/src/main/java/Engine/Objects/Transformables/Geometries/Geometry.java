@@ -1,6 +1,8 @@
-package Engine.Objects.Transformables;
+package Engine.Objects.Transformables.Geometries;
 
 import android.graphics.PointF;
+
+import Engine.Objects.Transformables.ITransform;
 
 /**
  * Created by Casper on 11-2-2015.

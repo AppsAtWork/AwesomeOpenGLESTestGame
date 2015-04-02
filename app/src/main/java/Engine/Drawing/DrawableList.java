@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Engine.Objects.IDrawable;
+import Engine.Objects.Drawables.IDrawable;
 
 /**
  * Created by Casper on 3/26/2015.

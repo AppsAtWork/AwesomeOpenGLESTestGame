@@ -9,7 +9,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import Engine.Gaming.Game;
-import Engine.Objects.IDrawable;
+import Engine.Objects.Drawables.IDrawable;
 import Engine.Objects.TextureObjects.TextureManager;
 import Engine.ShaderTools;
 

@@ -1,4 +1,4 @@
-package Engine.Objects;
+package Engine.Objects.Drawables;
 
 import Engine.Objects.Transformables.ITransform;
 

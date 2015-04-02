@@ -17,12 +17,12 @@ import java.util.HashMap;
 public class VariableTextureAtlas extends TextureProvider
 {
     public static int AtlasResolution = 512;
-    private int XMLID;
-    private HashMap<Integer, float[]> UVMap = new HashMap<>();
+    private int xmlId;
+    private HashMap<Integer, float[]> uvMap = new HashMap<>();
 
     public VariableTextureAtlas(Resources resources, int textureID, int xmlID) {
         super(resources, textureID);
-        XMLID = xmlID;
+        xmlId = xmlID;
         try {
             ParseXML(resources);
         }
@@ -30,7 +30,7 @@ public class VariableTextureAtlas extends TextureProvider
     }
 
     private void ParseXML(Resources resources) throws XmlPullParserException, IOException {
-        InputStream inputStream = resources.openRawResource(XMLID);
+        InputStream inputStream = resources.openRawResource(xmlId);
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(false);
         XmlPullParser xpp = factory.newPullParser();
@@ -74,13 +74,13 @@ public class VariableTextureAtlas extends TextureProvider
 
                     Log.v(getClass().toString(), index + "," + x1 + "," + y1 + "," + x2 + "," + y2);
 
-                    UVMap.put(Integer.parseInt(index), new float[]
-                    {
-                       x1,y1,
-                       x2,y1,
-                       x2,y2,
-                       x1,y2
-                    });
+                    uvMap.put(Integer.parseInt(index), new float[]
+                            {
+                                    x1, y1,
+                                    x2, y1,
+                                    x2, y2,
+                                    x1, y2
+                            });
                 }
             }
             else if (eventType == XmlPullParser.END_TAG)
@@ -101,6 +101,6 @@ public class VariableTextureAtlas extends TextureProvider
 
     @Override
     public float[] GetUVCoords(int index) {
-        return UVMap.get(index);
+        return uvMap.get(index);
     }
 }

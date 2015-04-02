@@ -14,7 +14,7 @@ import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;
  */
 public class TextureManager
 {
-    private boolean ResendTextures = true;
+    private boolean resendTextures = true;
     private List<TextureProvider> textureProviders = new ArrayList<>();
 
     public TextureProvider GetTextureProvider(int resID)
@@ -32,7 +32,7 @@ public class TextureManager
 
     public void EnableTextureProvider(TextureProvider texture)
     {
-        ResendTextures = true;
+        resendTextures = true;
         textureProviders.add(texture);
     }
 
@@ -48,11 +48,11 @@ public class TextureManager
 
     public void UpdateTextures()
     {
-        if(ResendTextures)
+        if(resendTextures)
         {
             int[] textureHandles1 = GetTextureHandles();
             GLES20.glDeleteTextures(textureHandles1.length, textureHandles1, 0);
-            ResendTextures = false;
+            resendTextures = false;
 
 
             //Get handles for the texture(s)

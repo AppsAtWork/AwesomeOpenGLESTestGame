@@ -1,9 +1,10 @@
-package Engine.Objects;
+package Engine.Objects.Drawables;
 
 import java.nio.ShortBuffer;
 
 import Engine.Drawing.FlatDrawer;
-import Engine.Objects.Transformables.Geometry;
+import Engine.Util.BufferBuilder;
+import Engine.Objects.Transformables.Geometries.Geometry;
 import Engine.Util.Color;
 
 /**

@@ -1,9 +1,10 @@
-package Engine.Objects;
+package Engine.Objects.Drawables;
 
 import java.nio.FloatBuffer;
 
 import Engine.Drawing.TextureDrawer;
-import Engine.Objects.Transformables.Rectangle;
+import Engine.Util.BufferBuilder;
+import Engine.Objects.Transformables.Geometries.Rectangle;
 import Engine.Objects.TextureObjects.UVCoordProviders.SimpleTextureAtlas;
 import Engine.Objects.TextureObjects.UVCoordProviders.Texture;
 import Engine.Objects.TextureObjects.UVCoordProviders.TextureProvider;

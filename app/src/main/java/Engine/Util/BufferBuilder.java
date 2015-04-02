@@ -1,4 +1,4 @@
-package Engine.Objects;
+package Engine.Util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
